@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "title": "Hindu Vrat & Fasting Calendar 2025-2026",
+    "description": "Ekadashi, Chaturthi, Pradosh, Amavasya and major Hindu fasting days",
+    "source": "Vedic Panchang",
+    "version": "1.0.0"
+  },
+  "vrats": [
+    {
+      "id": "e001",
+      "name": "Papmochani Ekadashi",
+      "date": "2025-04-05",
+      "type": "Ekadashi",
+      "deity": "Lord Vishnu",
+      "significance": "Destroys all sins; ideal for deep fasting and Vishnu puja",
+      "fasting_rules": "Full day fast, fruits and milk allowed, break next day after sunrise",
+      "mantra": "Om Namo Bhagavate Vasudevaya",
+      "sattvic_food": ["fruits", "milk", "sabudana", "singhare atta"]
+    },
+    {
+      "id": "e002",
+      "name": "Kamada Ekadashi",
+      "date": "2025-04-20",
+      "type": "Ekadashi",
+      "deity": "Lord Vishnu",
+      "significance": "Fulfills desires; removes sins of previous births",
+      "fasting_rules": "Full day fast; break fast next morning with panchamrit",
+      "mantra": "Om Namo Bhagavate Vasudevaya",
+      "sattvic_food": ["fruits", "milk", "sabudana"]
+    },
+    {
+      "id": "c001",
+      "name": "Sankashti Chaturthi",
+      "date": "2025-04-17",
+      "type": "Chaturthi",
+      "deity": "Lord Ganesha",
+      "significance": "Removes obstacles; Ganesha grants wishes on this day",
+      "fasting_rules": "Day-long fast, break after moonrise with modak prasad",
+      "mantra": "Om Gan Ganapataye Namah",
+      "sattvic_food": ["fruits", "modak", "milk"]
+    },
+    {
+      "id": "e003",
+      "name": "Mohini Ekadashi",
+      "date": "2025-05-04",
+      "type": "Ekadashi",
+      "deity": "Lord Vishnu",
+      "significance": "Liberation from cycle of birth and death",
+      "fasting_rules": "Full day fast; no grains, no onion-garlic",
+      "mantra": "Om Namo Bhagavate Vasudevaya",
+      "sattvic_food": ["fruits", "milk", "kuttu atta", "sabudana"]
+    },
+    {
+      "id": "c002",
+      "name": "Vinayaka Chaturthi",
+      "date": "2025-05-01",
+      "type": "Chaturthi",
+      "deity": "Lord Ganesha",
+      "significance": "Monthly Ganesha vrat for removing obstacles",
+      "fasting_rules": "Fast till evening, break with modak and coconut",
+      "mantra": "Om Gan Ganapataye Namah",
+      "sattvic_food": ["modak", "coconut", "fruits"]
+    },
+    {
+      "id": "e004",
+      "name": "Apara Ekadashi",
+      "date": "2025-05-19",
+      "type": "Ekadashi",
+      "deity": "Lord Vishnu",
+      "significance": "Grants fame, removes sins, ideal for spiritual seekers",
+      "fasting_rules": "Full fast; nightlong vigil with Vishnu bhajan",
+      "mantra": "Om Namo Bhagavate Vasudevaya",
+      "sattvic_food": ["fruits", "milk", "sabudana"]
+    },
+    {
+      "id": "p001",
+      "name": "Pradosh Vrat",
+      "date": "2025-04-22",
+      "type": "Pradosh",
+      "deity": "Lord Shiva",
+      "significance": "Evening Shiva worship; destroys sins and grants moksha",
+      "fasting_rules": "Fast till evening Shiva puja at pradosh kaal (sunset)",
+      "mantra": "Om Namah Shivaya",
+      "sattvic_food": ["fruits", "milk", "belpatra water"]
+    },
+    {
+      "id": "m001",
+      "name": "Amavasya",
+      "date": "2025-04-27",
+      "type": "Amavasya",
+      "deity": "Pitru Devatas",
+      "significance": "New moon day; ideal for ancestral offerings and tarpan",
+      "fasting_rules": "Optional fast; perform tarpan for ancestors",
+      "mantra": "Om Pitru Devaya Namah",
+      "sattvic_food": ["sesame seeds", "water", "simple khichdi"]
+    },
+    {
+      "id": "e005",
+      "name": "Nirjala Ekadashi",
+      "date": "2025-06-07",
+      "type": "Ekadashi",
+      "deity": "Lord Vishnu",
+      "significance": "Most powerful Ekadashi; equal to all 24 Ekadashis combined",
+      "fasting_rules": "Complete waterless fast for full day and night; break next morning",
+      "mantra": "Om Namo Bhagavate Vasudevaya",
+      "sattvic_food": ["break with tulsi water next morning"]
+    },
+    {
+      "id": "e006",
+      "name": "Devshayani Ekadashi",
+      "date": "2025-07-06",
+      "type": "Ekadashi",
+      "deity": "Lord Vishnu",
+      "significance": "Lord Vishnu goes to sleep; start of Chaturmas; no auspicious events",
+      "fasting_rules": "Full fast, break next morning; avoid meat, alcohol throughout Chaturmas",
+      "mantra": "Om Namo Bhagavate Vasudevaya",
+      "sattvic_food": ["fruits", "milk", "sabudana"]
+    },
+    {
+      "id": "s001",
+      "name": "Maha Shivratri 2026",
+      "date": "2026-02-26",
+      "type": "Shivratri",
+      "deity": "Lord Shiva",
+      "significance": "The great night of Shiva; marriage of Shiva-Parvati; most powerful Shiva day",
+      "fasting_rules": "Full day and night fast; 4 prahar puja; break next morning",
+      "mantra": "Om Namah Shivaya",
+      "sattvic_food": ["milk", "bhang prasad", "fruits", "thandai"]
+    },
+    {
+      "id": "e007",
+      "name": "Devutthana Ekadashi",
+      "date": "2025-11-01",
+      "type": "Ekadashi",
+      "deity": "Lord Vishnu",
+      "significance": "Lord Vishnu wakes up; end of Chaturmas; auspicious activities resume",
+      "fasting_rules": "Full fast; sugarcane offered to Vishnu",
+      "mantra": "Om Namo Bhagavate Vasudevaya",
+      "sattvic_food": ["sugarcane", "fruits", "milk"]
+    }
+  ],
+  "food_guide": {
+    "allowed_on_vrat": ["fruits", "milk", "curd", "sabudana", "singhare atta", "kuttu atta", "rajgira", "sendha namak", "dry fruits"],
+    "forbidden_on_vrat": ["grains", "wheat", "rice", "onion", "garlic", "non-veg", "alcohol", "regular salt"],
+    "gita_reference": "Bhagavad Gita 17.8-10: Sattvic food increases life, purity, strength, health, joy and cheerfulness"
+  }
+}
