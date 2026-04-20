@@ -1,273 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily Health Coach - AyurTime</title>
-    <link rel="stylesheet" href="../../src/styles/main.css" />
-    <style>
-        :root {
-            --primary: #2e7d32;
-            --accent: #ff8f00;
-            --vata: #8B7BC8;
-            --pitta: #E07B54;
-            --kapha: #4A9E8A;
-        }
-        .coach-card {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border-radius: 20px;
-            padding: 24px;
-            margin-bottom: 24px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(46, 125, 50, 0.2);
-        }
-        .coach-card::after {
-            content: "🌿";
-            position: absolute;
-            right: -10px;
-            bottom: -10px;
-            font-size: 5rem;
-            opacity: 0.1;
-        }
-        .coach-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; margin-bottom: 8px; font-weight: 700; }
-        .coach-message { font-size: 1.2rem; font-weight: 600; line-height: 1.4; }
-        
-        .alert-card {
-            background: white;
-            border-radius: 16px;
-            padding: 18px 20px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            border-left: 5px solid #eee;
-        }
-        .alert-card.enabled { transform: scale(1); border-left-color: var(--primary); }
-        .alert-card.disabled { opacity: 0.6; transform: scale(0.98); filter: grayscale(0.5); }
-        
-        .alert-time {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--primary);
-            min-width: 75px;
-        }
-        .alert-content { flex: 1; }
-        .alert-name { font-weight: 700; color: #333; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-        .alert-msg { font-size: 0.9rem; color: #666; line-height: 1.4; }
-        .alert-tag {
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 10px;
-            background: #f0f0f0;
-            color: #666;
-        }
-
-        .dosha-indicator {
-            padding: 12px 18px;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-weight: 600;
-        }
-
-        /* Toggle Refinement */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 46px;
-            height: 26px;
-        }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute; cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #e0e0e0;
-            transition: .4s; border-radius: 34px;
-        }
-        .slider:before {
-            position: absolute; content: "";
-            height: 20px; width: 20px;
-            left: 3px; bottom: 3px;
-            background-color: white;
-            transition: .4s; border-radius: 50%;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        input:checked + .slider { background-color: var(--primary); }
-        input:checked + .slider:before { transform: translateX(20px); }
-
-        .save-bar {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            z-index: 1000;
-            animation: slideUp 0.3s ease-out;
-        }
-        @keyframes slideUp { from { bottom: -50px; } to { bottom: 24px; } }
-        
-        .btn-save {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intelligent Alerts - AyurTime</title>
+  <style>
+    :root { --primary: #2e7d32; --accent: #ff8f00; --bg: #f5f5f5; --card: #ffffff; --vata: #8B7BC8; --pitta: #E07B54; --kapha: #4A9E8A; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 0; }
+    .header { background: var(--primary); color: white; padding: 20px; text-align: center; }
+    .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
+    .card { background: var(--card); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .status-badge { display: inline-block; padding: 4px 10px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; margin-bottom: 10px; }
+    .status-active { background: #e8f5e9; color: var(--primary); }
+    .reminder-item { padding: 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 15px; }
+    .reminder-item:last-child { border-bottom: none; }
+    .reminder-icon { font-size: 1.5rem; }
+    .reminder-content { flex-grow: 1; }
+    .reminder-title { font-weight: bold; margin-bottom: 3px; }
+    .reminder-time { font-size: 0.8rem; color: #888; }
+    .btn-notify { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+    .history-title { font-size: 0.9rem; color: #666; text-transform: uppercase; margin-bottom: 10px; }
+    .dosha-indicator { height: 4px; width: 100%; border-radius: 2px; margin-top: 5px; }
+    .bg-vata { background: var(--vata); }
+    .bg-pitta { background: var(--pitta); }
+    .bg-kapha { background: var(--kapha); }
+  </style>
 </head>
 <body>
-    <header class="app-header">
-        <div class="logo">
-            <span class="logo-icon">🌿</span>
-            <span class="logo-text">AyurTime</span>
-        </div>
-        <nav class="main-nav">
-            <a href="../../index.html" class="nav-link">Home</a>
-            <a href="calendar.html" class="nav-link">Vrat Calendar</a>
-            <a href="charaka.html" class="nav-link">Charaka Guide</a>
-            <a href="alerts.html" class="nav-link active">Alerts</a>
-        </nav>
-    </header>
+  <div class="header">
+    <h1>🔔 Smart Reminders</h1>
+  </div>
 
-    <main class="app-main">
-        <!-- Daily Coach Section -->
-        <div class="coach-card" id="coachSection">
-            <div class="coach-title">Today's Health Coach</div>
-            <div class="coach-message" id="coachMessage">Welcome! Complete your assessment for personalized guidance.</div>
-        </div>
-
-        <div id="doshaIndicator" class="dosha-indicator" style="background: #eee; color: #666;">
-            <span>Assessment Status</span>
-            <span id="statusLabel">Not Completed</span>
-        </div>
-
-        <div id="alertsContainer">
-            <!-- Alert cards injected here -->
-        </div>
-
-        <div style="height: 100px;"></div> <!-- Spacer for fixed footer -->
-    </main>
-
-    <div id="saveBar" class="save-bar hidden">
-        <span>Settings changed</span>
-        <button class="btn-save" onclick="saveSettings()">Save Changes</button>
+  <div class="container">
+    <div class="card">
+      <div id="doshaBadge" class="status-badge status-active">...</div>
+      <div id="engineStatus">The Intelligent Reminder Engine is monitoring your daily cycle.</div>
+      <div id="doshaLine" class="dosha-indicator"></div>
     </div>
 
-    <script>
-        let alertsData = [];
-        let routine = JSON.parse(localStorage.getItem('ayurtime_routine') || 'null');
-        let hasChanges = false;
+    <button class="btn-notify" id="notifyBtn" onclick="requestPermission()">Enable Push Notifications</button>
 
-        const coachMessages = {
-            Vata: "Keep yourself warm and hydrated today. Focus on grounding foods.",
-            Pitta: "Stay cool and avoid spicy foods this afternoon. Take a breath.",
-            Kapha: "Incorporate movement into your morning. Light, warm meals are best.",
-            null: "Discover your Ayurvedic type for daily coaching tips."
-        };
+    <div class="card">
+      <div class="history-title">Upcoming / Contextual Suggestion</div>
+      <div id="currentContext">
+        <div class="reminder-item">
+          <div class="reminder-icon">🌿</div>
+          <div class="reminder-content">
+            <div class="reminder-title" id="suggestionTitle">Analyzing context...</div>
+            <div class="reminder-time" id="suggestionSub">Based on your dosha and current time</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        const icons = {
-            'Morning': '🌅',
-            'Meal': '🍽️',
-            'Evening': '🌙',
-            'Sleep': '💤',
-            'Exercise': '🧘',
-            'Default': '🔔'
-        };
+    <div class="card">
+      <div class="history-title">Recent History</div>
+      <div id="historyList">
+        <div style="color: #ccc; text-align: center; padding: 20px;">No recent alerts</div>
+      </div>
+    </div>
+  </div>
 
-        async function init() {
-            try {
-                const res = await fetch('../../src/data/alerts-settings.json');
-                const data = await res.json();
-                const saved = JSON.parse(localStorage.getItem('ayurtime_alerts') || 'null');
-                
-                alertsData = saved || data.default_alerts;
-                
-                if (routine) {
-                    updateCoach();
-                    updateDoshaIndicator();
-                }
-                
-                renderAlerts();
-            } catch (e) { console.error(e); }
+  <script>
+    const DOSHA_KEY = 'ayurtime_routine';
+    const AGNI_KEY = 'ayurtime_agni_log';
+    
+    const DATABASE = {
+      Vata: {
+        morning: { title: "Grounding Morning", text: "Morning is Vata time. Favor a warm, oily breakfast and gentle stretching." },
+        afternoon: { title: "Stay Hydrated", text: "Keep a thermos of warm water. Avoid iced drinks to protect Agni." },
+        evening: { title: "Calm & Warm", text: "Slow down. A warm milk with nutmeg will help ground your restless energy." }
+      },
+      Pitta: {
+        morning: { title: "Cooling Start", text: "Start your day with cooling breathwork. Avoid over-exertion in the sun." },
+        afternoon: { title: "Lunch is Key", text: "Enjoy your largest meal now when your Agni is highest. Favor bitter greens." },
+        evening: { title: "Wind Down", text: "Moonlight walks are perfect for you. Avoid spicy foods tonight." }
+      },
+      Kapha: {
+        morning: { title: "Energize Now", text: "Wake up early and move! Intense activity clears the morning Kapha fog." },
+        afternoon: { title: "Keep it Light", text: "A light, warm, and spicy lunch will keep your energy moving." },
+        evening: { title: "Stay Active", text: "Socialize or engage in creative work. Avoid heavy dairy before bed." }
+      }
+    };
+
+    function init() {
+      const saved = localStorage.getItem(DOSHA_KEY);
+      const dosha = saved ? JSON.parse(saved).dosha : 'Vata';
+      
+      document.getElementById('doshaBadge').textContent = dosha + ' Mode Active';
+      document.getElementById('doshaBadge').style.color = 'white';
+      document.getElementById('doshaBadge').style.background = 'var(--' + dosha.toLowerCase() + ')';
+      document.getElementById('doshaLine').className = 'dosha-indicator bg-' + dosha.toLowerCase();
+
+      updateContext(dosha);
+      checkNotificationStatus();
+    }
+
+    function updateContext(dosha) {
+      const hour = new Date().getHours();
+      let period = 'afternoon';
+      if (hour < 11) period = 'morning';
+      else if (hour > 17) period = 'evening';
+
+      const data = DATABASE[dosha][period];
+      
+      // Agni Checkfeat(issue#12): implement intelligent reminder engine with dosha and agni context awareness
+      const agniLog = JSON.parse(localStorage.getItem(AGNI_KEY) || '{}');
+      const today = new Date().toISOString().split('T')[0];feat(issue#12): implement intelligent reminder engine with dosha and agni context awareness
+      if (agniLog[today] && agniLog[today].agni === 'manda') {
+         document.getElementById('suggestionTitle').textContent = "⚠️ Agni is Weak";
+         document.getElementById('suggestionSub').textContent = "Focus on sipping ginger water and eating very light.";
+      } else {
+         document.getElementById('suggestionTitle').textContent = data.title;
+         document.getElementById('suggestionSub').textContent = data.text;
+      }
+    }
+
+    function requestPermission() {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          alert("Notifications enabled!");
+          checkNotificationStatus();
         }
+      });
+    }
 
-        function updateCoach() {
-            const msg = coachMessages[routine.dosha] || coachMessages[null];
-            document.getElementById('coachMessage').textContent = msg;
-        }
+    function checkNotificationStatus() {
+      if (Notification.permission === "granted") {
+        document.getElementById('notifyBtn').textContent = "✅ Notifications Active";
+        document.getElementById('notifyBtn').style.background = "#4caf50";
+        document.getElementById('notifyBtn').disabled = true;
+      }
+    }
 
-        function updateDoshaIndicator() {
-            const ind = document.getElementById('doshaIndicator');
-            const label = document.getElementById('statusLabel');
-            const colors = { Vata: '#8B7BC8', Pitta: '#E07B54', Kapha: '#4A9E8A' };
-            
-            ind.style.background = (colors[routine.dosha] || '#2e7d32') + '15';
-            ind.style.color = colors[routine.dosha] || '#2e7d32';
-            ind.style.border = `1px solid ${colors[routine.dosha]}30`;
-            label.textContent = `${routine.dosha} Type`;
-        }
-
-        function renderAlerts() {
-            const container = document.getElementById('alertsContainer');
-            container.innerHTML = alertsData.map(a => {
-                const icon = icons[a.category] || icons['Default'];
-                return `
-                    <div class="alert-card ${a.enabled ? 'enabled' : 'disabled'}" id="card_${a.id}">
-                        <div class="alert-time">${a.time}</div>
-                        <div class="alert-content">
-                            <div class="alert-name">${icon} ${a.name}</div>
-                            <div class="alert-msg">${a.message}</div>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" ${a.enabled ? 'checked' : ''} onchange="toggleAlert('${a.id}', this.checked)">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function toggleAlert(id, enabled) {
-            const alert = alertsData.find(a => a.id === id);
-            if (alert) alert.enabled = enabled;
-            
-            const card = document.getElementById('card_' + id);
-            card.className = `alert-card ${enabled ? 'enabled' : 'disabled'}`;
-            
-            hasChanges = true;
-            document.getElementById('saveBar').classList.remove('hidden');
-        }
-
-        function saveSettings() {
-            localStorage.setItem('ayurtime_alerts', JSON.stringify(alertsData));
-            hasChanges = false;
-            document.getElementById('saveBar').classList.add('hidden');
-            
-            // Show toast/notice
-            const toast = document.createElement('div');
-            toast.style = "position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2e7d32;color:white;padding:10px 20px;border-radius:8px;z-index:2000;";
-            toast.textContent = "Settings saved successfully!";
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 2000);
-        }
-
-        init();
-    </script>
+    init();
+  </script>
 </body>
 </html>
