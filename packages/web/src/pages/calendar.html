@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vrat Calendar – AyurTime</title>
+  <link rel="stylesheet" href="../../src/styles/main.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="logo">
+      <span class="logo-icon">🌿</span>
+      <span class="logo-text">AyurTime</span>
+    </div>
+    <nav class="main-nav">
+      <a href="../../index.html" class="nav-link">Home</a>
+      <a href="calendar.html" class="nav-link active">Vrat Calendar</a>
+      <a href="charaka.html" class="nav-link">Charaka Guide</a>
+      <a href="alerts.html" class="nav-link">Alerts</a>
+    </nav>
+    <div class="dosha-badge">📅 Calendar</div>
+  </header>
+
+  <main class="app-main">
+    <div class="page-header">
+      <h1>📅 Hindu Vrat Calendar</h1>
+      <p>Ekadashi · Chaturthi · Pradosh · Shivratri · Amavasya</p>
+    </div>
+
+    <div style="display:flex; gap:0.75rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+      <button class="filter-btn active" onclick="filterVrats('all')">All</button>
+      <button class="filter-btn" onclick="filterVrats('Ekadashi')">Ekadashi</button>
+      <button class="filter-btn" onclick="filterVrats('Chaturthi')">Chaturthi</button>
+      <button class="filter-btn" onclick="filterVrats('Pradosh')">Pradosh</button>
+      <button class="filter-btn" onclick="filterVrats('Shivratri')">Shivratri</button>
+      <button class="filter-btn" onclick="filterVrats('Amavasya')">Amavasya</button>
+    </div>
+
+    <div id="vratList" class="vrat-list">Loading vrat data...</div>
+
+    <div style="margin-top:2rem; background:white; border-radius:12px; padding:1.5rem; box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+      <h3 class="section-title">🌿 Vrat Food Guide (from Bhagavad Gita)</h3>
+      <div id="foodGuide"></div>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>AyurTime MVP – Phase 1 | Vrat Calendar powered by Vedic Panchang</p>
+  </footer>
+
+  <style>
+    .filter-btn {
+      padding: 0.4rem 1rem;
+      border: 1.5px solid #2e7d32;
+      background: white;
+      color: #2e7d32;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: #2e7d32;
+      color: white;
+    }
+  </style>
+
+  <script>
+    let allVrats = [];
+
+    fetch('../../src/data/vrat-calendar.json')
+      .then(r => r.json())
+      .then(data => {
+        allVrats = data.vrats;
+        renderVrats(allVrats);
+        renderFoodGuide(data.food_guide);
+      })
+      .catch(() => {
+        document.getElementById('vratList').innerHTML = '<p style="color:#e65100;">Could not load vrat data. Make sure you are running on a local server.</p>';
+      });
+
+    function renderVrats(vrats) {
+      const today = new Date().toISOString().split('T')[0];
+      const sorted = [...vrats].sort((a, b) => new Date(a.date) - new Date(b.date));
+      const html = sorted.map(v => {
+        const isToday = v.date === today;
+        const d = new Date(v.date);
+        const dateStr = d.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+        return `
+          <div class="vrat-item ${isToday ? 'today' : ''}">
+            <div class="vrat-date">${dateStr}</div>
+            <div>
+              <div class="vrat-name">${isToday ? '🔔 ' : ''}${v.name}</div>
+              <div class="vrat-desc">${v.deity} · ${v.significance}</div>
+              <div class="vrat-desc" style="margin-top:0.3rem; color:#2e7d32;">🕉 ${v.mantra}</div>
+              <div class="vrat-desc" style="margin-top:0.2rem;">🍽️ Allowed: ${v.sattvic_food.join(', ')}</div>
+            </div>
+            <span class="vrat-badge">${v.type}</span>
+          </div>`;
+      }).join('');
+      document.getElementById('vratList').innerHTML = html || '<p>No vrats found for this filter.</p>';
+    }
+
+    function filterVrats(type) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      if (type === 'all') renderVrats(allVrats);
+      else renderVrats(allVrats.filter(v => v.type === type));
+    }
+
+    function renderFoodGuide(guide) {
+      document.getElementById('foodGuide').innerHTML = `
+        <p style="color:#2e7d32; font-style:italic; margin-bottom:0.75rem;">${guide.gita_reference}</p>
+        <p><strong style="color:#2e7d32;">✅ Allowed on Vrat:</strong> ${guide.allowed_on_vrat.join(' · ')}</p>
+        <p style="margin-top:0.5rem;"><strong style="color:#c62828;">❌ Forbidden on Vrat:</strong> ${guide.forbidden_on_vrat.join(' · ')}</p>`;
+    }
+  </script>
+</body>
+</html>
