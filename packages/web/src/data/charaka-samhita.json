@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "title": "Charaka Samhita Knowledge Module",
+    "description": "Core Ayurvedic principles from Charaka Samhita for daily health coaching",
+    "version": "1.0.0"
+  },
+  "topics": [
+    {
+      "id": "cs001",
+      "category": "Ahara (Food)",
+      "title": "The 8 Factors of Proper Eating",
+      "shloka": "Ashtau ahara viseshaayatanani",
+      "chapter": "Vimanasthana Ch.1",
+      "description": "Charaka identifies 8 factors for ideal food: Prakriti (nature), Karana (processing), Samyoga (combination), Rashi (quantity), Desha (place of origin), Kala (time/season), Upayokta Sanstha (rules of eating), Upayokta (the individual).",
+      "daily_tip": "Eat freshly cooked warm food in a calm environment. Avoid eating standing up or while distracted.",
+      "dosha_impact": { "vata": "warm oily food pacifies vata", "pitta": "cool sweet food pacifies pitta", "kapha": "light dry spiced food pacifies kapha" }
+    },
+    {
+      "id": "cs002",
+      "category": "Dinacharya (Daily Routine)",
+      "title": "Brahma Muhurta - Rise Before Sunrise",
+      "shloka": "Brahme muhurte uttishthet swastho rakshartham ayushah",
+      "chapter": "Sutrasthana Ch.5",
+      "description": "Wake up during Brahma Muhurta (1.5 hours before sunrise) for optimal health. This time is rich in prana, sattva predominates, and the mind is clear for meditation and planning.",
+      "daily_tip": "Set alarm for 5:00-5:30 AM. Begin with gratitude, water sipping, and 10 min meditation before checking phone.",
+      "dosha_impact": { "vata": "reduces anxiety when routine is consistent", "pitta": "morning meditation reduces aggression", "kapha": "early rising prevents lethargy" }
+    },
+    {
+      "id": "cs003",
+      "category": "Ahara (Food)",
+      "title": "Jatharagni - The Digestive Fire",
+      "shloka": "Agnirev hi sarvesham aayushyam",
+      "chapter": "Chikitsasthana Ch.15",
+      "description": "Jatharagni (digestive fire) is the root of life. Strong agni = long healthy life. Weak agni = disease. All diseases begin from impaired digestion (mandagni).",
+      "daily_tip": "Sip warm water throughout the day. Eat main meal at noon when agni is strongest. Avoid eating when not hungry.",
+      "dosha_impact": { "vata": "irregular agni - eat at fixed times", "pitta": "sharp agni - avoid skipping meals", "kapha": "slow agni - use digestive spices like ginger" }
+    },
+    {
+      "id": "cs004",
+      "category": "Sattvic Living",
+      "title": "Trigunas in Food - Sattvic, Rajasic, Tamasic",
+      "shloka": "Aharah sattvikah...",
+      "chapter": "Bhagavad Gita Ch.17 / Charaka parallel",
+      "description": "Sattvic foods (fresh, juicy, nourishing) bring clarity and peace. Rajasic foods (spicy, hot, salty) bring restlessness. Tamasic foods (stale, heavy, processed) bring dullness and disease.",
+      "daily_tip": "Choose freshly prepared, lightly spiced, whole foods for 80% of meals. Reduce packaged/frozen/reheated food.",
+      "dosha_impact": { "vata": "sattvic warm foods stabilize mind", "pitta": "avoid rajasic hot spicy foods", "kapha": "avoid tamasic heavy foods" }
+    },
+    {
+      "id": "cs005",
+      "category": "Dinacharya (Daily Routine)",
+      "title": "Abhyanga - Daily Oil Massage",
+      "shloka": "Abhyangam aachare nityam",
+      "chapter": "Sutrasthana Ch.5",
+      "description": "Daily self-massage with warm oil (abhyanga) improves circulation, strengthens muscles, calms vata, promotes sleep, and nourishes skin. Sesame oil for vata, coconut for pitta, mustard for kapha.",
+      "daily_tip": "10 minutes of self-massage before morning bath. Use sesame oil for vata, coconut for pitta, mustard/warm oil for kapha.",
+      "dosha_impact": { "vata": "sesame oil - deeply nourishing", "pitta": "coconut oil - cooling", "kapha": "mustard oil with warming herbs" }
+    },
+    {
+      "id": "cs006",
+      "category": "Rasayana (Rejuvenation)",
+      "title": "Triphala - The Master Rejuvenator",
+      "shloka": "Triphala sarva roga nashini",
+      "chapter": "Chikitsasthana Ch.1",
+      "description": "Triphala (Amalaki + Bibhitaki + Haritaki) is the greatest Ayurvedic formulation. It cleanses all three doshas, supports digestion, improves vision, and acts as a mild daily detoxifier.",
+      "daily_tip": "Take 1 tsp Triphala powder in warm water at bedtime. Start with small dose and increase gradually.",
+      "dosha_impact": { "vata": "haritaki component nourishes", "pitta": "amalaki cools and cleanses", "kapha": "bibhitaki reduces excess kapha" }
+    },
+    {
+      "id": "cs007",
+      "category": "Nidra (Sleep)",
+      "title": "Proper Sleep - The Second Pillar of Life",
+      "shloka": "Sukham duhkham pushti karshye...",
+      "chapter": "Sutrasthana Ch.21",
+      "description": "Sleep (nidra) is one of three supporting pillars of life along with food and brahmacharya. Proper sleep restores the body, balances doshas, and sharpens the mind. Sleep before 10 PM is tama-sattvic transition.",
+      "daily_tip": "Sleep before 10 PM. Avoid screens 1 hour before bed. Apply brahmi or sesame oil to feet before sleeping.",
+      "dosha_impact": { "vata": "irregular sleep worsens anxiety - keep fixed schedule", "pitta": "overwork before sleep increases pitta", "kapha": "oversleeping increases kapha - 7-8 hrs max" }
+    },
+    {
+      "id": "cs008",
+      "category": "Ahara (Food)",
+      "title": "Pathya Ahara - Wholesome Food Rules",
+      "shloka": "Hitaharam viharam cha",
+      "chapter": "Sutrasthana Ch.7",
+      "description": "Charaka defines pathya (wholesome) as food and lifestyle that is beneficial to the channels of the body. Apathya (unwholesome) creates blockages. The stomach should be 1/2 food, 1/4 water, 1/4 empty.",
+      "daily_tip": "Eat until 3/4 full only. Leave 1/4 of stomach empty. Sit quietly for 5 min after eating - do not rush.",
+      "dosha_impact": { "vata": "regular warm meals prevent depletion", "pitta": "avoid overeating - heat builds up", "kapha": "eat until 2/3 full only" }
+    },
+    {
+      "id": "cs009",
+      "category": "Vyayama (Exercise)",
+      "title": "Optimal Exercise - Half Capacity Rule",
+      "shloka": "Ardha shakti balam vyayamam",
+      "chapter": "Sutrasthana Ch.7",
+      "description": "Exercise to only half your capacity. Signs of proper exercise: light perspiration, deep breathing, feeling of lightness. Over-exercise depletes ojas (vital essence) and increases vata.",
+      "daily_tip": "30-45 min morning walk or yoga. Stop when you start sweating lightly on forehead. Never exercise to exhaustion.",
+      "dosha_impact": { "vata": "gentle yoga and walking best", "pitta": "swim or exercise in cool morning", "kapha": "vigorous exercise beneficial" }
+    },
+    {
+      "id": "cs010",
+      "category": "Manas (Mind)",
+      "title": "Sattva - Mental Strength and Clarity",
+      "shloka": "Sattvam hi balam manas",
+      "chapter": "Sutrasthana Ch.8",
+      "description": "Mental strength (sattva) is the capacity to withstand stress without losing equilibrium. It is built through: sattvic food, proper sleep, mantra/meditation, positive company (satsang), and Vedic study.",
+      "daily_tip": "Begin each day with 10 min silent meditation or mantra chanting. Om Namah Shivaya or Gayatri Mantra are ideal.",
+      "dosha_impact": { "vata": "mantra stabilizes erratic vata mind", "pitta": "meditation cools competitive pitta", "kapha": "pranayama awakens dull kapha mind" }
+    }
+  ]
+}
