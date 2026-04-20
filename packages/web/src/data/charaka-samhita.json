@@ -1,109 +1,159 @@
 {
   "meta": {
     "title": "Charaka Samhita Knowledge Module",
-    "description": "Core Ayurvedic principles from Charaka Samhita for daily health coaching",
-    "version": "1.0.0"
+    "description": "Key chapters from Charaka Samhita organized by sthana for practical Ayurvedic knowledge",
+    "version": "2.0.0"
   },
-  "topics": [
+  "chapters": [
     {
-      "id": "cs001",
-      "category": "Ahara (Food)",
-      "title": "The 8 Factors of Proper Eating",
-      "shloka": "Ashtau ahara viseshaayatanani",
-      "chapter": "Vimanasthana Ch.1",
-      "description": "Charaka identifies 8 factors for ideal food: Prakriti (nature), Karana (processing), Samyoga (combination), Rashi (quantity), Desha (place of origin), Kala (time/season), Upayokta Sanstha (rules of eating), Upayokta (the individual).",
-      "daily_tip": "Eat freshly cooked warm food in a calm environment. Avoid eating standing up or while distracted.",
-      "dosha_impact": { "vata": "warm oily food pacifies vata", "pitta": "cool sweet food pacifies pitta", "kapha": "light dry spiced food pacifies kapha" }
+      "id": "cs_sutra_1",
+      "sthana": "Sutrasthana",
+      "chapter_number": 1,
+      "chapter_name": "Quest for Longevity (Dirghanjivitiya)",
+      "summary": "The origin of Ayurveda and its purpose in achieving long life and health.",
+      "tags": ["philosophy", "history", "longevity"],
+      "key_concepts": ["Ayurveda definition", "Trisutra", "Purushartha"],
+      "reference": "Charaka Samhita, Sutrasthana 1"
     },
     {
-      "id": "cs002",
-      "category": "Dinacharya (Daily Routine)",
-      "title": "Brahma Muhurta - Rise Before Sunrise",
-      "shloka": "Brahme muhurte uttishthet swastho rakshartham ayushah",
-      "chapter": "Sutrasthana Ch.5",
-      "description": "Wake up during Brahma Muhurta (1.5 hours before sunrise) for optimal health. This time is rich in prana, sattva predominates, and the mind is clear for meditation and planning.",
-      "daily_tip": "Set alarm for 5:00-5:30 AM. Begin with gratitude, water sipping, and 10 min meditation before checking phone.",
-      "dosha_impact": { "vata": "reduces anxiety when routine is consistent", "pitta": "morning meditation reduces aggression", "kapha": "early rising prevents lethargy" }
+      "id": "cs_sutra_5",
+      "sthana": "Sutrasthana",
+      "chapter_number": 5,
+      "chapter_name": "Quantitative Diet (Matrashitiya)",
+      "summary": "Guidelines on quantity of food, daily routine (Dinacharya), and hygiene practices.",
+      "tags": ["diet", "lifestyle", "dinacharya"],
+      "key_concepts": ["Matra", "Anupana", "Oral hygiene"],
+      "reference": "Charaka Samhita, Sutrasthana 5"
     },
     {
-      "id": "cs003",
-      "category": "Ahara (Food)",
-      "title": "Jatharagni - The Digestive Fire",
-      "shloka": "Agnirev hi sarvesham aayushyam",
-      "chapter": "Chikitsasthana Ch.15",
-      "description": "Jatharagni (digestive fire) is the root of life. Strong agni = long healthy life. Weak agni = disease. All diseases begin from impaired digestion (mandagni).",
-      "daily_tip": "Sip warm water throughout the day. Eat main meal at noon when agni is strongest. Avoid eating when not hungry.",
-      "dosha_impact": { "vata": "irregular agni - eat at fixed times", "pitta": "sharp agni - avoid skipping meals", "kapha": "slow agni - use digestive spices like ginger" }
+      "id": "cs_sutra_6",
+      "sthana": "Sutrasthana",
+      "chapter_number": 6,
+      "chapter_name": "Seasonal Routine (Tasyashitiya)",
+      "summary": "Dietary and lifestyle adjustments according to the six seasons (Ritucharya).",
+      "tags": ["seasons", "ritucharya", "lifestyle"],
+      "key_concepts": ["Adana Kala", "Visarga Kala", "Seasonal strength"],
+      "reference": "Charaka Samhita, Sutrasthana 6"
     },
     {
-      "id": "cs004",
-      "category": "Sattvic Living",
-      "title": "Trigunas in Food - Sattvic, Rajasic, Tamasic",
-      "shloka": "Aharah sattvikah...",
-      "chapter": "Bhagavad Gita Ch.17 / Charaka parallel",
-      "description": "Sattvic foods (fresh, juicy, nourishing) bring clarity and peace. Rajasic foods (spicy, hot, salty) bring restlessness. Tamasic foods (stale, heavy, processed) bring dullness and disease.",
-      "daily_tip": "Choose freshly prepared, lightly spiced, whole foods for 80% of meals. Reduce packaged/frozen/reheated food.",
-      "dosha_impact": { "vata": "sattvic warm foods stabilize mind", "pitta": "avoid rajasic hot spicy foods", "kapha": "avoid tamasic heavy foods" }
+      "id": "cs_sutra_7",
+      "sthana": "Sutrasthana",
+      "chapter_number": 7,
+      "chapter_name": "Non-suppression of Urges (Navegandharaniya)",
+      "summary": "Importance of natural urges and mental discipline for disease prevention.",
+      "tags": ["prevention", "psychology", "urges"],
+      "key_concepts": ["Adharaniya Vegas", "Dharaniya Vegas", "Self-control"],
+      "reference": "Charaka Samhita, Sutrasthana 7"
     },
     {
-      "id": "cs005",
-      "category": "Dinacharya (Daily Routine)",
-      "title": "Abhyanga - Daily Oil Massage",
-      "shloka": "Abhyangam aachare nityam",
-      "chapter": "Sutrasthana Ch.5",
-      "description": "Daily self-massage with warm oil (abhyanga) improves circulation, strengthens muscles, calms vata, promotes sleep, and nourishes skin. Sesame oil for vata, coconut for pitta, mustard for kapha.",
-      "daily_tip": "10 minutes of self-massage before morning bath. Use sesame oil for vata, coconut for pitta, mustard/warm oil for kapha.",
-      "dosha_impact": { "vata": "sesame oil - deeply nourishing", "pitta": "coconut oil - cooling", "kapha": "mustard oil with warming herbs" }
+      "id": "cs_sutra_27",
+      "sthana": "Sutrasthana",
+      "chapter_number": 27,
+      "chapter_name": "Properties of Food (Annapana Vidhi)",
+      "summary": "Detailed classification and properties of various food articles and drinks.",
+      "tags": ["nutrition", "diet", "food"],
+      "key_concepts": ["Ahara Varga", "Food properties", "Dietetics"],
+      "reference": "Charaka Samhita, Sutrasthana 27"
     },
     {
-      "id": "cs006",
-      "category": "Rasayana (Rejuvenation)",
-      "title": "Triphala - The Master Rejuvenator",
-      "shloka": "Triphala sarva roga nashini",
-      "chapter": "Chikitsasthana Ch.1",
-      "description": "Triphala (Amalaki + Bibhitaki + Haritaki) is the greatest Ayurvedic formulation. It cleanses all three doshas, supports digestion, improves vision, and acts as a mild daily detoxifier.",
-      "daily_tip": "Take 1 tsp Triphala powder in warm water at bedtime. Start with small dose and increase gradually.",
-      "dosha_impact": { "vata": "haritaki component nourishes", "pitta": "amalaki cools and cleanses", "kapha": "bibhitaki reduces excess kapha" }
+      "id": "cs_sutra_30",
+      "sthana": "Sutrasthana",
+      "chapter_number": 30,
+      "chapter_name": "Ten Vessels (Artayada-dashamuliya)",
+      "summary": "Deep dive into the heart, vital organs, and the essence of Ayurveda.",
+      "tags": ["anatomy", "heart", "ojas"],
+      "key_concepts": ["Ojas", "Hridaya", "Ayurveda definition"],
+      "reference": "Charaka Samhita, Sutrasthana 30"
     },
     {
-      "id": "cs007",
-      "category": "Nidra (Sleep)",
-      "title": "Proper Sleep - The Second Pillar of Life",
-      "shloka": "Sukham duhkham pushti karshye...",
-      "chapter": "Sutrasthana Ch.21",
-      "description": "Sleep (nidra) is one of three supporting pillars of life along with food and brahmacharya. Proper sleep restores the body, balances doshas, and sharpens the mind. Sleep before 10 PM is tama-sattvic transition.",
-      "daily_tip": "Sleep before 10 PM. Avoid screens 1 hour before bed. Apply brahmi or sesame oil to feet before sleeping.",
-      "dosha_impact": { "vata": "irregular sleep worsens anxiety - keep fixed schedule", "pitta": "overwork before sleep increases pitta", "kapha": "oversleeping increases kapha - 7-8 hrs max" }
+      "id": "cs_nidana_1",
+      "sthana": "Nidana Sthana",
+      "chapter_number": 1,
+      "chapter_name": "Diagnosis of Fever (Jwara Nidana)",
+      "summary": "Etiology, signs, and symptoms of different types of fevers.",
+      "tags": ["diagnosis", "fever", "pathology"],
+      "key_concepts": ["Nidana Panchaka", "Jwara", "Pathogenesis"],
+      "reference": "Charaka Samhita, Nidana Sthana 1"
     },
     {
-      "id": "cs008",
-      "category": "Ahara (Food)",
-      "title": "Pathya Ahara - Wholesome Food Rules",
-      "shloka": "Hitaharam viharam cha",
-      "chapter": "Sutrasthana Ch.7",
-      "description": "Charaka defines pathya (wholesome) as food and lifestyle that is beneficial to the channels of the body. Apathya (unwholesome) creates blockages. The stomach should be 1/2 food, 1/4 water, 1/4 empty.",
-      "daily_tip": "Eat until 3/4 full only. Leave 1/4 of stomach empty. Sit quietly for 5 min after eating - do not rush.",
-      "dosha_impact": { "vata": "regular warm meals prevent depletion", "pitta": "avoid overeating - heat builds up", "kapha": "eat until 2/3 full only" }
+      "id": "cs_vimana_1",
+      "sthana": "Vimana Sthana",
+      "chapter_number": 1,
+      "chapter_name": "Factors of Food (Rasa Vimana)",
+      "summary": "Three factors governing diet and the eight aspects of proper eating.",
+      "tags": ["diet", "tastes", "rules"],
+      "key_concepts": ["Ashtavidha Ahara Vidhi", "Rasa", "Potency"],
+      "reference": "Charaka Samhita, Vimana Sthana 1"
     },
     {
-      "id": "cs009",
-      "category": "Vyayama (Exercise)",
-      "title": "Optimal Exercise - Half Capacity Rule",
-      "shloka": "Ardha shakti balam vyayamam",
-      "chapter": "Sutrasthana Ch.7",
-      "description": "Exercise to only half your capacity. Signs of proper exercise: light perspiration, deep breathing, feeling of lightness. Over-exercise depletes ojas (vital essence) and increases vata.",
-      "daily_tip": "30-45 min morning walk or yoga. Stop when you start sweating lightly on forehead. Never exercise to exhaustion.",
-      "dosha_impact": { "vata": "gentle yoga and walking best", "pitta": "swim or exercise in cool morning", "kapha": "vigorous exercise beneficial" }
+      "id": "cs_vimana_8",
+      "sthana": "Vimana Sthana",
+      "chapter_number": 8,
+      "chapter_name": "Instruction of Student (Rogabhishagjitiya)",
+      "summary": "Methods of debate, medical education, and patient examination.",
+      "tags": ["education", "ethics", "examination"],
+      "key_concepts": ["Dashavidha Parikshya", "Pramana", "Medical ethics"],
+      "reference": "Charaka Samhita, Vimana Sthana 8"
     },
     {
-      "id": "cs010",
-      "category": "Manas (Mind)",
-      "title": "Sattva - Mental Strength and Clarity",
-      "shloka": "Sattvam hi balam manas",
-      "chapter": "Sutrasthana Ch.8",
-      "description": "Mental strength (sattva) is the capacity to withstand stress without losing equilibrium. It is built through: sattvic food, proper sleep, mantra/meditation, positive company (satsang), and Vedic study.",
-      "daily_tip": "Begin each day with 10 min silent meditation or mantra chanting. Om Namah Shivaya or Gayatri Mantra are ideal.",
-      "dosha_impact": { "vata": "mantra stabilizes erratic vata mind", "pitta": "meditation cools competitive pitta", "kapha": "pranayama awakens dull kapha mind" }
+      "id": "cs_sharira_1",
+      "sthana": "Sharira Sthana",
+      "chapter_number": 1,
+      "chapter_name": "The Individual (Katidhapurushiya)",
+      "summary": "The relationship between the individual and the universe, and the concept of soul.",
+      "tags": ["philosophy", "universe", "soul"],
+      "key_concepts": ["Loka-Purusha Samya", "Pancha Mahabhuta", "Atman"],
+      "reference": "Charaka Samhita, Sharira Sthana 1"
+    },
+    {
+      "id": "cs_indriya_1",
+      "sthana": "Indriya Sthana",
+      "chapter_number": 1,
+      "chapter_name": "Signs of Life (Varnasvariya)",
+      "summary": "Prognostic signs through changes in complexion and voice.",
+      "tags": ["prognosis", "observation", "clinical"],
+      "key_concepts": ["Arishta", "Clinical signs", "Prognostic indicators"],
+      "reference": "Charaka Samhita, Indriya Sthana 1"
+    },
+    {
+      "id": "cs_chikitsa_1",
+      "sthana": "Chikitsa Sthana",
+      "chapter_number": 1,
+      "chapter_name": "Rejuvenation (Rasayana)",
+      "summary": "Therapies for longevity, memory, and disease resistance.",
+      "tags": ["treatment", "rasayana", "longevity"],
+      "key_concepts": ["Kutipraveshika", "Vatatapika", "Herbal tonics"],
+      "reference": "Charaka Samhita, Chikitsa Sthana 1"
+    },
+    {
+      "id": "cs_chikitsa_2",
+      "sthana": "Chikitsa Sthana",
+      "chapter_number": 2,
+      "chapter_name": "Aphrodisiacs (Vajikarana)",
+      "summary": "Therapies for reproductive health and vitality.",
+      "tags": ["treatment", "vitality", "reproductive"],
+      "key_concepts": ["Vajikarana methods", "Semen quality", "Strength"],
+      "reference": "Charaka Samhita, Chikitsa Sthana 2"
+    },
+    {
+      "id": "cs_chikitsa_15",
+      "sthana": "Chikitsa Sthana",
+      "chapter_number": 15,
+      "chapter_name": "Digestive Disorders (Grahani)",
+      "summary": "The central role of Agni (digestive fire) and management of malabsorption.",
+      "tags": ["treatment", "digestion", "agni"],
+      "key_concepts": ["Jatharagni", "Grahani", "Digestive management"],
+      "reference": "Charaka Samhita, Chikitsa Sthana 15"
+    },
+    {
+      "id": "cs_siddhi_1",
+      "sthana": "Siddhi Sthana",
+      "chapter_number": 1,
+      "chapter_name": "Successful Basti (Kalpana Siddhi)",
+      "summary": "Perfecting the administration of medicated enemas (Basti).",
+      "tags": ["panchakarma", "treatment", "enema"],
+      "key_concepts": ["Basti Vidhi", "Therapeutic success", "Complications"],
+      "reference": "Charaka Samhita, Siddhi Sthana 1"
     }
   ]
 }
