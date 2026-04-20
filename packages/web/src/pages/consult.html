@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Consult - AyurTime</title>
+  <link rel="stylesheet" href="../../src/styles/main.css">
+  <style>
+    .chat-container {
+      max-width: 800px;
+      margin: 20px auto;
+      height: 70vh;
+      display: flex;
+      flex-direction: column;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    #chatHistory {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .message {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+    .bot-message {
+      align-self: flex-start;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-bottom-left-radius: 4px;
+    }
+    .user-message {
+      align-self: flex-end;
+      background: #2e7d32;
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+    .chat-input-area {
+      padding: 15px;
+      border-top: 1px solid #eee;
+      display: flex;
+      gap: 10px;
+    }
+    #userInput {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+    }
+    #sendBtn {
+      padding: 10px 20px;
+      background: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .typing-indicator {
+      font-size: 0.8rem;
+      color: #888;
+      margin-left: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="logo">
+      <span class="logo-icon">🌿</span>
+      <span class="logo-text">AyurTime</span>
+    </div>
+    <nav class="main-nav">
+      <a href="../../index.html" class="nav-link">Home</a>
+      <a href="calendar.html" class="nav-link">Vrat Calendar</a>
+      <a href="charaka.html" class="nav-link">Charaka Guide</a>
+      <a href="consult.html" class="nav-link active">AI Consult</a>
+    </nav>
+    <div class="dosha-badge">🤖 AI Coach</div>
+  </header>
+
+  <main class="app-main">
+    <div class="page-header">
+      <h1>Ayurvedic AI Consultation</h1>
+      <p>Analyze your symptoms and get personalized health guidance based on classical texts.</p>
+    </div>
+
+    <div class="chat-container">
+      <div id="chatHistory">
+        <div class="message bot-message">
+          Namaste! I am your AyurTime AI Coach. How are you feeling today? You can describe your symptoms or ask about specific Ayurvedic practices.
+        </div>
+      </div>
+      <div id="typingIndicator" class="typing-indicator">AI Coach is thinking...</div>
+      <form class="chat-input-area" id="chatForm">
+        <input type="text" id="userInput" placeholder="Type your symptoms (e.g., dry skin, acidity, joint pain)..." autocomplete="off">
+        <button type="submit" id="sendBtn">Send</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="../scripts/consult-engine.js"></script>
+  <script>
+    const chatForm = document.getElementById('chatForm');
+    const userInput = document.getElementById('userInput');
+    const chatHistory = document.getElementById('chatHistory');
+    const typingIndicator = document.getElementById('typingIndicator');
+
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      appendMessage(text, 'user');
+      userInput.value = '';
+      
+      typingIndicator.style.display = 'block';
+      
+      // Call engine (logic will be in consult-engine.js)
+      setTimeout(() => {
+        const response = AyurConsultEngine.process(text);
+        typingIndicator.style.display = 'none';
+        appendMessage(response, 'bot');
+      }, 1000);
+    });
+
+    function appendMessage(text, sender) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `message ${sender}-message`;
+      msgDiv.textContent = text;
+      chatHistory.appendChild(msgDiv);
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+  </script>
+</body>
+</html>
