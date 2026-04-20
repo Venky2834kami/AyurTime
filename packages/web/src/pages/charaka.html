@@ -1,105 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Charaka Guide – AyurTime</title>
-  <link rel="stylesheet" href="../../src/styles/main.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Charaka Samhita Explorer - AyurTime</title>
+    <link rel="stylesheet" href="../../src/styles/main.css" />
+    <style>
+        .sthana-container { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .sthana-chip { 
+            padding: 8px 16px; border-radius: 20px; background: #f0f0f0; cursor: pointer; 
+            border: 1px solid #ddd; transition: all 0.3s;
+        }
+        .sthana-chip.active { background: #4caf50; color: white; border-color: #4caf50; }
+        .chapter-card { 
+            border: 1px solid #eee; padding: 15px; margin-bottom: 15px; border-radius: 8px; 
+            background: white; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .chapter-card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .detail-view { background: white; padding: 20px; border-radius: 12px; display: none; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 5px; background: #e8f5e9; color: #2e7d32; }
+        .bookmark-btn { float: right; cursor: pointer; color: #ccc; font-size: 1.5rem; }
+        .bookmark-btn.active { color: #f44336; }
+        .search-box { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ddd; }
+        .dosha-tip { background: #fff3e0; border-left: 4px solid #ff9800; padding: 10px; margin-bottom: 20px; border-radius: 4px; }
+        @media (max-width: 600px) { .sthana-container { justify-content: center; } }
+    </style>
 </head>
 <body>
-  <header class="app-header">
-    <div class="logo">
-      <span class="logo-icon">🌿</span>
-      <span class="logo-text">AyurTime</span>
-    </div>
-    <nav class="main-nav">
-      <a href="../../index.html" class="nav-link">Home</a>
-      <a href="calendar.html" class="nav-link">Vrat Calendar</a>
-      <a href="charaka.html" class="nav-link active">Charaka Guide</a>
-      <a href="alerts.html" class="nav-link">Alerts</a>
-    </nav>
-    <div class="dosha-badge">📖 Charaka</div>
-  </header>
+    <header class="app-header">
+        <div class="logo">
+            <span class="logo-text">AyurTime Explorer</span>
+        </div>
+        <nav class="main-nav">
+            <a href="../../index.html" class="nav-link">Home</a>
+            <a href="charaka.html" class="nav-link active">Charaka Guide</a>
+            <a href="calendar.html" class="nav-link">Vrat Calendar</a>
+        </nav>
+    </header>
 
-  <main class="app-main">
-    <div class="page-header">
-      <h1>📖 Charaka Samhita Knowledge</h1>
-      <p>Ancient Ayurvedic wisdom for your modern daily life</p>
-    </div>
+    <main class="app-main">
+        <div id="doshaTipArea"></div>
 
-    <div style="display:flex; gap:0.75rem; margin-bottom:1.5rem; flex-wrap:wrap;" id="categoryFilters"></div>
+        <h1>Charaka Samhita Knowledge Module</h1>
+        <input type="text" id="searchInput" class="search-box" placeholder="Search by chapter name or tag (e.g. diet, agni)..." />
 
-    <div id="charakaGrid" class="charaka-grid">Loading Charaka wisdom...</div>
-  </main>
+        <div id="sthanaList" class="sthana-container"></div>
 
-  <footer class="app-footer">
-    <p>AyurTime MVP – Phase 1 | Charaka Samhita Knowledge Module</p>
-  </footer>
+        <div id="listView">
+            <div id="chapterCount" style="margin-bottom: 10px; font-weight: bold;"></div>
+            <div id="chapterGrid"></div>
+        </div>
 
-  <style>
-    .filter-btn {
-      padding: 0.4rem 1rem;
-      border: 1.5px solid #2e7d32;
-      background: white;
-      color: #2e7d32;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-    .filter-btn.active, .filter-btn:hover { background: #2e7d32; color: white; }
-  </style>
+        <div id="detailView" class="detail-view">
+            <span id="closeDetail" style="cursor: pointer; color: #666;">&larr; Back to list</span>
+            <span id="bookmarkBtn" class="bookmark-btn">&hearts;</span>
+            <h2 id="detailName"></h2>
+            <p><strong id="detailSthana"></strong> | Chapter <span id="detailNum"></span></p>
+            <hr>
+            <p><strong>Summary:</strong> <span id="detailSummary"></span></p>
+            <p><strong>Key Concepts:</strong> <span id="detailConcepts"></span></p>
+            <div id="detailTags" style="margin-top: 10px;"></div>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: #666;"><em>Source: <span id="detailRef"></span></em></p>
+        </div>
+    </main>
 
-  <script>
-    let allTopics = [];
+    <script>
+        let allChapters = [];
+        let bookmarks = JSON.parse(localStorage.getItem('ayurtime_charaka_bookmarks') || '[]');
+        let currentSthana = 'All';
 
-    fetch('../../src/data/charaka-samhita.json')
-      .then(r => r.json())
-      .then(data => {
-        allTopics = data.topics;
-        buildFilters();
-        renderTopics(allTopics);
-      })
-      .catch(() => {
-        document.getElementById('charakaGrid').innerHTML = '<p style="color:#e65100;">Could not load data. Run on local server.</p>';
-      });
+        async function init() {
+            try {
+                const response = await fetch('../data/charaka-samhita.json');
+                const data = await response.json();
+                allChapters = data.chapters;
+                
+                checkDoshaRoutine();
+                renderSthanas();
+                renderChapters();
+            } catch (e) { console.error("Error loading Charaka data", e); }
+        }
 
-    function buildFilters() {
-      const cats = ['All', ...new Set(allTopics.map(t => t.category))];
-      const html = cats.map((c, i) =>
-        `<button class="filter-btn ${i===0?'active':''}" onclick="filterTopics('${c}', this)">${c}</button>`
-      ).join('');
-      document.getElementById('categoryFilters').innerHTML = html;
-    }
+        function checkDoshaRoutine() {
+            const routine = JSON.parse(localStorage.getItem('ayurtime_routine') || 'null');
+            if (routine && routine.dosha) {
+                const area = document.getElementById('doshaTipArea');
+                const tips = {
+                    'Vata': 'Vata imbalance? Focus on Sthana 1, Chapter 5 (Matrashitiya) for grounded eating habits.',
+                    'Pitta': 'High Pitta? Explore Seasonal Routine in Sthana 1, Chapter 6 for cooling rituals.',
+                    'Kapha': 'Kapha dominance? Review Agni management in Chikitsa Sthana, Chapter 15.'
+                };
+                area.innerHTML = `<div class="dosha-tip"><strong>Personalized Tip:</strong> ${tips[routine.dosha] || 'Follow the ancient wisdom for your balance.'}</div>`;
+            }
+        }
 
-    function renderTopics(topics) {
-      const html = topics.map(t => `
-        <div class="charaka-card">
-          <span class="category">${t.category}</span>
-          <h4>${t.title}</h4>
-          <p class="shloka">“${t.shloka}”</p>
-          <p style="font-size:0.75rem; color:#757575; margin-bottom:0.5rem;">${t.chapter}</p>
-          <p>${t.description}</p>
-          <div style="margin-top:0.75rem; background:#e8f5e9; border-radius:8px; padding:0.6rem 0.8rem;">
-            <strong style="color:#2e7d32;">Daily Tip:</strong>
-            <p style="margin-top:0.2rem; font-size:0.85rem;">${t.daily_tip}</p>
-          </div>
-          <div style="margin-top:0.6rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
-            <span style="font-size:0.75rem; background:#fff8e1; color:#e65100; padding:0.2rem 0.6rem; border-radius:10px;">V: ${t.dosha_impact.vata}</span>
-            <span style="font-size:0.75rem; background:#fce4ec; color:#c62828; padding:0.2rem 0.6rem; border-radius:10px;">P: ${t.dosha_impact.pitta}</span>
-            <span style="font-size:0.75rem; background:#e3f2fd; color:#0277bd; padding:0.2rem 0.6rem; border-radius:10px;">K: ${t.dosha_impact.kapha}</span>
-          </div>
-        </div>`).join('');
-      document.getElementById('charakaGrid').innerHTML = html || '<p>No topics found.</p>';
-    }
+        function renderSthanas() {
+            const sthanas = ['All', ...new Set(allChapters.map(c => c.sthana))];
+            const container = document.getElementById('sthanaList');
+            container.innerHTML = sthanas.map(s => {
+                const count = s === 'All' ? allChapters.length : allChapters.filter(c => c.sthana === s).length;
+                return `<div class="sthana-chip ${currentSthana === s ? 'active' : ''}" onclick="filterBySthana('${s}')">${s} (${count})</div>`;
+            }).join('');
+        }
 
-    function filterTopics(cat, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      if (cat === 'All') renderTopics(allTopics);
-      else renderTopics(allTopics.filter(t => t.category === cat));
-    }
-  </script>
+        function filterBySthana(s) {
+            currentSthana = s;
+            renderSthanas();
+            renderChapters();
+        }
+
+        function renderChapters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allChapters.filter(c => {
+                const matchesSthana = currentSthana === 'All' || c.sthana === currentSthana;
+                const matchesSearch = c.chapter_name.toLowerCase().includes(searchTerm) || 
+                                    c.tags.some(t => t.toLowerCase().includes(searchTerm));
+                return matchesSthana && matchesSearch;
+            });
+
+            document.getElementById('chapterCount').innerText = `${filtered.length} Chapters Found`;
+            const grid = document.getElementById('chapterGrid');
+            grid.innerHTML = filtered.map(c => `
+                <div class="chapter-card" onclick="showDetail('${c.id}')">
+                    <div style="font-weight: bold;">${c.chapter_name}</div>
+                    <div style="font-size: 0.85rem; color: #666;">${c.sthana} - Chapter ${c.chapter_number}</div>
+                    <div style="margin-top: 5px;">${c.tags.slice(0,3).map(t => `<span class="badge">${t}</span>`).join('')}</div>
+                </div>
+            `).join('');
+        }
+
+        function showDetail(id) {
+            const c = allChapters.find(ch => ch.id === id);
+            document.getElementById('listView').style.display = 'none';
+            document.getElementById('detailView').style.display = 'block';
+            
+            document.getElementById('detailName').innerText = c.chapter_name;
+            document.getElementById('detailSthana').innerText = c.sthana;
+            document.getElementById('detailNum').innerText = c.chapter_number;
+            document.getElementById('detailSummary').innerText = c.summary;
+            document.getElementById('detailConcepts').innerText = c.key_concepts.join(', ');
+            document.getElementById('detailRef').innerText = c.reference;
+            document.getElementById('detailTags').innerHTML = c.tags.map(t => `<span class="badge">${t}</span>`).join('');
+            
+            const btn = document.getElementById('bookmarkBtn');
+            btn.className = 'bookmark-btn ' + (bookmarks.includes(id) ? 'active' : '');
+            btn.onclick = () => toggleBookmark(id);
+        }
+
+        function toggleBookmark(id) {
+            if (bookmarks.includes(id)) {
+                bookmarks = bookmarks.filter(b => b !== id);
+            } else {
+                bookmarks.push(id);
+            }
+            localStorage.setItem('ayurtime_charaka_bookmarks', JSON.stringify(bookmarks));
+            const btn = document.getElementById('bookmarkBtn');
+            btn.classList.toggle('active');
+        }
+
+        document.getElementById('closeDetail').onclick = () => {
+            document.getElementById('detailView').style.display = 'none';
+            document.getElementById('listView').style.display = 'block';
+        };
+
+        document.getElementById('searchInput').oninput = renderChapters;
+
+        init();
+    </script>
 </body>
 </html>
