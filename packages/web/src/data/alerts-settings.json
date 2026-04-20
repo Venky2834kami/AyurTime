@@ -1,0 +1,139 @@
+{
+  "meta": {
+    "title": "AyurTime Smart Alerts & Reminder Settings",
+    "description": "Default Ayurvedic daily routine alert configuration",
+    "version": "1.0.0"
+  },
+  "default_alerts": [
+    {
+      "id": "a001",
+      "name": "Brahma Muhurta Wake-up",
+      "time": "05:15",
+      "enabled": true,
+      "category": "dinacharya",
+      "message": "Rise and shine! Brahma Muhurta - best time for meditation and prana.",
+      "ayurveda_tip": "Sip warm water. Do not check phone. Meditate for 10 minutes.",
+      "days": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+    },
+    {
+      "id": "a002",
+      "name": "Morning Warm Water",
+      "time": "06:00",
+      "enabled": true,
+      "category": "hydration",
+      "message": "Drink 1-2 glasses of warm water to cleanse bowels and activate agni.",
+      "ayurveda_tip": "Add lemon or ginger to warm water for agni activation.",
+      "days": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+    },
+    {
+      "id": "a003",
+      "name": "Abhyanga Reminder",
+      "time": "06:30",
+      "enabled": true,
+      "category": "dinacharya",
+      "message": "Self-massage time - 10 mins of abhyanga before bath.",
+      "ayurveda_tip": "Use sesame oil (Vata), coconut oil (Pitta), or mustard oil (Kapha).",
+      "days": ["Mon","Wed","Fri","Sun"]
+    },
+    {
+      "id": "a004",
+      "name": "Breakfast Time",
+      "time": "07:30",
+      "enabled": true,
+      "category": "ahara",
+      "message": "Time for sattvic breakfast. Eat warm, light, and nourishing food.",
+      "ayurveda_tip": "Avoid heavy foods at breakfast. Upma, poha, fruit, or warm milk are ideal.",
+      "days": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+    },
+    {
+      "id": "a005",
+      "name": "Main Meal - Noon",
+      "time": "12:30",
+      "enabled": true,
+      "category": "ahara",
+      "message": "Noon meal time - your agni is strongest now. Eat your largest meal.",
+      "ayurveda_tip": "Eat in silence. Chew 32 times. No cold drinks with meals.",
+      "days": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+    },
+    {
+      "id": "a006",
+      "name": "Post-Lunch Walk",
+      "time": "13:15",
+      "enabled": true,
+      "category": "vyayama",
+      "message": "Take a short 10-minute walk after lunch to aid digestion.",
+      "ayurveda_tip": "Vajrasana (sitting on heels) for 5 min after meals also aids digestion.",
+      "days": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+    },
+    {
+      "id": "a007",
+      "name": "Evening Snack",
+      "time": "17:00",
+      "enabled": true,
+      "category": "ahara",
+      "message": "Light evening snack time - fruits or herbal tea.",
+      "ayurveda_tip": "Avoid heavy snacks. Tulsi tea or fruit is ideal at this hour.",
+      "days": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+    },
+    {
+      "id": "a008",
+      "name": "Evening Meditation",
+      "time": "18:30",
+      "enabled": true,
+      "category": "manas",
+      "message": "Evening meditation/prayer time. Sandyavandana or silent meditation.",
+      "ayurveda_tip": "Light a ghee lamp or incense. Chant Om or Gayatri Mantra 108 times.",
+      "days": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+    },
+    {
+      "id": "a009",
+      "name": "Light Dinner",
+      "time": "19:30",
+      "enabled": true,
+      "category": "ahara",
+      "message": "Light dinner time. Eat by 7-8 PM for good digestion and sleep.",
+      "ayurveda_tip": "Avoid heavy protein and dairy at night. Khichdi or soup is ideal.",
+      "days": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+    },
+    {
+      "id": "a010",
+      "name": "Triphala Bedtime",
+      "time": "21:00",
+      "enabled": true,
+      "category": "rasayana",
+      "message": "Take Triphala in warm water before bed for gentle overnight cleanse.",
+      "ayurveda_tip": "1 tsp Triphala + 1 cup warm water. Swish around mouth then drink.",
+      "days": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+    },
+    {
+      "id": "a011",
+      "name": "Sleep Time",
+      "time": "22:00",
+      "enabled": true,
+      "category": "nidra",
+      "message": "Lights out. Sleep before 10 PM for optimal dosha balance.",
+      "ayurveda_tip": "Apply sesame oil to feet. No screens. Sleep on left side for better digestion.",
+      "days": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+    },
+    {
+      "id": "a012",
+      "name": "Vrat Day Alert",
+      "time": "05:30",
+      "enabled": true,
+      "category": "spiritual",
+      "message": "Today is a Vrat day. Prepare your sattvic fasting items.",
+      "ayurveda_tip": "Allowed: fruits, milk, sabudana, sendha namak, dry fruits. No grains.",
+      "days": ["dynamic"]
+    }
+  ],
+  "categories": [
+    { "id": "dinacharya", "label": "Daily Routine", "icon": "sunrise", "color": "#ff8f00" },
+    { "id": "ahara", "label": "Food & Eating", "icon": "food", "color": "#2e7d32" },
+    { "id": "hydration", "label": "Hydration", "icon": "water", "color": "#0277bd" },
+    { "id": "vyayama", "label": "Exercise", "icon": "walk", "color": "#6a1b9a" },
+    { "id": "manas", "label": "Mind & Spirit", "icon": "meditation", "color": "#4527a0" },
+    { "id": "nidra", "label": "Sleep", "icon": "moon", "color": "#37474f" },
+    { "id": "rasayana", "label": "Rejuvenation", "icon": "herb", "color": "#558b2f" },
+    { "id": "spiritual", "label": "Spiritual", "icon": "om", "color": "#e65100" }
+  ]
+}
