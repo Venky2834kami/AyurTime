@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Alerts – AyurTime</title>
+  <link rel="stylesheet" href="../../src/styles/main.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="logo">
+      <span class="logo-icon">🌿</span>
+      <span class="logo-text">AyurTime</span>
+    </div>
+    <nav class="main-nav">
+      <a href="../../index.html" class="nav-link">Home</a>
+      <a href="calendar.html" class="nav-link">Vrat Calendar</a>
+      <a href="charaka.html" class="nav-link">Charaka Guide</a>
+      <a href="alerts.html" class="nav-link active">Alerts</a>
+    </nav>
+    <div class="dosha-badge">🔔 Alerts</div>
+  </header>
+
+  <main class="app-main">
+    <div class="page-header">
+      <h1>🔔 Smart Ayurvedic Reminders</h1>
+      <p>Personalized daily alerts based on Dinacharya – your Ayurvedic daily routine</p>
+    </div>
+
+    <div id="saveNotice" style="display:none; background:#e8f5e9; border:1px solid #2e7d32; border-radius:8px; padding:0.75rem 1rem; margin-bottom:1rem; color:#2e7d32; font-weight:600;">
+      ✅ Settings saved to local storage!
+    </div>
+
+    <div id="alertsList"></div>
+
+    <div style="text-align:center; margin-top:2rem;">
+      <button class="btn-primary" onclick="saveSettings()">Save My Alert Settings</button>
+    </div>
+
+    <div style="margin-top:2.5rem; background:white; border-radius:12px; padding:1.5rem; box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+      <h3 class="section-title">ℹ️ About Ayurvedic Dinacharya</h3>
+      <p style="color:#757575; line-height:1.7;">Dinacharya means ‘daily routine’ in Sanskrit. Charaka Samhita (Sutrasthana Ch.5) prescribes a complete routine aligned with nature's rhythms. Following dinacharya balances the doshas, strengthens agni, and promotes longevity (ayu).</p>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>AyurTime MVP – Phase 1 | Smart Ayurvedic Reminders</p>
+  </footer>
+
+  <style>
+    .alert-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-left: 4px solid #2e7d32;
+    }
+    .alert-time {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #2e7d32;
+      min-width: 60px;
+    }
+    .alert-info { flex: 1; }
+    .alert-name { font-weight: 600; margin-bottom: 0.2rem; }
+    .alert-msg { font-size: 0.85rem; color: #757575; }
+    .alert-tip { font-size: 0.8rem; color: #ff8f00; margin-top: 0.2rem; }
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #ccc;
+      border-radius: 24px;
+      transition: 0.3s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px; width: 18px;
+      left: 3px; bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    input:checked + .slider { background: #2e7d32; }
+    input:checked + .slider:before { transform: translateX(20px); }
+  </style>
+
+  <script>
+    let alertsData = [];
+
+    fetch('../../src/data/alerts-settings.json')
+      .then(r => r.json())
+      .then(data => {
+        const saved = JSON.parse(localStorage.getItem('ayurtime_alerts') || 'null');
+        alertsData = saved || data.default_alerts;
+        renderAlerts();
+      })
+      .catch(() => {
+        document.getElementById('alertsList').innerHTML = '<p style="color:#e65100;">Could not load alerts. Run on local server.</p>';
+      });
+
+    function renderAlerts() {
+      const html = alertsData.map(a => `
+        <div class="alert-card" id="card_${a.id}">
+          <div class="alert-time">${a.time}</div>
+          <div class="alert-info">
+            <div class="alert-name">${a.name}</div>
+            <div class="alert-msg">${a.message}</div>
+            <div class="alert-tip">🌿 ${a.ayurveda_tip}</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle_${a.id}" ${a.enabled ? 'checked' : ''} onchange="toggleAlert('${a.id}', this.checked)" />
+            <span class="slider"></span>
+          </label>
+        </div>`).join('');
+      document.getElementById('alertsList').innerHTML = html;
+    }
+
+    function toggleAlert(id, enabled) {
+      const alert = alertsData.find(a => a.id === id);
+      if (alert) alert.enabled = enabled;
+      const card = document.getElementById('card_' + id);
+      if (card) card.style.opacity = enabled ? '1' : '0.5';
+    }
+
+    function saveSettings() {
+      localStorage.setItem('ayurtime_alerts', JSON.stringify(alertsData));
+      const notice = document.getElementById('saveNotice');
+      notice.style.display = 'block';
+      setTimeout(() => notice.style.display = 'none', 3000);
+    }
+  </script>
+</body>
+</html>
