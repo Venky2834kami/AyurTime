@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vrat Calendar – AyurTime</title>
+  <title>Vrat Calendar - AyurTime</title>
   <link rel="stylesheet" href="../../src/styles/main.css" />
 </head>
 <body>
@@ -27,94 +27,190 @@
       <p>Ekadashi · Chaturthi · Pradosh · Shivratri · Amavasya</p>
     </div>
 
+    <!-- Dosha Fasting Banner -->
+    <div id="doshaBanner" style="margin-bottom:1.5rem;"></div>
+
+    <!-- Upcoming Vrats -->
+    <div style="margin-bottom:2rem;">
+      <h2 style="font-size:1.3rem; margin-bottom:0.75rem; color:#2e7d32;">⏰ Upcoming Vrats (Next 30 Days)</h2>
+      <div id="upcomingList" style="display:flex; gap:0.75rem; overflow-x:auto; padding-bottom:0.5rem;"></div>
+    </div>
+
+    <!-- Filter Buttons -->
     <div style="display:flex; gap:0.75rem; margin-bottom:1.5rem; flex-wrap:wrap;">
       <button class="filter-btn active" onclick="filterVrats('all')">All</button>
       <button class="filter-btn" onclick="filterVrats('Ekadashi')">Ekadashi</button>
       <button class="filter-btn" onclick="filterVrats('Chaturthi')">Chaturthi</button>
       <button class="filter-btn" onclick="filterVrats('Pradosh')">Pradosh</button>
-      <button class="filter-btn" onclick="filterVrats('Shivratri')">Shivratri</button>
+      <button class="filter-btn" onclick="filterVrats('Festival')">Festivals</button>
       <button class="filter-btn" onclick="filterVrats('Amavasya')">Amavasya</button>
+      <button class="filter-btn" onclick="filterVrats('Purnima')">Purnima</button>
     </div>
 
-    <div id="vratList" class="vrat-list">Loading vrat data...</div>
+    <!-- Vrat List -->
+    <div id="vratList" class="vrat-list"></div>
 
-    <div style="margin-top:2rem; background:white; border-radius:12px; padding:1.5rem; box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+    <!-- Detail Modal -->
+    <div id="vratModal" class="modal" style="display:none;" onclick="closeModal(event)">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <div id="modalBody"></div>
+      </div>
+    </div>
+
+    <!-- Info Section -->
+    <div style="margin-top:2.5rem; background:white; border-radius:12px; padding:1.5rem; box-shadow:0 2px 12px rgba(0,0,0,0.08);">
       <h3 class="section-title">🌿 Vrat Food Guide (from Bhagavad Gita)</h3>
       <div id="foodGuide"></div>
     </div>
   </main>
 
   <footer class="app-footer">
-    <p>AyurTime MVP – Phase 1 | Vrat Calendar powered by Vedic Panchang</p>
+    <p>AyurTime MVP - Phase 1 | Vrat Calendar powered by Vedic Panchang</p>
   </footer>
 
-  <style>
-    .filter-btn {
-      padding: 0.4rem 1rem;
-      border: 1.5px solid #2e7d32;
-      background: white;
-      color: #2e7d32;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-    .filter-btn.active, .filter-btn:hover {
-      background: #2e7d32;
-      color: white;
-    }
-  </style>
+<style>
+.filter-btn { padding: 0.4rem 1rem; border: 1.5px solid #2e7d32; background: white; color: #2e7d32; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: 0.3s; }
+.filter-btn:hover { background: #e8f5e9; }
+.filter-btn.active { background: #2e7d32; color: white; }
+.vrat-card { background: white; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: 0.3s; border-left: 4px solid #2e7d32; }
+.vrat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); transform: translateY(-2px); }
+.vrat-card.upcoming { border-left: 4px solid #ff6f00; background: #fff8e1; }
+.vrat-date { font-size: 0.9rem; font-weight: 700; color: #2e7d32; margin-bottom: 0.3rem; }
+.vrat-name { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.2rem; }
+.vrat-type { font-size: 0.8rem; color: #757575; }
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center; }
+.modal-content { background: white; border-radius: 12px; padding: 1.5rem; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; position: relative; }
+.modal-close { position: absolute; top: 1rem; right: 1rem; font-size: 1.8rem; cursor: pointer; color: #757575; }
+.modal-close:hover { color: #2e7d32; }
+.reminder-btn { background: #2e7d32; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 1rem; font-size: 0.95rem; }
+.reminder-btn:hover { background: #1b5e20; }
+.reminder-btn.saved { background: #757575; cursor: default; }
+</style>
 
-  <script>
-    let allVrats = [];
+<script>
+  let allVrats = [];
+  let currentFilter = 'all';
+  const today = new Date('2026-04-20');
+  const thirtyDaysLater = new Date(today);
+  thirtyDaysLater.setDate(today.getDate() + 30);
 
-    fetch('../../src/data/vrat-calendar.json')
-      .then(r => r.json())
-      .then(data => {
-        allVrats = data.vrats;
-        renderVrats(allVrats);
-        renderFoodGuide(data.food_guide);
-      })
-      .catch(() => {
-        document.getElementById('vratList').innerHTML = '<p style="color:#e65100;">Could not load vrat data. Make sure you are running on a local server.</p>';
-      });
+  const savedRoutine = JSON.parse(localStorage.getItem('ayurtime_routine') || 'null');
+  const savedReminders = JSON.parse(localStorage.getItem('ayurtime_vrat_reminders') || '[]');
 
-    function renderVrats(vrats) {
-      const today = new Date().toISOString().split('T')[0];
-      const sorted = [...vrats].sort((a, b) => new Date(a.date) - new Date(b.date));
-      const html = sorted.map(v => {
-        const isToday = v.date === today;
-        const d = new Date(v.date);
-        const dateStr = d.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
-        return `
-          <div class="vrat-item ${isToday ? 'today' : ''}">
-            <div class="vrat-date">${dateStr}</div>
-            <div>
-              <div class="vrat-name">${isToday ? '🔔 ' : ''}${v.name}</div>
-              <div class="vrat-desc">${v.deity} · ${v.significance}</div>
-              <div class="vrat-desc" style="margin-top:0.3rem; color:#2e7d32;">🕉 ${v.mantra}</div>
-              <div class="vrat-desc" style="margin-top:0.2rem;">🍽️ Allowed: ${v.sattvic_food.join(', ')}</div>
-            </div>
-            <span class="vrat-badge">${v.type}</span>
-          </div>`;
-      }).join('');
-      document.getElementById('vratList').innerHTML = html || '<p>No vrats found for this filter.</p>';
+  function renderDoshaBanner() {
+    const banner = document.getElementById('doshaBanner');
+    if (!savedRoutine || !savedRoutine.dosha) {
+      banner.innerHTML = '';
+      return;
     }
+    const dosha = savedRoutine.dosha;
+    const tips = {
+      Vata: 'Vata fasting tip: Prefer warm, grounding foods. Avoid cold, dry fasts. Include ghee and warm milk.',
+      Pitta: 'Pitta fasting tip: Favor cooling, calming foods. Avoid spicy, salty items. Include coconut water and fruits.',
+      Kapha: 'Kapha fasting tip: Light, dry fasting is ideal. Avoid heavy, oily foods. Include light fruits and herbal tea.'
+    };
+    const colors = { Vata: '#e8f5e9', Pitta: '#fff3e0', Kapha: '#e3f2fd' };
+    const borders = { Vata: '#2e7d32', Pitta: '#e65100', Kapha: '#1565c0' };
+    banner.style.background = colors[dosha] || '#f5f5f5';
+    banner.style.border = '1px solid ' + (borders[dosha] || '#ccc');
+    banner.style.color = borders[dosha] || '#333';
+    banner.style.padding = '0.85rem 1.1rem';
+    banner.style.borderRadius = '10px';
+    banner.style.fontWeight = '500';
+    banner.innerHTML = '🌿 <strong>' + dosha + ' Dosha Fasting Guidance:</strong> ' + (tips[dosha] || '');
+  }
 
-    function filterVrats(type) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
-      if (type === 'all') renderVrats(allVrats);
-      else renderVrats(allVrats.filter(v => v.type === type));
-    }
+  function isUpcoming(dateStr) {
+    const vDate = new Date(dateStr);
+    return vDate >= today && vDate <= thirtyDaysLater;
+  }
 
-    function renderFoodGuide(guide) {
-      document.getElementById('foodGuide').innerHTML = `
-        <p style="color:#2e7d32; font-style:italic; margin-bottom:0.75rem;">${guide.gita_reference}</p>
-        <p><strong style="color:#2e7d32;">✅ Allowed on Vrat:</strong> ${guide.allowed_on_vrat.join(' · ')}</p>
-        <p style="margin-top:0.5rem;"><strong style="color:#c62828;">❌ Forbidden on Vrat:</strong> ${guide.forbidden_on_vrat.join(' · ')}</p>`;
+  function renderUpcoming() {
+    const upcoming = allVrats.filter(v => isUpcoming(v.date));
+    const html = upcoming.slice(0, 5).map(v => `
+      <div class="vrat-card upcoming" style="min-width:200px; flex-shrink:0;" onclick="openModal('${v.id}')">
+        <div class="vrat-date">${formatDate(v.date)} · ${v.day_of_week}</div>
+        <div class="vrat-name">${v.name}</div>
+        <div class="vrat-type">🔥 ${v.type}</div>
+      </div>`).join('');
+    document.getElementById('upcomingList').innerHTML = html || '<p style="color:#757575;">No upcoming vrats in the next 30 days.</p>';
+  }
+
+  function renderVrats() {
+    const filtered = currentFilter === 'all' ? allVrats : allVrats.filter(v => v.type === currentFilter);
+    const html = filtered.map(v => {
+      const isUp = isUpcoming(v.date);
+      return `
+      <div class="vrat-card ${isUp ? 'upcoming' : ''}" onclick="openModal('${v.id}')">
+        <div class="vrat-date">${formatDate(v.date)} · ${v.day_of_week}</div>
+        <div class="vrat-name">${v.name}</div>
+        <div class="vrat-type">${v.type} · ${v.deity}</div>
+      </div>`;
+    }).join('');
+    document.getElementById('vratList').innerHTML = html;
+  }
+
+  function filterVrats(type) {
+    currentFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    renderVrats();
+  }
+
+  function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  function openModal(id) {
+    const vrat = allVrats.find(v => v.id === id);
+    if (!vrat) return;
+    const isReminded = savedReminders.includes(id);
+    const modalBody = document.getElementById('modalBody');
+    modalBody.innerHTML = `
+      <h2 style="color:#2e7d32; margin-bottom:0.5rem;">${vrat.name}</h2>
+      <p style="font-size:0.95rem; color:#757575; margin-bottom:1rem;">${formatDate(vrat.date)} · ${vrat.day_of_week}</p>
+      <div style="background:#f5f5f5; padding:0.75rem; border-radius:8px; margin-bottom:1rem;">
+        <p><strong>Type:</strong> ${vrat.type}</p>
+        <p><strong>Fasting:</strong> ${vrat.fasting_type}</p>
+        <p><strong>Deity:</strong> ${vrat.deity}</p>
+      </div>
+      <p style="line-height:1.6; color:#424242;"><strong>Significance:</strong> ${vrat.significance}</p>
+      <button class="reminder-btn ${isReminded ? 'saved' : ''}" onclick="toggleReminder('${id}')">
+        ${isReminded ? '✅ Reminder Set' : '🔔 Set Reminder'}
+      </button>
+    `;
+    document.getElementById('vratModal').style.display = 'flex';
+  }
+
+  function closeModal(event) {
+    if (!event || event.target.id === 'vratModal') {
+      document.getElementById('vratModal').style.display = 'none';
     }
-  </script>
+  }
+
+  function toggleReminder(id) {
+    let reminders = JSON.parse(localStorage.getItem('ayurtime_vrat_reminders') || '[]');
+    if (reminders.includes(id)) return;
+    reminders.push(id);
+    localStorage.setItem('ayurtime_vrat_reminders', JSON.stringify(reminders));
+    closeModal();
+    alert('✅ Reminder set for this vrat!');
+  }
+
+  renderDoshaBanner();
+
+  fetch('../../src/data/vrat-calendar.json')
+    .then(r => r.json())
+    .then(data => {
+      allVrats = data.vrats;
+      renderUpcoming();
+      renderVrats();
+    })
+    .catch(() => {
+      document.getElementById('vratList').innerHTML = '<p style="color:#e65100;">Could not load vrat data. Run on local server.</p>';
+    });
+</script>
 </body>
 </html>
