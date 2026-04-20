@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sattvic Food & Spirituality - AyurTime</title>
+  <style>
+    :root { --sattvic: #4caf50; --rajasic: #ff9800; --tamasic: #f44336; --spiritual: #673ab7; --bg: #f5f5f5; --card: #ffffff; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 0; color: #333; }
+    .header { background: var(--spiritual); color: white; padding: 20px; text-align: center; }
+    .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
+    .card { background: var(--card); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .score-circle { width: 100px; height: 100px; border-radius: 50%; border: 8px solid var(--sattvic); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5rem; font-weight: bold; color: var(--spiritual); }
+    .section-title { font-size: 1.1rem; color: var(--spiritual); margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    .meal-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+    .type-buttons { display: flex; gap: 5px; }
+    .type-btn { padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.8rem; cursor: pointer; opacity: 0.6; }
+    .type-btn.active { opacity: 1; border-width: 2px; }
+    .btn-sattvic.active { border-color: var(--sattvic); color: var(--sattvic); font-weight: bold; }
+    .btn-rajasic.active { border-color: var(--rajasic); color: var(--rajasic); font-weight: bold; }
+    .btn-tamasic.active { border-color: var(--tamasic); color: var(--tamasic); font-weight: bold; }
+    .practice-list { list-style: none; padding: 0; }
+    .practice-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding: 10px; border: 1px solid #eee; border-radius: 8px; cursor: pointer; }
+    .practice-item.active { background: #f3e5f5; border-color: var(--spiritual); }
+    .practice-icon { font-size: 1.2rem; }
+    .verse-box { font-style: italic; background: #fffde7; padding: 15px; border-left: 4px solid #fbc02d; margin-top: 20px; font-size: 0.9rem; }
+    .btn-save { display: block; width: 100%; padding: 15px; background: var(--spiritual); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    .trend-container { height: 100px; display: flex; align-items: flex-end; gap: 5px; margin-top: 10px; }
+    .trend-dot { flex: 1; background: #ddd; border-radius: 2px; transition: height 0.3s; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🧘 Sattva & Spirituality</h1>
+  </div>
+
+  <div class="container">
+    <div class="card" style="text-align: center;">
+      <div class="score-circle" id="sattvaScore">0.0</div>
+      <div>Daily Sattva Score</div>
+      <div class="trend-container" id="trendContainer"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Food Quality (Gita 17.8-10)</div>
+      <div id="mealTracker">
+        <div class="meal-row">
+          <span>Breakfast</span>
+          <div class="type-buttons" data-meal="breakfast">
+            <button class="type-btn btn-sattvic" onclick="setMeal('breakfast', 'sattvic')">Sattvic</button>
+            <button class="type-btn btn-rajasic" onclick="setMeal('breakfast', 'rajasic')">Rajasic</button>
+            <button class="type-btn btn-tamasic" onclick="setMeal('breakfast', 'tamasic')">Tamasic</button>
+          </div>
+        </div>
+        <div class="meal-row">
+          <span>Lunch</span>
+          <div class="type-buttons" data-meal="lunch">
+            <button class="type-btn btn-sattvic" onclick="setMeal('lunch', 'sattvic')">Sattvic</button>
+            <button class="type-btn btn-rajasic" onclick="setMeal('lunch', 'rajasic')">Rajasic</button>
+            <button class="type-btn btn-tamasic" onclick="setMeal('lunch', 'tamasic')">Tamasic</button>
+          </div>
+        </div>
+        <div class="meal-row">
+          <span>Dinner</span>
+          <div class="type-buttons" data-meal="dinner">
+            <button class="type-btn btn-sattvic" onclick="setMeal('dinner', 'sattvic')">Sattvic</button>
+            <button class="type-btn btn-rajasic" onclick="setMeal('dinner', 'rajasic')">Rajasic</button>
+            <button class="type-btn btn-tamasic" onclick="setMeal('dinner', 'tamasic')">Tamasic</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Spiritual Practices</div>
+      <div class="practice-list">
+        <div class="practice-item" onclick="togglePractice('meditation')">
+          <span class="practice-icon">🧘</span> <span>Meditation / Dhyana</span>
+        </div>
+        <div class="practice-item" onclick="togglePractice('japa')">
+          <span class="practice-icon">📿</span> <span>Japa (Chanting)</span>
+        </div>
+        <div class="practice-item" onclick="togglePractice('prayer')">
+          <span class="practice-icon">🙏</span> <span>Prayer / Gratitude</span>
+        </div>
+        <div class="practice-item" onclick="togglePractice('reading')">
+          <span class="practice-icon">📖</span> <span>Gita / Scripture Study</span>
+        </div>
+      </div>
+      
+      <button class="btn-save" onclick="saveDay()">Complete Reflection</button>
+    </div>
+
+    <div class="verse-box" id="verseBox">
+      <strong>Gita 17.8:</strong> "Foods that increase life, purity, strength, health, happiness and cheerfulness... are dear to those in the mode of goodness (Sattva)."
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'ayurtime_spirituality_log';
+    let log = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    let today = new Date().toISOString().split('T')[0];
+    let currentData = log[today] || { meals: {}, practices: [], score: 0 };
+
+    function setMeal(meal, type) {
+      currentData.meals[meal] = type;
+      document.querySelectorAll(`[data-meal="${meal}"] .type-btn`).forEach(b => b.classList.remove('active'));
+      document.querySelector(`[data-meal="${meal}"] .btn-${type}`).classList.add('active');
+      calculateScore();
+    }
+
+    function togglePractice(p) {
+      const idx = currentData.practices.indexOf(p);
+      if (idx > -1) currentData.practices.splice(idx, 1);
+      else currentData.practices.push(p);
+      
+      document.querySelectorAll('.practice-item').forEach(item => {
+        if(item.textContent.toLowerCase().includes(p)) item.classList.toggle('active');
+      });
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let score = 0;
+      // Meal scores: sattvic=2, rajasic=1, tamasic=0
+      Object.values(currentData.meals).forEach(t => {
+        if(t === 'sattvic') score += 2;
+        if(t === 'rajasic') score += 1;
+      });
+      // Practice scores: 1 point each
+      score += currentData.practices.length;
+      
+      // Normalize to 10
+      currentData.score = Math.min(10, score).toFixed(1);
+      document.getElementById('sattvaScore').textContent = currentData.score;
+    }
+
+    function saveDay() {
+feat(issue#11): implement sattvic food & spirituality goal module UI with sattva score trend      localStorage.setItem(STORAGE_KEY, JSON.stringify(log));
+feat(issue#11): implement sattvic food & spirituality goal module UI with sattva score trend      renderTrend();
+    }
+
+    function renderTrend() {
+      const container = document.getElementById('trendContainer');
+      container.innerHTML = '';
+      for(let i=14; i>=0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const key = d.toISOString().split('T')[0];
+        const dayScore = log[key] ? log[key].score : 0;
+        
+        const dot = document.createElement('div');
+        dot.className = 'trend-dot';
+        dot.style.height = (dayScore * 10) + '%';
+        if(dayScore > 7) dot.style.background = 'var(--sattvic)';
+        else if(dayScore > 4) dot.style.background = 'var(--rajasic)';
+        else if(dayScore > 0) dot.style.background = 'var(--tamasic)';
+        
+        container.appendChild(dot);
+      }
+    }
+
+    // Init UI
+    Object.keys(currentData.meals).forEach(m => setMeal(m, currentData.meals[m]));
+    currentData.practices.forEach(p => {
+       document.querySelectorAll('.practice-item').forEach(item => {
+        if(item.textContent.toLowerCase().includes(p)) item.classList.add('active');
+      });
+    });
+    document.getElementById('sattvaScore').textContent = currentData.score || '0.0';
+    renderTrend();
+  </script>
+</body>
+</html>
