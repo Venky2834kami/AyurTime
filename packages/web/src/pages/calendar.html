@@ -1,6 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vrat Calendar & Analytics - AyurTime</title>
+    <link rel="stylesheet" href="../../src/styles/main.css" />
+    <style>
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: white; padding: 1.25rem; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; border-bottom: 4px solid #eee; }
+        .stat-card.ekadashi { border-bottom-color: #2e7d32; }
+        .stat-card.chaturthi { border-bottom-color: #ff8f00; }
+        .stat-val { font-size: 1.8rem; font-weight: 800; color: #333; display: block; }
+        .stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #757575; font-weight: 700; }
+        
+        .filter-btn { padding: 0.4rem 1rem; border: 1.5px solid #2e7d32; background: white; color: #2e7d32; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: 0.3s; }
+        .filter-btn.active { background: #2e7d32; color: white; }
+        
+        .vrat-card { background: white; border-radius: 12px; padding: 1.2rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s; position: relative; }
+        .vrat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        .vrat-card.observed { border-right: 5px solid #2e7d32; }
+        .vrat-info { flex: 1; }
+        .log-checkbox { width: 24px; height: 24px; cursor: pointer; border-radius: 50%; appearance: none; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .log-checkbox:checked { background: #2e7d32; border-color: #2e7d32; }
+        .log-checkbox:checked::after { content: "✓"; color: white; font-size: 14px; font-weight: 900; }
+
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .modal-content { background: white; border-radius: 20px; padding: 2rem; max-width: 450px; width: 90%; position: relative; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 8px; }
+        .badge-vrat { background: #e8f5e9; color: #2e7d32; }
+        
+        .log-action-area { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <div class="logo"><span class="logo-icon">🌿</span><span class="logo-text">AyurTime</span></div>
+        <nav class="main-nav">
+            <a href="../../index.html" class="nav-link">Home</a>
+            <a href="calendar.html" class="nav-link active">Calendar</a>
+            <a href="charaka.html" class="nav-link">Guide</a>
+            <a href="alerts.html" class="nav-link">Alerts</a>
+        </nav>
+    </header>
+
+    <main class="app-main">
+        <div id="doshaBanner"></div>
+
+        <h1 style="margin-bottom: 1.5rem;">📊 Vrat Analytics</h1>
+        <div class="stats-grid">
+            <div class="stat-card ekadashi">
+                <span class="stat-val" id="countEkadashi">0/0</span>
+                <span class="stat-label">Ekadashi Adherence</span>
+            </div>
+            <div class="stat-card chaturthi">
+                <span class="stat-val" id="countChaturthi">0/0</span>
+                <span class="stat-label">Chaturthi Adherence</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-val" id="countTotal">0%</span>
+                <span class="stat-label">Overall Observance</span>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem; overflow-x:auto; padding-bottom:5px;">
+            <button class="filter-btn active" onclick="filterVrats('all', this)">All</button>
+            <button class="filter-btn" onclick="filterVrats('Ekadashi', this)">Ekadashi</button>
+            <button class="filter-btn" onclick="filterVrats('Chaturthi', this)">Chaturthi</button>
+            <button class="filter-btn" onclick="filterVrats('Amavasya', this)">Amavasya</button>
+            <button class="filter-btn" onclick="filterVrats('Festival', this)">Festivals</button>
+        </div>
+
+        <div id="vratList"></div>
+    </main>
+
+    <div id="vratModal" class="modal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div id="modalBody"></div>
+            <div class="log-action-area">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <input type="checkbox" id="modalLogCheck" class="log-checkbox" onchange="updateModalLog()">
+                    <label for="modalLogCheck" style="font-weight:600; cursor:pointer;">Mark as Observed</label>
+                </div>
+                <button class="btn-primary" id="modalReminderBtn" style="padding: 8px 16px;">Set Reminder</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allVrats = [];
+        let logs = JSON.parse(localStorage.getItem('ayurtime_vrat_logs') || '{}');
+        let reminders = JSON.parse(localStorage.getItem('ayurtime_vrat_reminders') || '[]');
+        const routine = JSON.parse(localStorage.getItem('ayurtime_routine') || 'null');
+        const today = new Date('2026-04-20');
+
+        async function init() {
+            try {
+                const r = await fetch('../../src/data/vrat-calendar.json');
+                const data = await r.json();
+                allVrats = data.vrats;
+                renderAnalytics();
+                renderVrats();
+                renderDoshaBanner();
+            } catch(e) { console.error(e); }
+        }
+
+        function renderDoshaBanner() {
+            if (!routine || !routine.dosha) return;
+            const tips = { Vata: 'Focus on warm grounding fasts.', Pitta: 'Cooling rituals only.', Kapha: 'Light dry fasting is best.' };
+            document.getElementById('doshaBanner').innerHTML = `<div style="background:#e8f5e9; padding:15px; border-radius:12px; margin-bottom:20px; border-left:5px solid #2e7d32;"><strong>${routine.dosha} Tip:</strong> ${tips[routine.dosha]}</div>`;
+        }
+
+        function renderAnalytics() {
+            const pastVrats = allVrats.filter(v => new Date(v.date) <= today);
+            const getObserved = (type) => pastVrats.filter(v => (type === 'all' || v.type === type) && logs[v.id]).length;
+            const getTotal = (type) => pastVrats.filter(v => (type === 'all' || v.type === type)).length;
+
+            const ekCount = getObserved('Ekadashi');
+            const ekTotal = getTotal('Ekadashi');
+            const chCount = getObserved('Chaturthi');
+            const chTotal = getTotal('Chaturthi');
+            
+            document.getElementById('countEkadashi').textContent = `${ekCount}/${ekTotal}`;
+            document.getElementById('countChaturthi').textContent = `${chCount}/${chTotal}`;
+            
+            const totalObs = getObserved('all');
+            const totalDays = pastVrats.length;
+            document.getElementById('countTotal').textContent = totalDays ? Math.round((totalObs/totalDays)*100) + '%' : '0%';
+        }
+
+        function renderVrats(filter = 'all') {
+            const container = document.getElementById('vratList');
+            const filtered = filter === 'all' ? allVrats : allVrats.filter(v => v.type === filter);
+            
+            container.innerHTML = filtered.map(v => `
+                <div class="vrat-card ${logs[v.id] ? 'observed' : ''}" onclick="openModal('${v.id}')">
+                    <div class="vrat-info">
+                        <div style="font-size:0.85rem; font-weight:700; color:#2e7d32;">${v.date}</div>
+                        <div style="font-weight:700; font-size:1.1rem;">${v.name}</div>
+                        <div style="font-size:0.8rem; color:#666;">${v.type} • ${v.deity}</div>
+                    </div>
+                    <input type="checkbox" class="log-checkbox" ${logs[v.id] ? 'checked' : ''} 
+                           onclick="event.stopPropagation(); toggleLog('${v.id}')">
+                </div>
+            `).join('');
+        }
+
+        function toggleLog(id) {
+            logs[id] = !logs[id];
+            if (!logs[id]) delete logs[id];
+            localStorage.setItem('ayurtime_vrat_logs', JSON.stringify(logs));
+            renderAnalytics();
+            renderVrats();
+        }
+
+        let activeModalId = null;
+        function openModal(id) {
+            activeModalId = id;
+            const v = allVrats.find(x => x.id === id);
+            document.getElementById('modalBody').innerHTML = `
+                <span class="badge badge-vrat">${v.type}</span>
+                <h2 style="color:#2e7d32;">${v.name}</h2>
+                <p style="color:#666; margin-bottom:1rem;">${v.date} • ${v.day_of_week}</p>
+                <div style="background:#f9f9f9; padding:15px; border-radius:12px; font-size:0.9rem;">
+                    <strong>Fasting:</strong> ${v.fasting_type}<br>
+                    <strong>Significance:</strong> ${v.significance}
+                </div>
+            `;
+            document.getElementById('modalLogCheck').checked = !!logs[id];
+            const btn = document.getElementById('modalReminderBtn');
+            const isSaved = reminders.includes(id);
+            btn.textContent = isSaved ? '✓ Reminder Set' : 'Set Reminder';
+            btn.className = isSaved ? 'filter-btn active' : 'btn-primary';
+            btn.onclick = () => toggleReminder(id);
+            document.getElementById('vratModal').style.display = 'flex';
+        }
+
+        function updateModalLog() {
+            if (activeModalId) toggleLog(activeModalId);
+        }ctrl+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vrat Calendar - AyurTime</title>
@@ -18,199 +197,200 @@
       <a href="charaka.html" class="nav-link">Charaka Guide</a>
       <a href="alerts.html" class="nav-link">Alerts</a>
     </nav>
-    <div class="dosha-badge">📅 Calendar</div>
+    <div class="dosha-badge">🗓️ Calendar</div>
   </header>
 
   <main class="app-main">
     <div class="page-header">
-      <h1>📅 Hindu Vrat Calendar</h1>
-      <p>Ekadashi · Chaturthi · Pradosh · Shivratri · Amavasya</p>
+      <h1>Hindu Vrat Calendar</h1>
+      <p>Ekadashi • Chaturthi • Pradosh • Shivratri • Amavasya</p>
     </div>
 
-    <!-- Dosha Fasting Banner -->
-    <div id="doshaBanner" style="margin-bottom:1.5rem;"></div>
-
-    <!-- Upcoming Vrats -->
-    <div style="margin-bottom:2rem;">
-      <h2 style="font-size:1.3rem; margin-bottom:0.75rem; color:#2e7d32;">⏰ Upcoming Vrats (Next 30 Days)</h2>
-      <div id="upcomingList" style="display:flex; gap:0.75rem; overflow-x:auto; padding-bottom:0.5rem;"></div>
-    </div>
-
-    <!-- Filter Buttons -->
-    <div style="display:flex; gap:0.75rem; margin-bottom:1.5rem; flex-wrap:wrap;">
-      <button class="filter-btn active" onclick="filterVrats('all')">All</button>
-      <button class="filter-btn" onclick="filterVrats('Ekadashi')">Ekadashi</button>
-      <button class="filter-btn" onclick="filterVrats('Chaturthi')">Chaturthi</button>
-      <button class="filter-btn" onclick="filterVrats('Pradosh')">Pradosh</button>
-      <button class="filter-btn" onclick="filterVrats('Festival')">Festivals</button>
-      <button class="filter-btn" onclick="filterVrats('Amavasya')">Amavasya</button>
-      <button class="filter-btn" onclick="filterVrats('Purnima')">Purnima</button>
-    </div>
-
-    <!-- Vrat List -->
-    <div id="vratList" class="vrat-list"></div>
-
-    <!-- Detail Modal -->
-    <div id="vratModal" class="modal" style="display:none;" onclick="closeModal(event)">
-      <div class="modal-content" onclick="event.stopPropagation()">
-        <span class="modal-close" onclick="closeModal()">&times;</span>
-        <div id="modalBody"></div>
+    <!-- Analytics Dashboard -->
+    <section class="analytics-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:2rem;">
+      <div class="card analytics-card" id="ekadashiStats">
+        <h4>Ekadashi Adherence</h4>
+        <div class="stat-value" id="ekadashiCount">0/0</div>
+        <div class="progress-bar"><div id="ekadashiProgress" class="progress-fill" style="width: 0%"></div></div>
       </div>
+      <div class="card analytics-card" id="chaturthiStats">
+        <h4>Chaturthi Adherence</h4>
+        <div class="stat-value" id="chaturthiCount">0/0</div>
+        <div class="progress-bar"><div id="chaturthiProgress" class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="card analytics-card" id="streakStats">
+        <h4>Current Streak</h4>
+        <div class="stat-value" id="currentStreak">0 Days</div>
+        <p style="font-size:0.8rem; color:#666;">Consecutive observances</p>
+      </div>
+    </section>
+
+    <div class="filter-bar" style="margin-bottom:1.5rem; display:flex; gap:0.5rem; overflow-x:auto; padding-bottom:0.5rem;">
+      <button class="filter-btn active" onclick="filterVrats('all', this)">All</button>
+      <button class="filter-btn" onclick="filterVrats('Ekadashi', this)">Ekadashi</button>
+      <button class="filter-btn" onclick="filterVrats('Chaturthi', this)">Chaturthi</button>
+      <button class="filter-btn" onclick="filterVrats('Pradosh', this)">Pradosh</button>
+      <button class="filter-btn" onclick="filterVrats('Shivratri', this)">Shivratri</button>
     </div>
 
-    <!-- Info Section -->
-    <div style="margin-top:2.5rem; background:white; border-radius:12px; padding:1.5rem; box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-      <h3 class="section-title">🌿 Vrat Food Guide (from Bhagavad Gita)</h3>
-      <div id="foodGuide"></div>
+    <div id="calendarContainer" class="vrat-list">
+      <!-- Vrat cards will be injected here -->
+      <div class="loading">Fetching auspicious dates...</div>
     </div>
   </main>
 
-  <footer class="app-footer">
-    <p>AyurTime MVP - Phase 1 | Vrat Calendar powered by Vedic Panchang</p>
-  </footer>
-
-<style>
-.filter-btn { padding: 0.4rem 1rem; border: 1.5px solid #2e7d32; background: white; color: #2e7d32; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: 0.3s; }
-.filter-btn:hover { background: #e8f5e9; }
-.filter-btn.active { background: #2e7d32; color: white; }
-.vrat-card { background: white; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: 0.3s; border-left: 4px solid #2e7d32; }
-.vrat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); transform: translateY(-2px); }
-.vrat-card.upcoming { border-left: 4px solid #ff6f00; background: #fff8e1; }
-.vrat-date { font-size: 0.9rem; font-weight: 700; color: #2e7d32; margin-bottom: 0.3rem; }
-.vrat-name { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.2rem; }
-.vrat-type { font-size: 0.8rem; color: #757575; }
-.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center; }
-.modal-content { background: white; border-radius: 12px; padding: 1.5rem; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; position: relative; }
-.modal-close { position: absolute; top: 1rem; right: 1rem; font-size: 1.8rem; cursor: pointer; color: #757575; }
-.modal-close:hover { color: #2e7d32; }
-.reminder-btn { background: #2e7d32; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 1rem; font-size: 0.95rem; }
-.reminder-btn:hover { background: #1b5e20; }
-.reminder-btn.saved { background: #757575; cursor: default; }
-</style>
-
-<script>
-  let allVrats = [];
-  let currentFilter = 'all';
-  const today = new Date('2026-04-20');
-  const thirtyDaysLater = new Date(today);
-  thirtyDaysLater.setDate(today.getDate() + 30);
-
-  const savedRoutine = JSON.parse(localStorage.getItem('ayurtime_routine') || 'null');
-  const savedReminders = JSON.parse(localStorage.getItem('ayurtime_vrat_reminders') || '[]');
-
-  function renderDoshaBanner() {
-    const banner = document.getElementById('doshaBanner');
-    if (!savedRoutine || !savedRoutine.dosha) {
-      banner.innerHTML = '';
-      return;
-    }
-    const dosha = savedRoutine.dosha;
-    const tips = {
-      Vata: 'Vata fasting tip: Prefer warm, grounding foods. Avoid cold, dry fasts. Include ghee and warm milk.',
-      Pitta: 'Pitta fasting tip: Favor cooling, calming foods. Avoid spicy, salty items. Include coconut water and fruits.',
-      Kapha: 'Kapha fasting tip: Light, dry fasting is ideal. Avoid heavy, oily foods. Include light fruits and herbal tea.'
-    };
-    const colors = { Vata: '#e8f5e9', Pitta: '#fff3e0', Kapha: '#e3f2fd' };
-    const borders = { Vata: '#2e7d32', Pitta: '#e65100', Kapha: '#1565c0' };
-    banner.style.background = colors[dosha] || '#f5f5f5';
-    banner.style.border = '1px solid ' + (borders[dosha] || '#ccc');
-    banner.style.color = borders[dosha] || '#333';
-    banner.style.padding = '0.85rem 1.1rem';
-    banner.style.borderRadius = '10px';
-    banner.style.fontWeight = '500';
-    banner.innerHTML = '🌿 <strong>' + dosha + ' Dosha Fasting Guidance:</strong> ' + (tips[dosha] || '');
-  }
-
-  function isUpcoming(dateStr) {
-    const vDate = new Date(dateStr);
-    return vDate >= today && vDate <= thirtyDaysLater;
-  }
-
-  function renderUpcoming() {
-    const upcoming = allVrats.filter(v => isUpcoming(v.date));
-    const html = upcoming.slice(0, 5).map(v => `
-      <div class="vrat-card upcoming" style="min-width:200px; flex-shrink:0;" onclick="openModal('${v.id}')">
-        <div class="vrat-date">${formatDate(v.date)} · ${v.day_of_week}</div>
-        <div class="vrat-name">${v.name}</div>
-        <div class="vrat-type">🔥 ${v.type}</div>
-      </div>`).join('');
-    document.getElementById('upcomingList').innerHTML = html || '<p style="color:#757575;">No upcoming vrats in the next 30 days.</p>';
-  }
-
-  function renderVrats() {
-    const filtered = currentFilter === 'all' ? allVrats : allVrats.filter(v => v.type === currentFilter);
-    const html = filtered.map(v => {
-      const isUp = isUpcoming(v.date);
-      return `
-      <div class="vrat-card ${isUp ? 'upcoming' : ''}" onclick="openModal('${v.id}')">
-        <div class="vrat-date">${formatDate(v.date)} · ${v.day_of_week}</div>
-        <div class="vrat-name">${v.name}</div>
-        <div class="vrat-type">${v.type} · ${v.deity}</div>
-      </div>`;
-    }).join('');
-    document.getElementById('vratList').innerHTML = html;
-  }
-
-  function filterVrats(type) {
-    currentFilter = type;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-    renderVrats();
-  }
-
-  function formatDate(dateStr) {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-  }
-
-  function openModal(id) {
-    const vrat = allVrats.find(v => v.id === id);
-    if (!vrat) return;
-    const isReminded = savedReminders.includes(id);
-    const modalBody = document.getElementById('modalBody');
-    modalBody.innerHTML = `
-      <h2 style="color:#2e7d32; margin-bottom:0.5rem;">${vrat.name}</h2>
-      <p style="font-size:0.95rem; color:#757575; margin-bottom:1rem;">${formatDate(vrat.date)} · ${vrat.day_of_week}</p>
-      <div style="background:#f5f5f5; padding:0.75rem; border-radius:8px; margin-bottom:1rem;">
-        <p><strong>Type:</strong> ${vrat.type}</p>
-        <p><strong>Fasting:</strong> ${vrat.fasting_type}</p>
-        <p><strong>Deity:</strong> ${vrat.deity}</p>
+  <!-- Vrat Detail Modal -->
+  <div id="vratModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">×</button>
+      <div id="modalBody"></div>
+      <div class="modal-actions" style="margin-top:1.5rem; display:flex; flex-direction:column; gap:0.8rem;">
+        <label class="toggle-container" style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+          <input type="checkbox" id="modalLogCheck" onchange="updateModalLog()">
+          <span class="toggle-label">Mark as Observed</span>
+        </label>
+        <button id="modalReminderBtn" class="btn-primary">Set Reminder</button>
       </div>
-      <p style="line-height:1.6; color:#424242;"><strong>Significance:</strong> ${vrat.significance}</p>
-      <button class="reminder-btn ${isReminded ? 'saved' : ''}" onclick="toggleReminder('${id}')">
-        ${isReminded ? '✅ Reminder Set' : '🔔 Set Reminder'}
-      </button>
-    `;
-    document.getElementById('vratModal').style.display = 'flex';
-  }
+    </div>
+  </div>
 
-  function closeModal(event) {
-    if (!event || event.target.id === 'vratModal') {
+  <script>
+    let allVrats = [];
+    let logs = JSON.parse(localStorage.getItem('ayurtime_vrat_logs') || '{}');
+    let reminders = JSON.parse(localStorage.getItem('ayurtime_vrat_reminders') || '[]');
+
+    async function init() {
+      try {
+        const response = await fetch('../data/vrat-calendar.json');
+        const data = await response.json();
+        allVrats = data.vrats;
+        renderAnalytics();
+        renderVrats();
+      } catch (error) {
+        console.error('Error loading vrats:', error);
+        document.getElementById('calendarContainer').innerHTML = '<p>Error loading calendar. Please try again later.</p>';
+      }
+    }
+
+    function renderAnalytics() {
+      const types = ['Ekadashi', 'Chaturthi'];
+      types.forEach(type => {
+        const total = allVrats.filter(v => v.type === type).length;
+        const observed = allVrats.filter(v => v.type === type && logs[v.id]).length;
+        const pct = total > 0 ? (observed / total) * 100 : 0;
+        
+        document.getElementById(`${type.toLowerCase()}Count`).textContent = `${observed}/${total}`;
+        document.getElementById(`${type.toLowerCase()}Progress`).style.width = `${pct}%`;
+      });
+
+      // Simple streak calculation (mock for now based on recent logs)
+      const streak = Object.keys(logs).length; // Placeholder logic
+      document.getElementById('currentStreak').textContent = `${streak} Events`;
+    }
+
+    function renderVrats(filter = 'all') {
+      const container = document.getElementById('calendarContainer');
+      const filtered = filter === 'all' ? allVrats : allVrats.filter(v => v.type === filter);
+      
+      if (filtered.length === 0) {
+        container.innerHTML = '<p class="no-results">No observances found for this category.</p>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(v => `
+        <div class="card vrat-card ${logs[v.id] ? 'observed' : ''}" onclick="openModal('${v.id}')">
+          <div class="vrat-info">
+            <span class="badge badge-vrat">${v.type}</span>
+            <h3>${v.name}</h3>
+            <p class="vrat-date">${v.date} • ${v.day_of_week}</p>
+          </div>
+          <div class="vrat-status-icon ${logs[v.id] ? 'active' : ''}" 
+               onclick="event.stopPropagation(); toggleLog('${v.id}')">
+            ${logs[v.id] ? '✅' : '⭕'}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleLog(id) {
+      logs[id] = !logs[id];
+      if (!logs[id]) delete logs[id];
+      localStorage.setItem('ayurtime_vrat_logs', JSON.stringify(logs));
+      renderAnalytics();
+      renderVrats();
+    }
+
+    let activeModalId = null;
+    function openModal(id) {
+      activeModalId = id;
+      const v = allVrats.find(x => x.id === id);
+      document.getElementById('modalBody').innerHTML = `
+        <span class="badge badge-vrat">${v.type}</span>
+        <h2 style="color:#2e7d32;">${v.name}</h2>
+        <p style="color:#666; margin-bottom:1rem;">${v.date} • ${v.day_of_week}</p>
+        <div style="background:#f9f9f9; padding:15px; border-radius:12px; font-size:0.9rem;">
+          <strong>Fasting:</strong> ${v.fasting_type}<br><br>
+          <strong>Significance:</strong> ${v.significance}
+        </div>
+      `;
+      
+      document.getElementById('modalLogCheck').checked = !!logs[id];
+      const btn = document.getElementById('modalReminderBtn');
+      const isSaved = reminders.includes(id);
+      btn.textContent = isSaved ? '✓ Reminder Set' : 'Set Reminder';
+      btn.className = isSaved ? 'filter-btn active' : 'btn-primary';
+      btn.onclick = () => toggleReminder(id);
+      
+      document.getElementById('vratModal').style.display = 'flex';
+    }
+
+    function updateModalLog() {
+      if (activeModalId) toggleLog(activeModalId);
+    }
+
+    function toggleReminder(id) {
+      if (reminders.includes(id)) {
+        reminders = reminders.filter(r => r !== id);
+      } else {
+        reminders.push(id);
+      }
+      localStorage.setItem('ayurtime_vrat_reminders', JSON.stringify(reminders));
+      openModal(id); // refresh
+    }
+
+    function closeModal() {
       document.getElementById('vratModal').style.display = 'none';
     }
-  }
 
-  function toggleReminder(id) {
-    let reminders = JSON.parse(localStorage.getItem('ayurtime_vrat_reminders') || '[]');
-    if (reminders.includes(id)) return;
-    reminders.push(id);
-    localStorage.setItem('ayurtime_vrat_reminders', JSON.stringify(reminders));
-    closeModal();
-    alert('✅ Reminder set for this vrat!');
-  }
+    function filterVrats(type, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderVrats(type);
+    }
 
-  renderDoshaBanner();
+    init();
+  </script>
+</body>
+</html>
 
-  fetch('../../src/data/vrat-calendar.json')
-    .then(r => r.json())
-    .then(data => {
-      allVrats = data.vrats;
-      renderUpcoming();
-      renderVrats();
-    })
-    .catch(() => {
-      document.getElementById('vratList').innerHTML = '<p style="color:#e65100;">Could not load vrat data. Run on local server.</p>';
-    });
-</script>
+        function toggleReminder(id) {
+            if (reminders.includes(id)) {
+                reminders = reminders.filter(r => r !== id);
+            } else {
+                reminders.push(id);
+            }
+            localStorage.setItem('ayurtime_vrat_reminders', JSON.stringify(reminders));
+            openModal(id); // refresh
+        }
+
+        function closeModal(e) { document.getElementById('vratModal').style.display = 'none'; }
+        function filterVrats(type, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderVrats(type);
+        }
+
+        init();
+    </script>
 </body>
 </html>
