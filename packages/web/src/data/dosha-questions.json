@@ -1,0 +1,118 @@
+{
+  "version": "1.0",
+  "quiz": [
+    {
+      "id": 1,
+      "question": "How is your body frame?",
+      "options": [
+        { "text": "Thin, light — hard to gain weight", "scores": { "V": 2, "P": 0, "K": 0 } },
+        { "text": "Medium, muscular — moderate weight", "scores": { "V": 0, "P": 2, "K": 0 } },
+        { "text": "Broad, heavy — gain weight easily", "scores": { "V": 0, "P": 0, "K": 2 } }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "How is your skin usually?",
+      "options": [
+        { "text": "Dry, rough, or flaky", "scores": { "V": 2, "P": 0, "K": 0 } },
+        { "text": "Warm, oily, prone to redness or acne", "scores": { "V": 0, "P": 2, "K": 0 } },
+        { "text": "Moist, smooth, cool to touch", "scores": { "V": 0, "P": 0, "K": 2 } }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "How is your digestion?",
+      "options": [
+        { "text": "Irregular — sometimes good, sometimes not", "scores": { "V": 2, "P": 0, "K": 0 } },
+        { "text": "Strong — I get hungry quickly and often", "scores": { "V": 0, "P": 2, "K": 0 } },
+        { "text": "Slow — I can easily skip meals", "scores": { "V": 0, "P": 0, "K": 2 } }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "How is your sleep?",
+      "options": [
+        { "text": "Light — I wake up easily and sleep less", "scores": { "V": 2, "P": 0, "K": 0 } },
+        { "text": "Moderate — I fall asleep fast and wake refreshed", "scores": { "V": 0, "P": 2, "K": 0 } },
+        { "text": "Deep and long — hard to wake up", "scores": { "V": 0, "P": 0, "K": 2 } }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "How do you handle stress?",
+      "options": [
+        { "text": "I get anxious, worried, or overwhelmed", "scores": { "V": 2, "P": 0, "K": 0 } },
+        { "text": "I get irritable, frustrated, or sharp", "scores": { "V": 0, "P": 2, "K": 0 } },
+        { "text": "I stay calm but become withdrawn or stubborn", "scores": { "V": 0, "P": 0, "K": 2 } }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "What is your energy pattern?",
+      "options": [
+        { "text": "Bursts of energy, then quick fatigue", "scores": { "V": 2, "P": 0, "K": 0 } },
+        { "text": "Sustained, driven and goal-focused", "scores": { "V": 0, "P": 2, "K": 0 } },
+        { "text": "Steady but slow to start, good stamina", "scores": { "V": 0, "P": 0, "K": 2 } }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "How is your memory and mind?",
+      "options": [
+        { "text": "Quick to learn, quick to forget", "scores": { "V": 2, "P": 0, "K": 0 } },
+        { "text": "Sharp, focused, excellent at detail", "scores": { "V": 0, "P": 2, "K": 0 } },
+        { "text": "Slow to learn, but excellent long-term recall", "scores": { "V": 0, "P": 0, "K": 2 } }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "What is your appetite like?",
+      "options": [
+        { "text": "Variable — hungry some days, not others", "scores": { "V": 2, "P": 0, "K": 0 } },
+        { "text": "Strong and consistent — irritable if I miss meals", "scores": { "V": 0, "P": 2, "K": 0 } },
+        { "text": "Moderate — rarely feel very hungry", "scores": { "V": 0, "P": 0, "K": 2 } }
+      ]
+    }
+  ],
+  "routines": {
+    "Vata": {
+      "description": "Warm, grounding, and nourishing. Focus on regularity and warmth.",
+      "emoji": "🌬️",
+      "color": "#8B7BC8",
+      "reminders": [
+        { "id": "wake", "label": "Wake up & warm water", "time": "06:30", "enabled": true },
+        { "id": "breakfast", "label": "Light warm breakfast", "time": "07:30", "enabled": true },
+        { "id": "lunch", "label": "Main meal (Vata peak)", "time": "12:30", "enabled": true },
+        { "id": "evening_walk", "label": "Gentle evening walk", "time": "18:00", "enabled": true },
+        { "id": "dinner", "label": "Warm light dinner", "time": "19:30", "enabled": true },
+        { "id": "sleep", "label": "Wind down & sleep", "time": "22:00", "enabled": true }
+      ]
+    },
+    "Pitta": {
+      "description": "Cooling, calming, and structured. Avoid overheating and skipping meals.",
+      "emoji": "🔥",
+      "color": "#E07B54",
+      "reminders": [
+        { "id": "wake", "label": "Wake up & cool water", "time": "06:00", "enabled": true },
+        { "id": "breakfast", "label": "Breakfast before work", "time": "07:00", "enabled": true },
+        { "id": "lunch", "label": "Main meal (Pitta peak)", "time": "12:00", "enabled": true },
+        { "id": "rest", "label": "Avoid sun — rest break", "time": "14:00", "enabled": true },
+        { "id": "dinner", "label": "Light cooling dinner", "time": "19:00", "enabled": true },
+        { "id": "sleep", "label": "Wind down & sleep", "time": "22:30", "enabled": true }
+      ]
+    },
+    "Kapha": {
+      "description": "Energizing, stimulating, and light. Prioritize early rising and movement.",
+      "emoji": "🌊",
+      "color": "#4A9E8A",
+      "reminders": [
+        { "id": "wake", "label": "Early rise & exercise", "time": "05:30", "enabled": true },
+        { "id": "breakfast", "label": "Light breakfast only", "time": "07:30", "enabled": true },
+        { "id": "lunch", "label": "Main meal (Kapha peak)", "time": "12:00", "enabled": true },
+        { "id": "walk", "label": "Active evening walk", "time": "17:00", "enabled": true },
+        { "id": "dinner", "label": "Very light early dinner", "time": "18:30", "enabled": true },
+        { "id": "sleep", "label": "Wind down & sleep", "time": "22:00", "enabled": true }
+      ]
+    }
+  }
+}
