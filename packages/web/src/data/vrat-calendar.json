@@ -1,147 +1,264 @@
 {
   "meta": {
-    "title": "Hindu Vrat & Fasting Calendar 2025-2026",
-    "description": "Ekadashi, Chaturthi, Pradosh, Amavasya and major Hindu fasting days",
+    "title": "Hindu Vrat & Fasting Calendar 2026",
+    "description": "Ekadashi, Chaturthi, Pradosh, Amavasya and major Hindu fasting days for Pune, India (IST)",
     "source": "Vedic Panchang",
-    "version": "1.0.0"
+    "timezone": "Asia/Kolkata",
+    "year": 2026
   },
   "vrats": [
     {
-      "id": "e001",
+      "id": "v2601",
       "name": "Papmochani Ekadashi",
-      "date": "2025-04-05",
+      "date": "2026-04-05",
+      "day_of_week": "Sunday",
       "type": "Ekadashi",
+      "fasting_type": "Full day fast",
       "deity": "Lord Vishnu",
       "significance": "Destroys all sins; ideal for deep fasting and Vishnu puja",
-      "fasting_rules": "Full day fast, fruits and milk allowed, break next day after sunrise",
-      "mantra": "Om Namo Bhagavate Vasudevaya",
-      "sattvic_food": ["fruits", "milk", "sabudana", "singhare atta"]
+      "reminder_flag": true
     },
     {
-      "id": "e002",
+      "id": "v2602",
       "name": "Kamada Ekadashi",
-      "date": "2025-04-20",
+      "date": "2026-04-20",
+      "day_of_week": "Monday",
       "type": "Ekadashi",
+      "fasting_type": "Full day fast",
       "deity": "Lord Vishnu",
       "significance": "Fulfills desires; removes sins of previous births",
-      "fasting_rules": "Full day fast; break fast next morning with panchamrit",
-      "mantra": "Om Namo Bhagavate Vasudevaya",
-      "sattvic_food": ["fruits", "milk", "sabudana"]
+      "reminder_flag": true
     },
     {
-      "id": "c001",
-      "name": "Sankashti Chaturthi",
-      "date": "2025-04-17",
-      "type": "Chaturthi",
-      "deity": "Lord Ganesha",
-      "significance": "Removes obstacles; Ganesha grants wishes on this day",
-      "fasting_rules": "Day-long fast, break after moonrise with modak prasad",
-      "mantra": "Om Gan Ganapataye Namah",
-      "sattvic_food": ["fruits", "modak", "milk"]
-    },
-    {
-      "id": "e003",
+      "id": "v2603",
       "name": "Mohini Ekadashi",
-      "date": "2025-05-04",
+      "date": "2026-05-04",
+      "day_of_week": "Monday",
       "type": "Ekadashi",
+      "fasting_type": "Full day fast, no grains",
       "deity": "Lord Vishnu",
       "significance": "Liberation from cycle of birth and death",
-      "fasting_rules": "Full day fast; no grains, no onion-garlic",
-      "mantra": "Om Namo Bhagavate Vasudevaya",
-      "sattvic_food": ["fruits", "milk", "kuttu atta", "sabudana"]
+      "reminder_flag": true
     },
     {
-      "id": "c002",
-      "name": "Vinayaka Chaturthi",
-      "date": "2025-05-01",
-      "type": "Chaturthi",
-      "deity": "Lord Ganesha",
-      "significance": "Monthly Ganesha vrat for removing obstacles",
-      "fasting_rules": "Fast till evening, break with modak and coconut",
-      "mantra": "Om Gan Ganapataye Namah",
-      "sattvic_food": ["modak", "coconut", "fruits"]
-    },
-    {
-      "id": "e004",
+      "id": "v2604",
       "name": "Apara Ekadashi",
-      "date": "2025-05-19",
+      "date": "2026-05-19",
+      "day_of_week": "Tuesday",
       "type": "Ekadashi",
+      "fasting_type": "Full day fast",
       "deity": "Lord Vishnu",
-      "significance": "Grants fame, removes sins, ideal for spiritual seekers",
-      "fasting_rules": "Full fast; nightlong vigil with Vishnu bhajan",
-      "mantra": "Om Namo Bhagavate Vasudevaya",
-      "sattvic_food": ["fruits", "milk", "sabudana"]
+      "significance": "Removes greatest sins; grants moksha",
+      "reminder_flag": true
     },
     {
-      "id": "p001",
-      "name": "Pradosh Vrat",
-      "date": "2025-04-22",
-      "type": "Pradosh",
-      "deity": "Lord Shiva",
-      "significance": "Evening Shiva worship; destroys sins and grants moksha",
-      "fasting_rules": "Fast till evening Shiva puja at pradosh kaal (sunset)",
-      "mantra": "Om Namah Shivaya",
-      "sattvic_food": ["fruits", "milk", "belpatra water"]
-    },
-    {
-      "id": "m001",
-      "name": "Amavasya",
-      "date": "2025-04-27",
-      "type": "Amavasya",
-      "deity": "Pitru Devatas",
-      "significance": "New moon day; ideal for ancestral offerings and tarpan",
-      "fasting_rules": "Optional fast; perform tarpan for ancestors",
-      "mantra": "Om Pitru Devaya Namah",
-      "sattvic_food": ["sesame seeds", "water", "simple khichdi"]
-    },
-    {
-      "id": "e005",
+      "id": "v2605",
       "name": "Nirjala Ekadashi",
-      "date": "2025-06-07",
+      "date": "2026-06-03",
+      "day_of_week": "Wednesday",
       "type": "Ekadashi",
+      "fasting_type": "Waterless fast (Nirjala)",
       "deity": "Lord Vishnu",
-      "significance": "Most powerful Ekadashi; equal to all 24 Ekadashis combined",
-      "fasting_rules": "Complete waterless fast for full day and night; break next morning",
-      "mantra": "Om Namo Bhagavate Vasudevaya",
-      "sattvic_food": ["break with tulsi water next morning"]
+      "significance": "Most powerful Ekadashi; fast without water for one day",
+      "reminder_flag": true
     },
     {
-      "id": "e006",
-      "name": "Devshayani Ekadashi",
-      "date": "2025-07-06",
+      "id": "v2606",
+      "name": "Yogini Ekadashi",
+      "date": "2026-06-18",
+      "day_of_week": "Thursday",
       "type": "Ekadashi",
+      "fasting_type": "Full day fast",
       "deity": "Lord Vishnu",
-      "significance": "Lord Vishnu goes to sleep; start of Chaturmas; no auspicious events",
-      "fasting_rules": "Full fast, break next morning; avoid meat, alcohol throughout Chaturmas",
-      "mantra": "Om Namo Bhagavate Vasudevaya",
-      "sattvic_food": ["fruits", "milk", "sabudana"]
+      "significance": "Removes sins and grants spiritual powers",
+      "reminder_flag": true
     },
     {
-      "id": "s001",
-      "name": "Maha Shivratri 2026",
-      "date": "2026-02-26",
-      "type": "Shivratri",
-      "deity": "Lord Shiva",
-      "significance": "The great night of Shiva; marriage of Shiva-Parvati; most powerful Shiva day",
-      "fasting_rules": "Full day and night fast; 4 prahar puja; break next morning",
-      "mantra": "Om Namah Shivaya",
-      "sattvic_food": ["milk", "bhang prasad", "fruits", "thandai"]
+      "id": "v2607",
+      "name": "Ashadha Amavasya",
+      "date": "2026-06-29",
+      "day_of_week": "Monday",
+      "type": "Amavasya",
+      "fasting_type": "Partial fast till sunset",
+      "deity": "Ancestors (Pitru)",
+      "significance": "Ideal for ancestor worship and tarpan rituals",
+      "reminder_flag": false
     },
     {
-      "id": "e007",
-      "name": "Devutthana Ekadashi",
-      "date": "2025-11-01",
+      "id": "v2608",
+      "name": "Kamika Ekadashi",
+      "date": "2026-07-03",
+      "day_of_week": "Friday",
       "type": "Ekadashi",
+      "fasting_type": "Full day fast",
       "deity": "Lord Vishnu",
-      "significance": "Lord Vishnu wakes up; end of Chaturmas; auspicious activities resume",
-      "fasting_rules": "Full fast; sugarcane offered to Vishnu",
-      "mantra": "Om Namo Bhagavate Vasudevaya",
-      "sattvic_food": ["sugarcane", "fruits", "milk"]
+      "significance": "Removes sins; blesses with spiritual and material prosperity",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2609",
+      "name": "Shravana Purnima (Raksha Bandhan)",
+      "date": "2026-07-28",
+      "day_of_week": "Tuesday",
+      "type": "Purnima",
+      "fasting_type": "Sattvic meals, no fasting",
+      "deity": "Lord Vishnu",
+      "significance": "Raksha Bandhan; sacred thread binding ceremony",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2610",
+      "name": "Janmashtami (Krishna Jayanti)",
+      "date": "2026-08-14",
+      "day_of_week": "Friday",
+      "type": "Festival",
+      "fasting_type": "Fast till midnight",
+      "deity": "Lord Krishna",
+      "significance": "Birth of Lord Krishna; fast and night vigil till midnight",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2611",
+      "name": "Indira Ekadashi",
+      "date": "2026-08-31",
+      "day_of_week": "Monday",
+      "type": "Ekadashi",
+      "fasting_type": "Full day fast",
+      "deity": "Lord Vishnu",
+      "significance": "Removes ancestral curses; grants salvation to ancestors",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2612",
+      "name": "Ganesh Chaturthi",
+      "date": "2026-09-04",
+      "day_of_week": "Friday",
+      "type": "Chaturthi",
+      "fasting_type": "Day-long fast, break after moonrise",
+      "deity": "Lord Ganesha",
+      "significance": "Birth of Lord Ganesha; removes obstacles",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2613",
+      "name": "Parsva Ekadashi",
+      "date": "2026-09-15",
+      "day_of_week": "Tuesday",
+      "type": "Ekadashi",
+      "fasting_type": "Full day fast",
+      "deity": "Lord Vishnu",
+      "significance": "Marks Vishnu's turning in sleep; cleanses sins",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2614",
+      "name": "Navratri Day 1 (Shardiya Navratri)",
+      "date": "2026-09-21",
+      "day_of_week": "Monday",
+      "type": "Festival",
+      "fasting_type": "9 days sattvic diet or full fast",
+      "deity": "Goddess Durga",
+      "significance": "Nine nights of Goddess worship; first day of major Navratri",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2615",
+      "name": "Maha Navami (Navratri Day 9)",
+      "date": "2026-09-29",
+      "day_of_week": "Tuesday",
+      "type": "Festival",
+      "fasting_type": "Sattvic meals or fasting",
+      "deity": "Goddess Siddhidatri",
+      "significance": "Ninth day of Navratri; worship of Siddhidatri form",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2616",
+      "name": "Dussehra (Vijayadashami)",
+      "date": "2026-09-30",
+      "day_of_week": "Wednesday",
+      "type": "Festival",
+      "fasting_type": "Light sattvic meals",
+      "deity": "Lord Rama",
+      "significance": "Victory of Rama over Ravana; end of Navratri",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2617",
+      "name": "Papankusha Ekadashi",
+      "date": "2026-10-14",
+      "day_of_week": "Wednesday",
+      "type": "Ekadashi",
+      "fasting_type": "Full day fast",
+      "deity": "Lord Vishnu",
+      "significance": "Destroys all sins like a hook destroys enemies",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2618",
+      "name": "Rama Ekadashi",
+      "date": "2026-10-29",
+      "day_of_week": "Thursday",
+      "type": "Ekadashi",
+      "fasting_type": "Full day fast",
+      "deity": "Lord Vishnu",
+      "significance": "Grants liberation and removes all sins",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2619",
+      "name": "Diwali (Lakshmi Puja)",
+      "date": "2026-11-11",
+      "day_of_week": "Wednesday",
+      "type": "Festival",
+      "fasting_type": "Light meals, no heavy food",
+      "deity": "Goddess Lakshmi",
+      "significance": "Festival of lights; Lakshmi puja for prosperity",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2620",
+      "name": "Kartik Purnima",
+      "date": "2026-11-27",
+      "day_of_week": "Friday",
+      "type": "Purnima",
+      "fasting_type": "Full day fast",
+      "deity": "Lord Vishnu",
+      "significance": "Most auspicious full moon; ideal for holy bath and charity",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2621",
+      "name": "Utpanna Ekadashi",
+      "date": "2026-11-28",
+      "day_of_week": "Saturday",
+      "type": "Ekadashi",
+      "fasting_type": "Full day fast",
+      "deity": "Lord Vishnu",
+      "significance": "Birth of Ekadashi Devi; grants salvation and liberation",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2622",
+      "name": "Mokshada Ekadashi",
+      "date": "2026-12-13",
+      "day_of_week": "Sunday",
+      "type": "Ekadashi",
+      "fasting_type": "Full day fast",
+      "deity": "Lord Vishnu",
+      "significance": "Grants moksha (liberation); one of the most powerful Ekadashi",
+      "reminder_flag": true
+    },
+    {
+      "id": "v2623",
+      "name": "Saphala Ekadashi",
+      "date": "2026-12-28",
+      "day_of_week": "Monday",
+      "type": "Ekadashi",
+      "fasting_type": "Full day fast",
+      "deity": "Lord Vishnu",
+      "significance": "Makes life fruitful; grants material and spiritual success",
+      "reminder_flag": true
     }
-  ],
-  "food_guide": {
-    "allowed_on_vrat": ["fruits", "milk", "curd", "sabudana", "singhare atta", "kuttu atta", "rajgira", "sendha namak", "dry fruits"],
-    "forbidden_on_vrat": ["grains", "wheat", "rice", "onion", "garlic", "non-veg", "alcohol", "regular salt"],
-    "gita_reference": "Bhagavad Gita 17.8-10: Sattvic food increases life, purity, strength, health, joy and cheerfulness"
-  }
+  ]
 }
