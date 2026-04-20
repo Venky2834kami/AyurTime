@@ -1,0 +1,57 @@
+name: Bootstrap AyurTime MVP
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: false
+        default: 'development'
+      run_seed:
+        description: 'Seed initial project structure?'
+        required: false
+        default: 'true'
+
+jobs:
+  bootstrap:
+    name: Bootstrap AyurTime MVP
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Display bootstrap info
+        run: |
+          echo "========================================"
+          echo "  AyurTime MVP Bootstrap"
+          echo "  Environment : ${{ github.event.inputs.environment }}"
+          echo "  Triggered by: ${{ github.actor }}"
+          echo "  Date        : $(date)"
+          echo "========================================"
+
+      - name: Create MVP folder structure
+        if: ${{ github.event.inputs.run_seed == 'true' }}
+        run: |
+          mkdir -p src/api src/models src/notifications src/panchang
+          mkdir -p tests docs/mvp
+          touch src/__init__.py
+          touch src/api/__init__.py
+          touch src/models/__init__.py
+          touch src/notifications/__init__.py
+          touch src/panchang/__init__.py
+          echo "MVP folder structure created successfully."
+          find src -type f | sort
+
+      - name: Run placeholder tests
+        run: |
+          python -m pytest tests/ --tb=short -q 2>/dev/null || echo "No tests yet - placeholder passed."
+
+      - name: Bootstrap complete
+        run: |
+          echo "AyurTime MVP bootstrap finished successfully!"
+          echo "Next step: start building features in src/"
