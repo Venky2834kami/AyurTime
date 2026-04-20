@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AyurTime – Ayurveda Smart Coach</title>
+  <link rel="stylesheet" href="src/styles/main.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="logo">
+      <span class="logo-icon">🌿</span>
+      <span class="logo-text">AyurTime</span>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="src/pages/calendar.html" class="nav-link">Vrat Calendar</a>
+      <a href="src/pages/charaka.html" class="nav-link">Charaka Guide</a>
+      <a href="src/pages/alerts.html" class="nav-link">Alerts</a>
+    </nav>
+    <div class="dosha-badge" id="doshaDisplay">Vata</div>
+  </header>
+
+  <main class="app-main">
+    <section class="hero">
+      <h1>Namaste 🙏</h1>
+      <p class="subtitle">Your Ayurveda-powered daily coach. Live in balance with nature.</p>
+    </section>
+
+    <section class="dashboard-grid">
+      <div class="card" onclick="location.href='src/pages/calendar.html'">
+        <div class="card-icon">📅</div>
+        <h3>Vrat Calendar</h3>
+        <p>Ekadashi, Chaturthi & all Hindu fasting days</p>
+        <span class="card-cta">View Calendar →</span>
+      </div>
+
+      <div class="card" onclick="location.href='src/pages/charaka.html'">
+        <div class="card-icon">📖</div>
+        <h3>Charaka Samhita</h3>
+        <p>Ancient Ayurvedic wisdom for daily life</p>
+        <span class="card-cta">Explore →</span>
+      </div>
+
+      <div class="card" onclick="location.href='src/pages/alerts.html'">
+        <div class="card-icon">🔔</div>
+        <h3>Smart Reminders</h3>
+        <p>Personalized Ayurvedic daily routine alerts</p>
+        <span class="card-cta">Set Alerts →</span>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">⚖️</div>
+        <h3>Dosha Profile</h3>
+        <p>Vata · Pitta · Kapha — know your prakriti</p>
+        <span class="card-cta">Coming Soon</span>
+      </div>
+    </section>
+
+    <section class="today-vrat" id="todayVrat">
+      <h2>Today's Vrat Status</h2>
+      <div id="vratStatus" class="vrat-status-box">Loading...</div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>AyurTime MVP – Phase 1 &nbsp;|&nbsp; Powered by Charaka Samhita &amp; Vedic wisdom</p>
+  </footer>
+
+  <script src="src/app.js"></script>
+</body>
+</html>
