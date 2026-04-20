@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agni & Digestion Monitoring - AyurTime</title>
+  <style>
+    :root { --primary: #3f51b5; --secondary: #303f9f; --accent: #ff4081; --bg: #f5f5f5; --card: #ffffff; --manda: #ff9800; --tikshna: #f44336; --visham: #9c27b0; --sama: #4caf50; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 0; color: #333; }
+    .header { background: var(--primary); color: white; padding: 20px; text-align: center; }
+    .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
+    .card { background: var(--card); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .section-title { font-size: 1.1rem; color: var(--secondary); margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    .agni-selector { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 20px; }
+    .agni-btn { flex: 1; padding: 12px 5px; border: 2px solid #eee; border-radius: 8px; cursor: pointer; text-align: center; font-weight: bold; font-size: 0.8rem; transition: all 0.2s; }
+    .agni-btn.active { border-color: currentColor; background: #f0f0f0; }
+    .btn-sama { color: var(--sama); }
+    .btn-manda { color: var(--manda); }
+    .btn-tikshna { color: var(--tikshna); }
+    .btn-visham { color: var(--visham); }
+    .symptoms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .symptom-item { display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid #eee; border-radius: 6px; cursor: pointer; }
+    .symptom-item.active { background: #e8eaf6; border-color: var(--primary); }
+    .recommendation-box { background: #e3f2fd; border-left: 5px solid var(--primary); padding: 15px; border-radius: 4px; margin-top: 20px; display: none; }
+    .recommendation-box.show { display: block; }
+    .trend-chart { height: 150px; display: flex; align-items: flex-end; gap: 15px; padding: 20px 0; border-bottom: 1px solid #eee; }
+    .trend-bar { flex: 1; background: #ccc; border-radius: 4px 4px 0 0; min-height: 5px; position: relative; }
+    .trend-label { position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; color: #888; }
+    .btn-save { display: block; width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; margin-top: 20px; cursor: pointer; }
+    .meal-input { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .meal-input input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🔥 Agni Monitoring</h1>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <div class="section-title">7-Day Agni Trend</div>
+      <div class="trend-chart" id="trendChart"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Current Agni State</div>
+      <div class="agni-selector">
+        <div class="agni-btn btn-sama" onclick="setAgni('sama')">SAMA<br>(Balanced)</div>
+        <div class="agni-btn btn-manda" onclick="setAgni('manda')">MANDA<br>(Weak)</div>
+        <div class="agni-btn btn-tikshna" onclick="setAgni('tikshna')">TIKSHNA<br>(Variable)</div>
+        <div class="agni-btn btn-visham" onclick="setAgni('visham')">VISHAM<br>(Irregular)</div>
+      </div>
+
+      <div class="section-title">Symptoms</div>
+      <div class="symptoms-grid" id="symptomsGrid">
+        <div class="symptom-item" onclick="toggleSymptom('bloating')">🎈 Bloating</div>
+        <div class="symptom-item" onclick="toggleSymptom('heaviness')">🐘 Heaviness</div>
+        <div class="symptom-item" onclick="toggleSymptom('low_appetite')">🥣 Low Appetite</div>
+        <div class="symptom-item" onclick="toggleSymptom('gas')">💨 Gas/Acid</div>
+        <div class="symptom-item" onclick="toggleSymptom('lethargy')">😴 Lethargy</div>
+        <div class="symptom-item" onclick="toggleSymptom('constipation')">🧱 Constipation</div>
+      </div>
+
+      <div class="section-title">Meal Timing</div>
+      <div class="meal-input">
+        <label>Breakfast:</label>
+        <input type="time" id="meal_breakfast">
+      </div>
+      <div class="meal-input">
+        <label>Lunch:</label>
+        <input type="time" id="meal_lunch">
+      </div>
+      <div class="meal-input">
+        <label>Dinner:</label>
+        <input type="time" id="meal_dinner">
+      </div>
+
+      <button class="btn-save" onclick="saveLog()">Save Daily Entry</button>
+    </div>
+
+    <div id="recommendation" class="recommendation-box">
+      <strong>💡 Ayurvedic Insight:</strong>
+      <p id="recText"></p>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'ayurtime_agni_log';
+    let agniLog = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    let currentState = { agni: null, symptoms: [], meals: {} };
+
+    const advice = {
+      sama: "Your Agni is balanced. Continue your current diet and routine. Focus on maintenance.",
+      manda: "Weak Agni (Manda). Avoid heavy, cold, or fried foods. Sip warm ginger water throughout the day. Consider 'Langhana' (light eating).",
+      tikshna: "Sharp/Variable Agni (Tikshna). Avoid very spicy, sour, or salty foods. Favor cooling items like ghee, coconut, and sweet fruits.",
+      visham: "Irregular Agni (Visham). Maintain a strict schedule for meals. Use warming spices like hing, cumin, and black salt."
+    };
+
+    function setAgni(state) {
+      currentState.agni = state;
+      document.querySelectorAll('.agni-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector('.btn-' + state).classList.add('active');
+      showAdvice(state);
+    }
+
+    function toggleSymptom(s) {
+      const idx = currentState.symptoms.indexOf(s);
+      if (idx > -1) currentState.symptoms.splice(idx, 1);
+      else currentState.symptoms.push(s);
+      
+      // Update UI
+      document.querySelectorAll('.symptom-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        if (text.includes(s)) item.classList.toggle('active');
+      });
+    }
+
+    function showAdvice(state) {
+      const rec = document.getElementById('recommendation');
+      document.getElementById('recText').textContent = advice[state];
+      rec.classList.add('show');
+    }
+
+    function saveLog() {
+      const today = new Date().toISOString().split('T')[0];
+      currentState.meals = {
+        breakfast: document.getElementById('meal_breakfast').value,
+        lunch: document.getElementById('meal_lunch').value,
+        dinner: document.getElementById('meal_dinner').value
+      };
+      
+      agniLog[today] = { ...currentState };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(agniLog));
+      alert("Daily Agni entry saved!");
+      renderChart();
+    }
+feat(issue#10): implement agni monitoring UI with 7-day trend and insights    function renderChart() {
+feat(issue#10): implement agni & digestion monitoring UI with 7-day trend and insights      chart.innerHTML = '';
+      const dates = [];
+      for(let i=6; i>=0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        dates.push(d.toISOString().split('T')[0]);
+      }
+
+      const colors = { sama: '#4caf50', manda: '#ff9800', tikshna: '#f44336', visham: '#9c27b0' };
+      const heights = { sama: 100, manda: 40, tikshna: 80, visham: 60 };
+
+      dates.forEach(date => {
+        const entry = agniLog[date];
+        const bar = document.createElement('div');
+        bar.className = 'trend-bar';
+        if (entry && entry.agni) {
+          bar.style.height = heights[entry.agni] + '%';
+          bar.style.background = colors[entry.agni];
+        }
+        
+        const label = document.createElement('div');
+        label.className = 'trend-label';
+        label.textContent = date.split('-')[2];
+        bar.appendChild(label);
+        chart.appendChild(bar);
+      });
+    }
+
+    renderChart();
+  </script>
+</body>
+</html>
