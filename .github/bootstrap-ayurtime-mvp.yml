@@ -1,3 +1,4 @@
+# refresh workflow
 name: Bootstrap AyurTime MVP
 
 on:
@@ -40,3 +41,4 @@ jobs:
           CREATE_ISSUES: ${{ github.event.inputs.create_issues }}
         run: |
           bash scripts/bootstrap-ayurtime-mvp.sh
+          
