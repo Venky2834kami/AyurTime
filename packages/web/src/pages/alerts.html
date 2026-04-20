@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Alerts – AyurTime</title>
+  <title>Smart Alerts - AyurTime</title>
   <link rel="stylesheet" href="../../src/styles/main.css" />
 </head>
 <body>
   <header class="app-header">
     <div class="logo">
-      <span class="logo-icon">🌿</span>
+      <span class="logo-icon">🌿 </span>
       <span class="logo-text">AyurTime</span>
     </div>
     <nav class="main-nav">
@@ -24,12 +24,15 @@
   <main class="app-main">
     <div class="page-header">
       <h1>🔔 Smart Ayurvedic Reminders</h1>
-      <p>Personalized daily alerts based on Dinacharya – your Ayurvedic daily routine</p>
+      <p>Personalized daily alerts based on Dinacharya - your Ayurvedic daily routine</p>
     </div>
 
     <div id="saveNotice" style="display:none; background:#e8f5e9; border:1px solid #2e7d32; border-radius:8px; padding:0.75rem 1rem; margin-bottom:1rem; color:#2e7d32; font-weight:600;">
       ✅ Settings saved to local storage!
     </div>
+
+    <!-- Dosha Routine Banner -->
+    <div id="doshaBanner" style="margin-bottom:1rem; padding:0.85rem 1.1rem; border-radius:10px; font-size:0.95rem; font-weight:500;"></div>
 
     <div id="alertsList"></div>
 
@@ -39,108 +42,122 @@
 
     <div style="margin-top:2.5rem; background:white; border-radius:12px; padding:1.5rem; box-shadow:0 2px 12px rgba(0,0,0,0.08);">
       <h3 class="section-title">ℹ️ About Ayurvedic Dinacharya</h3>
-      <p style="color:#757575; line-height:1.7;">Dinacharya means ‘daily routine’ in Sanskrit. Charaka Samhita (Sutrasthana Ch.5) prescribes a complete routine aligned with nature's rhythms. Following dinacharya balances the doshas, strengthens agni, and promotes longevity (ayu).</p>
+      <p style="color:#757575; line-height:1.7;">Dinacharya means 'daily routine' in Sanskrit. Charaka Samhita (Sutrasthana Ch.5) prescribes a complete routine aligned with nature's rhythms. Following dinacharya balances the doshas, strengthens agni, and promotes longevity (ayu).</p>
     </div>
   </main>
 
   <footer class="app-footer">
-    <p>AyurTime MVP – Phase 1 | Smart Ayurvedic Reminders</p>
+    <p>AyurTime MVP - Phase 1 | Smart Ayurvedic Reminders</p>
   </footer>
 
-  <style>
-    .alert-card {
-      background: white;
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-      margin-bottom: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      border-left: 4px solid #2e7d32;
-    }
-    .alert-time {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #2e7d32;
-      min-width: 60px;
-    }
-    .alert-info { flex: 1; }
-    .alert-name { font-weight: 600; margin-bottom: 0.2rem; }
-    .alert-msg { font-size: 0.85rem; color: #757575; }
-    .alert-tip { font-size: 0.8rem; color: #ff8f00; margin-top: 0.2rem; }
-    .toggle-switch {
-      position: relative;
-      width: 44px;
-      height: 24px;
-      flex-shrink: 0;
-    }
-    .toggle-switch input { opacity: 0; width: 0; height: 0; }
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: #ccc;
-      border-radius: 24px;
-      transition: 0.3s;
-    }
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px; width: 18px;
-      left: 3px; bottom: 3px;
-      background: white;
-      border-radius: 50%;
-      transition: 0.3s;
-    }
-    input:checked + .slider { background: #2e7d32; }
-    input:checked + .slider:before { transform: translateX(20px); }
-  </style>
+<style>
+.alert-card { background: white; border-radius: 12px; padding: 1rem 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,0.07); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 1rem; border-left: 4px solid #2e7d32; }
+.alert-time { font-size: 1.1rem; font-weight: 700; color: #2e7d32; min-width: 60px; }
+.alert-info { flex: 1; }
+.alert-name { font-weight: 600; margin-bottom: 0.2rem; }
+.alert-msg { font-size: 0.85rem; color: #757575; }
+.alert-tip { font-size: 0.8rem; color: #ff8f00; margin-top: 0.2rem; }
+.toggle-switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #ccc; border-radius: 24px; transition: 0.3s; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
+input:checked + .slider { background: #2e7d32; }
+input:checked + .slider:before { transform: translateX(20px); }
+</style>
 
-  <script>
-    let alertsData = [];
+<script>
+  let alertsData = [];
 
-    fetch('../../src/data/alerts-settings.json')
-      .then(r => r.json())
-      .then(data => {
-        const saved = JSON.parse(localStorage.getItem('ayurtime_alerts') || 'null');
-        alertsData = saved || data.default_alerts;
-        renderAlerts();
-      })
-      .catch(() => {
-        document.getElementById('alertsList').innerHTML = '<p style="color:#e65100;">Could not load alerts. Run on local server.</p>';
-      });
+  // Dosha-to-alert-category mapping
+  const doshaCategoryMap = {
+    Vata:  ['sleep','warmth','grounding','oil','hydration','meditation'],
+    Pitta: ['cooling','meditation','meal','exercise','breathwork','evening'],
+    Kapha: ['wake','exercise','light','morning','stimulation','breathing']
+  };
 
-    function renderAlerts() {
-      const html = alertsData.map(a => `
-        <div class="alert-card" id="card_${a.id}">
-          <div class="alert-time">${a.time}</div>
-          <div class="alert-info">
-            <div class="alert-name">${a.name}</div>
-            <div class="alert-msg">${a.message}</div>
-            <div class="alert-tip">🌿 ${a.ayurveda_tip}</div>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="toggle_${a.id}" ${a.enabled ? 'checked' : ''} onchange="toggleAlert('${a.id}', this.checked)" />
-            <span class="slider"></span>
-          </label>
-        </div>`).join('');
-      document.getElementById('alertsList').innerHTML = html;
+  function applyRoutineToAlerts(alerts, routine) {
+    if (!routine || !routine.dosha) return alerts;
+    const dosha = routine.dosha;
+    const keywords = doshaCategoryMap[dosha] || [];
+    return alerts.map(a => {
+      const nameLC = (a.name + ' ' + (a.category || '')).toLowerCase();
+      const matchesDosha = keywords.some(k => nameLC.includes(k));
+      return Object.assign({}, a, { enabled: matchesDosha });
+    });
+  }
+
+  function renderDoshaBanner(routine) {
+    const banner = document.getElementById('doshaBanner');
+    if (routine && routine.dosha) {
+      const colors = { Vata: '#e8f5e9', Pitta: '#fff3e0', Kapha: '#e3f2fd' };
+      const borders = { Vata: '#2e7d32', Pitta: '#e65100', Kapha: '#1565c0' };
+      const icons = { Vata: '🌬️', Pitta: '🔥', Kapha: '🌊' };
+      banner.style.background = colors[routine.dosha] || '#f5f5f5';
+      banner.style.border = '1px solid ' + (borders[routine.dosha] || '#ccc');
+      banner.style.color = borders[routine.dosha] || '#333';
+      banner.innerHTML = (icons[routine.dosha] || '🌿') + ' Reminders personalized for <strong>' + routine.dosha + ' dosha</strong> type. Based on your onboarding assessment.';
+    } else {
+      banner.style.background = '#fff8e1';
+      banner.style.border = '1px solid #f9a825';
+      banner.style.color = '#f57f17';
+      banner.innerHTML = '⚠️ Complete your <a href="onboarding.html" style="color:#e65100;font-weight:600;">dosha assessment</a> to personalize your reminders.';
     }
+  }
 
-    function toggleAlert(id, enabled) {
-      const alert = alertsData.find(a => a.id === id);
-      if (alert) alert.enabled = enabled;
-      const card = document.getElementById('card_' + id);
-      if (card) card.style.opacity = enabled ? '1' : '0.5';
-    }
+  function renderAlerts() {
+    const html = alertsData.map(a => `
+      <div class="alert-card" id="card_${a.id}" style="opacity:${a.enabled ? 1 : 0.5}">
+        <div class="alert-time">${a.time}</div>
+        <div class="alert-info">
+          <div class="alert-name">${a.name}</div>
+          <div class="alert-msg">${a.message}</div>
+          <div class="alert-tip">🌿 ${a.ayurveda_tip}</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle_${a.id}" ${a.enabled ? 'checked' : ''} onchange="toggleAlert('${a.id}', this.checked)" />
+          <span class="slider"></span>
+        </label>
+      </div>`).join('');
+    document.getElementById('alertsList').innerHTML = html;
+  }
 
-    function saveSettings() {
-      localStorage.setItem('ayurtime_alerts', JSON.stringify(alertsData));
-      const notice = document.getElementById('saveNotice');
-      notice.style.display = 'block';
-      setTimeout(() => notice.style.display = 'none', 3000);
-    }
-  </script>
+  function toggleAlert(id, enabled) {
+    const alert = alertsData.find(a => a.id === id);
+    if (alert) alert.enabled = enabled;
+    const card = document.getElementById('card_' + id);
+    if (card) card.style.opacity = enabled ? '1' : '0.5';
+  }
+
+  function saveSettings() {
+    localStorage.setItem('ayurtime_alerts', JSON.stringify(alertsData));
+    const notice = document.getElementById('saveNotice');
+    notice.style.display = 'block';
+    setTimeout(() => notice.style.display = 'none', 3000);
+  }
+
+  // On page load: read both ayurtime_alerts and ayurtime_routine
+  const savedRoutine = JSON.parse(localStorage.getItem('ayurtime_routine') || 'null');
+  renderDoshaBanner(savedRoutine);
+
+  fetch('../../src/data/alerts-settings.json')
+    .then(r => r.json())
+    .then(data => {
+      const savedAlerts = JSON.parse(localStorage.getItem('ayurtime_alerts') || 'null');
+      if (savedAlerts) {
+        // Use saved alert preferences if they exist
+        alertsData = savedAlerts;
+      } else if (savedRoutine) {
+        // Apply dosha routine to pre-populate toggle states
+        alertsData = applyRoutineToAlerts(data.default_alerts, savedRoutine);
+      } else {
+        // Fall back to default alerts
+        alertsData = data.default_alerts;
+      }
+      renderAlerts();
+    })
+    .catch(() => {
+      document.getElementById('alertsList').innerHTML = '<p style="color:#e65100;">Could not load alerts. Run on local server.</p>';
+    });
+</script>
 </body>
 </html>
