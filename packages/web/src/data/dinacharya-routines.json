@@ -1,0 +1,58 @@
+{
+  "routines": [
+    {
+      "id": "vata_routine",
+      "dosha": "Vata",
+      "morning": [
+        {"id": "v_m_1", "name": "Wake up", "time": "06:00", "duration": 5, "desc": "Wake up gently before sunrise to align with Vata energy."},
+        {"id": "v_m_2", "name": "Oral Hygiene", "time": "06:10", "duration": 10, "desc": "Tongue scraping and oil pulling (Sesame oil) to remove toxins."},
+        {"id": "v_m_3", "name": "Warm Water", "time": "06:20", "duration": 5, "desc": "Drink a glass of warm water to stimulate bowel movement."},
+        {"id": "v_m_4", "name": "Abhyanga", "time": "06:30", "duration": 15, "desc": "Self-massage with warm sesame oil to ground Vata."},
+        {"id": "v_m_5", "name": "Gentle Exercise", "time": "06:45", "duration": 20, "desc": "Yoga or slow walking. Avoid excessive exertion."},
+        {"id": "v_m_6", "name": "Meditation", "time": "07:10", "duration": 15, "desc": "Focus on grounding and stability."}
+      ],
+      "evening": [
+        {"id": "v_e_1", "name": "Warm Dinner", "time": "19:00", "duration": 30, "desc": "Light, warm, and cooked meal. Avoid cold foods."},
+        {"id": "v_e_2", "name": "Relaxation", "time": "20:00", "duration": 60, "desc": "Read, listen to soft music, or journal. No screens."},
+        {"id": "v_e_3", "name": "Warm Milk", "time": "21:30", "duration": 10, "desc": "Cup of warm milk with nutmeg to aid sleep."},
+        {"id": "v_e_4", "name": "Sleep", "time": "22:00", "duration": 5, "desc": "Early to bed to balance Vata restlessness."}
+      ]
+    },
+    {
+      "id": "pitta_routine",
+      "dosha": "Pitta",
+      "morning": [
+        {"id": "p_m_1", "name": "Wake up", "time": "05:30", "duration": 5, "desc": "Wake up in the cool early morning hours."},
+        {"id": "p_m_2", "name": "Oral Hygiene", "time": "05:40", "duration": 10, "desc": "Tongue scraping and oil pulling (Coconut oil) for cooling."},
+        {"id": "p_m_3", "name": "Cooling Water", "time": "05:50", "duration": 5, "desc": "Drink room temperature water."},
+        {"id": "p_m_4", "name": "Exercise", "time": "06:00", "duration": 30, "desc": "Swimming or yoga in a cool environment."},
+        {"id": "p_m_5", "name": "Abhyanga", "time": "06:40", "duration": 15, "desc": "Self-massage with cooling coconut or sunflower oil."},
+        {"id": "p_m_6", "name": "Meditation", "time": "07:00", "duration": 20, "desc": "Focus on compassion and cooling the mind."}
+      ],
+      "evening": [
+        {"id": "p_e_1", "name": "Balanced Dinner", "time": "18:30", "duration": 30, "desc": "Moderate meal, not too spicy or sour."},
+        {"id": "p_e_2", "name": "Moon Walk", "time": "20:00", "duration": 20, "desc": "A short walk in the moonlight is very cooling for Pitta."},
+        {"id": "p_e_3", "name": "Cooling Tea", "time": "21:00", "duration": 10, "desc": "Fennel or peppermint tea to soothe digestion."},
+        {"id": "p_e_4", "name": "Sleep", "time": "22:30", "duration": 5, "desc": "Rest before the Pitta peak at midnight."}
+      ]
+    },
+    {
+      "id": "kapha_routine",
+      "dosha": "Kapha",
+      "morning": [
+        {"id": "k_m_1", "name": "Wake up", "time": "05:00", "duration": 5, "desc": "Wake up before sunrise (Brahma Muhurta) to avoid sluggishness."},
+        {"id": "k_m_2", "name": "Oral Hygiene", "time": "05:10", "duration": 10, "desc": "Tongue scraping and dry brushing (Garshana) to stimulate."},
+        {"id": "k_m_3", "name": "Hot Water", "time": "05:25", "duration": 5, "desc": "Hot water with ginger and honey to clear mucus."},
+        {"id": "k_m_4", "name": "Vigorous Exercise", "time": "05:40", "duration": 45, "desc": "Intense yoga, running, or cardio to move stagnant energy."},
+        {"id": "k_m_5", "name": "Pranayama", "time": "06:30", "duration": 15, "desc": "Bhastrika or Kapalabhati to energize the system."},
+        {"id": "k_m_6", "name": "Meditation", "time": "06:50", "duration": 15, "desc": "Focus on movement and internal light."}
+      ],
+      "evening": [
+        {"id": "k_e_1", "name": "Light Dinner", "time": "18:00", "duration": 30, "desc": "Very light, warm, and spicy meal. No dairy."},
+        {"id": "k_e_2", "name": "Active Evening", "time": "19:30", "duration": 60, "desc": "Engage in social or mental activity to stay sharp."},
+        {"id": "k_e_3", "name": "Digestive Tea", "time": "21:00", "duration": 10, "desc": "Cinnamon or clove tea for warmth."},
+        {"id": "k_e_4", "name": "Sleep", "time": "23:00", "duration": 5, "desc": "Lighter sleep is better for Kapha types."}
+      ]
+    }
+  ]
+}
