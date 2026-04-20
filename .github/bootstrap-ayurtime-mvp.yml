@@ -1,0 +1,42 @@
+name: Bootstrap AyurTime MVP
+
+on:
+  workflow_dispatch:
+    inputs:
+      milestone_title:
+        description: 'Milestone title to create/use'
+        required: true
+        default: 'AyurTime MVP – Phase 1 (30 days)'
+      create_labels:
+        description: 'Create default labels'
+        required: true
+        default: 'true'
+      create_issues:
+        description: 'Create Week 1 MVP issues'
+        required: true
+        default: 'true'
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup GitHub CLI
+        run: gh --version
+
+      - name: Bootstrap milestone, labels, and issues
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          MILESTONE_TITLE: ${{ github.event.inputs.milestone_title }}
+          CREATE_LABELS: ${{ github.event.inputs.create_labels }}
+          CREATE_ISSUES: ${{ github.event.inputs.create_issues }}
+        run: |
+          bash scripts/bootstrap-ayurtime-mvp.sh
