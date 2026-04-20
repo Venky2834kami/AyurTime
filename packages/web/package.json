@@ -1,0 +1,19 @@
+{
+  "name": "ayurtime-web",
+  "version": "1.0.0",
+  "description": "AyurTime - Ayurveda Smart Watch Coach Web MVP",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "npx serve . -p 3000",
+    "dev": "npx live-server --port=3000",
+    "build": "echo 'Static build - no bundler needed for Phase 1'"
+  },
+  "keywords": ["ayurveda", "health", "smartwatch", "vrat", "charaka"],
+  "author": "Venky2834kami",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.0"
+  }
+}
