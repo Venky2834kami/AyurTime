@@ -1,283 +1,317 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AyurTime - Dosha Quiz</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #f5f0e8 0%, #e8f5f0 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-    .card {
-      background: #fff;
-      border-radius: 20px;
-      padding: 32px 28px;
-      max-width: 480px;
-      width: 100%;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.10);
-      text-align: center;
-    }
-    .logo { font-size: 2.4rem; margin-bottom: 8px; }
-    h1 { font-size: 1.5rem; color: #2d5a27; margin-bottom: 8px; }
-    .subtitle { color: #777; font-size: 0.95rem; margin-bottom: 24px; }
-    .progress-bar-wrap {
-      background: #e8f5f0;
-      border-radius: 8px;
-      height: 8px;
-      margin-bottom: 24px;
-      overflow: hidden;
-    }
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(90deg, #4A9E8A, #2d5a27);
-      border-radius: 8px;
-      transition: width 0.4s ease;
-    }
-    .question-label {
-      font-size: 0.82rem;
-      color: #4A9E8A;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-    .question-text {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: #2d3a2d;
-      margin-bottom: 24px;
-      line-height: 1.5;
-    }
-    .option-btn {
-      display: block;
-      width: 100%;
-      padding: 14px 16px;
-      margin-bottom: 12px;
-      background: #f5f0e8;
-      border: 2px solid transparent;
-      border-radius: 12px;
-      font-size: 0.95rem;
-      color: #2d3a2d;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.2s;
-    }
-    .option-btn:hover { background: #e8f5f0; border-color: #4A9E8A; }
-    .option-btn.selected { background: #e8f5f0; border-color: #4A9E8A; color: #2d5a27; font-weight: 600; }
-    .nav-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-    }
-    .btn {
-      flex: 1;
-      padding: 12px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-    .btn-secondary { background: #f5f0e8; color: #777; }
-    .btn-primary { background: #4A9E8A; color: #fff; }
-    .btn-primary:hover { background: #2d5a27; }
-    .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
-    .skip-link {
-      display: block;
-      margin-top: 16px;
-      color: #aaa;
-      font-size: 0.85rem;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-    /* Welcome screen */
-    #screen-welcome .welcome-icon { font-size: 3.5rem; margin-bottom: 16px; }
-    #screen-welcome h1 { font-size: 1.8rem; }
-    /* Result screen */
-    .dosha-badge {
-      display: inline-block;
-      padding: 8px 24px;
-      border-radius: 24px;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 16px;
-    }
-    .score-row { display: flex; justify-content: center; gap: 16px; margin: 16px 0; }
-    .score-item { text-align: center; }
-    .score-item .score-label { font-size: 0.8rem; color: #777; }
-    .score-item .score-val { font-size: 1.4rem; font-weight: 700; }
-    .routine-list { text-align: left; margin: 16px 0; }
-    .routine-list li {
-      padding: 10px 12px;
-      background: #f5f0e8;
-      border-radius: 8px;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-      color: #2d3a2d;
-      list-style: none;
-      display: flex;
-      justify-content: space-between;
-    }
-    .routine-list li span { font-weight: 600; color: #4A9E8A; }
-    .result-desc { color: #555; font-size: 0.95rem; margin-bottom: 8px; line-height: 1.6; }
-    .hidden { display: none; }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AyurTime - Discover Your Dosha</title>
+    <link rel="stylesheet" href="../../src/styles/main.css" />
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-light: #60ad5e;
+            --primary-dark: #005005;
+            --accent: #ff8f00;
+            --bg: #f9f6f0;
+            --surface: #ffffff;
+            --text: #2c2c2c;
+            --text-muted: #757575;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-image: radial-gradient(circle at 20% 20%, rgba(46, 125, 50, 0.05) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 80%, rgba(255, 143, 0, 0.05) 0%, transparent 50%);
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            perspective: 1000px;
+        }
+        .card {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 40px 32px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        .logo-icon { font-size: 3.5rem; margin-bottom: 16px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); }
+        h1 { font-family: 'Georgia', serif; font-size: 2rem; color: var(--primary-dark); margin-bottom: 12px; }
+        .subtitle { color: var(--text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: 32px; }
+        
+        .progress-container { margin-bottom: 32px; text-align: left; }
+        .progress-label { font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .progress-bar-bg { background: #eee; height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--primary); transition: width 0.4s ease; border-radius: 3px; }
+
+        .question-text { font-size: 1.25rem; font-weight: 600; color: var(--text); margin-bottom: 28px; line-height: 1.4; text-align: left; }
+        .options-grid { display: grid; gap: 12px; margin-bottom: 32px; }
+        .option-card {
+            background: #fff;
+            border: 2px solid #eee;
+            border-radius: 16px;
+            padding: 16px 20px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .option-card:hover { border-color: var(--primary-light); background: rgba(46, 125, 50, 0.02); transform: translateY(-2px); }
+        .option-card.selected { border-color: var(--primary); background: rgba(46, 125, 50, 0.05); }
+        .option-card.selected::after { content: "✓"; margin-left: auto; color: var(--primary); font-weight: 700; }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2); }
+        .btn-primary:hover:not(:disabled) { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(46, 125, 50, 0.3); }
+        .btn-primary:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; }
+        .btn-ghost { background: transparent; color: var(--text-muted); font-weight: 500; margin-top: 16px; text-decoration: underline; }
+
+        /* Results Visualization */
+        .dosha-result-visual { margin: 24px 0; }
+        .dosha-bar { margin-bottom: 12px; }
+        .dosha-bar-info { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+        .dosha-bar-bg { background: #eee; height: 12px; border-radius: 6px; overflow: hidden; }
+        .dosha-bar-fill { height: 100%; border-radius: 6px; transition: width 1s ease-out; }
+        
+        .result-badge { 
+            display: inline-block; padding: 6px 16px; border-radius: 20px; 
+            font-size: 0.85rem; font-weight: 700; text-transform: uppercase; 
+            margin-bottom: 12px; color: white;
+        }
+
+        .routine-item {
+            background: #f9f6f0;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            text-align: left;
+        }
+        .routine-time { font-weight: 700; color: var(--primary); min-width: 65px; }
+
+        .hidden { display: none; opacity: 0; transform: translateY(20px); }
+        .fade-in { animation: fadeIn 0.5s forwards; }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <!-- SCREEN 1: WELCOME -->
+        <div class="card fade-in" id="screen-welcome">
+            <span class="logo-icon">🌿</span>
+            <h1>Discover Your Balance</h1>
+            <p class="subtitle">Take our 2-minute Ayurvedic assessment to identify your Dosha type and unlock a personalized wellness routine.</p>
+            <button class="btn btn-primary" onclick="startQuiz()">
+                Get Started <span>→</span>
+            </button>
+            <button class="btn btn-ghost" onclick="skipOnboarding()">I'll do this later</button>
+        </div>
 
-<!-- SCREEN 1: WELCOME -->
-<div class="card" id="screen-welcome">
-  <div class="welcome-icon">🌿</div>
-  <h1>Know Your Dosha</h1>
-  <p class="subtitle">Answer 8 quick questions to discover your Ayurvedic constitution and get a personalized daily routine.</p>
-  <button class="btn btn-primary" onclick="startQuiz()" style="width:100%;margin-bottom:12px;">Take Dosha Quiz</button>
-  <a class="skip-link" onclick="skipOnboarding()">Skip for now</a>
-</div>
+        <!-- SCREEN 2: QUIZ -->
+        <div class="card hidden" id="screen-quiz">
+            <div class="progress-container">
+                <div class="progress-label">
+                    <span id="questionCountLabel">Question 1 of 8</span>
+                    <span id="percentLabel">12%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBar" style="width: 12%"></div>
+                </div>
+            </div>
+            <div class="question-text" id="questionText">How is your body frame?</div>
+            <div class="options-grid" id="optionsContainer">
+                <!-- Options will be injected here -->
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn" style="flex: 1; background: #eee; color: #666;" id="btnBack" onclick="prevQuestion()">Back</button>
+                <button class="btn btn-primary" style="flex: 2;" id="btnNext" onclick="nextQuestion()" disabled>Continue</button>
+            </div>
+        </div>
 
-<!-- SCREEN 2: QUIZ -->
-<div class="card hidden" id="screen-quiz">
-  <div class="progress-bar-wrap">
-    <div class="progress-bar" id="progressBar" style="width:0%"></div>
-  </div>
-  <div class="question-label" id="questionLabel">Question 1 of 8</div>
-  <div class="question-text" id="questionText"></div>
-  <div id="optionsContainer"></div>
-  <div class="nav-row">
-    <button class="btn btn-secondary" id="btnBack" onclick="prevQuestion()">Back</button>
-    <button class="btn btn-primary" id="btnNext" onclick="nextQuestion()" disabled>Next</button>
-  </div>
-</div>
+        <!-- SCREEN 3: RESULT -->
+        <div class="card hidden" id="screen-result">
+            <div class="result-badge" id="resultLabel" style="background: var(--primary);">Vata Predominant</div>
+            <h1 id="resultTitle">You are a Vata type</h1>
+            <p class="subtitle" id="resultDesc" style="margin-bottom: 24px;">Creative, energetic, and always on the move. You thrive on routine and warmth.</p>
+            
+            <div class="dosha-result-visual">
+                <div class="dosha-bar">
+                    <div class="dosha-bar-info"><span>Vata</span><span id="valV">0%</span></div>
+                    <div class="dosha-bar-bg"><div class="dosha-bar-fill" id="barV" style="background: #8B7BC8; width: 0%"></div></div>
+                </div>
+                <div class="dosha-bar">
+                    <div class="dosha-bar-info"><span>Pitta</span><span id="valP">0%</span></div>
+                    <div class="dosha-bar-bg"><div class="dosha-bar-fill" id="barP" style="background: #E07B54; width: 0%"></div></div>
+                </div>
+                <div class="dosha-bar">
+                    <div class="dosha-bar-info"><span>Kapha</span><span id="valK">0%</span></div>
+                    <div class="dosha-bar-bg"><div class="dosha-bar-fill" id="barK" style="background: #4A9E8A; width: 0%"></div></div>
+                </div>
+            </div>
 
-<!-- SCREEN 3: RESULT -->
-<div class="card hidden" id="screen-result">
-  <div class="logo" id="resultEmoji"></div>
-  <h1 id="resultTitle"></h1>
-  <div class="dosha-badge" id="resultBadge"></div>
-  <p class="result-desc" id="resultDesc"></p>
-  <div class="score-row">
-    <div class="score-item"><div class="score-label">Vata</div><div class="score-val" id="scoreV" style="color:#8B7BC8"></div></div>
-    <div class="score-item"><div class="score-label">Pitta</div><div class="score-val" id="scoreP" style="color:#E07B54"></div></div>
-    <div class="score-item"><div class="score-label">Kapha</div><div class="score-val" id="scoreK" style="color:#4A9E8A"></div></div>
-  </div>
-  <h3 style="font-size:0.95rem;color:#2d5a27;text-align:left;margin-bottom:8px;">Your Suggested Routine</h3>
-  <ul class="routine-list" id="routineList"></ul>
-  <button class="btn btn-primary" onclick="applyRoutine()" style="width:100%;margin-top:8px;">Apply Suggested Routine</button>
-  <a class="skip-link" onclick="skipOnboarding()">Skip — I'll set reminders manually</a>
-</div>
+            <div style="text-align: left; margin-bottom: 24px;">
+                <h3 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 12px;">Suggested Daily Routine</h3>
+                <div id="routineList">
+                    <!-- Routine items injected here -->
+                </div>
+            </div>
 
-<script src="../js/dosha-scoring.js"></script>
-<script>
-  var quizData = null;
-  var currentQ = 0;
-  var answers = [];
-  var calcResult = null;
+            <button class="btn btn-primary" onclick="applyRoutine()">Apply My Personal Routine</button>
+            <button class="btn btn-ghost" onclick="skipOnboarding()">Skip for now</button>
+        </div>
+    </div>
 
-  // Load questions JSON
-  fetch('../data/dosha-questions.json')
-    .then(function(r){ return r.json(); })
-    .then(function(data){ quizData = data; })
-    .catch(function(){ console.error('Could not load dosha-questions.json'); });
+    <script src="../js/dosha-scoring.js"></script>
+    <script>
+        let quizData = null;
+        let currentQ = 0;
+        let answers = [];
+        let calcResult = null;
 
-  function show(id) {
-    ['screen-welcome','screen-quiz','screen-result'].forEach(function(s){
-      document.getElementById(s).classList.add('hidden');
-    });
-    document.getElementById(id).classList.remove('hidden');
-  }
+        // Load data
+        fetch('../data/dosha-questions.json')
+            .then(r => r.json())
+            .then(data => { quizData = data; })
+            .catch(e => console.error("Error loading quiz data", e));
 
-  function startQuiz() {
-    if (!quizData) { alert('Loading questions, please try again.'); return; }
-    currentQ = 0;
-    answers = new Array(quizData.quiz.length).fill(null);
-    renderQuestion();
-    show('screen-quiz');
-  }
+        function show(id) {
+            document.querySelectorAll('.card').forEach(c => {
+                c.classList.add('hidden');
+                c.classList.remove('fade-in');
+            });
+            const target = document.getElementById(id);
+            target.classList.remove('hidden');
+            target.classList.add('fade-in');
+        }
 
-  function renderQuestion() {
-    var q = quizData.quiz[currentQ];
-    var total = quizData.quiz.length;
-    document.getElementById('progressBar').style.width = ((currentQ / total) * 100) + '%';
-    document.getElementById('questionLabel').textContent = 'Question ' + (currentQ + 1) + ' of ' + total;
-    document.getElementById('questionText').textContent = q.question;
-    document.getElementById('btnBack').style.display = currentQ === 0 ? 'none' : 'block';
-    var container = document.getElementById('optionsContainer');
-    container.innerHTML = '';
-    q.options.forEach(function(opt, idx) {
-      var btn = document.createElement('button');
-      btn.className = 'option-btn' + (answers[currentQ] && answers[currentQ].text === opt.text ? ' selected' : '');
-      btn.textContent = opt.text;
-      btn.onclick = function() {
-        answers[currentQ] = opt;
-        document.querySelectorAll('.option-btn').forEach(function(b){ b.classList.remove('selected'); });
-        btn.classList.add('selected');
-        document.getElementById('btnNext').disabled = false;
-      };
-      container.appendChild(btn);
-    });
-    document.getElementById('btnNext').disabled = !answers[currentQ];
-    document.getElementById('btnNext').textContent = currentQ === total - 1 ? 'See My Dosha' : 'Next';
-  }
+        function startQuiz() {
+            if (!quizData) return;
+            currentQ = 0;
+            answers = new Array(quizData.quiz.length).fill(null);
+            renderQuestion();
+            show('screen-quiz');
+        }
 
-  function nextQuestion() {
-    if (!answers[currentQ]) return;
-    if (currentQ < quizData.quiz.length - 1) {
-      currentQ++;
-      renderQuestion();
-    } else {
-      showResult();
-    }
-  }
+        function renderQuestion() {
+            const q = quizData.quiz[currentQ];
+            const total = quizData.quiz.length;
+            const progress = Math.round(((currentQ + 1) / total) * 100);
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('percentLabel').textContent = progress + '%';
+            document.getElementById('questionCountLabel').textContent = `Question ${currentQ + 1} of ${total}`;
+            document.getElementById('questionText').textContent = q.question;
+            document.getElementById('btnBack').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+            
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = 'option-card' + (answers[currentQ] === opt ? ' selected' : '');
+                div.innerHTML = `<span>${opt.text}</span>`;
+                div.onclick = () => {
+                    answers[currentQ] = opt;
+                    renderQuestion(); // Re-render to show selection
+                    document.getElementById('btnNext').disabled = false;
+                };
+                container.appendChild(div);
+            });
+            
+            document.getElementById('btnNext').disabled = !answers[currentQ];
+            document.getElementById('btnNext').textContent = currentQ === total - 1 ? 'See My Results' : 'Continue';
+        }
 
-  function prevQuestion() {
-    if (currentQ > 0) { currentQ--; renderQuestion(); }
-  }
+        function nextQuestion() {
+            if (currentQ < quizData.quiz.length - 1) {
+                currentQ++;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
 
-  function showResult() {
-    var validAnswers = answers.filter(Boolean);
-    calcResult = DoshaScoring.calculate(validAnswers);
-    var dosha = calcResult.primary;
-    var routine = quizData.routines[dosha];
-    document.getElementById('resultEmoji').textContent = routine.emoji;
-    document.getElementById('resultTitle').textContent = 'You are predominantly ' + dosha;
-    var badge = document.getElementById('resultBadge');
-    badge.textContent = dosha;
-    badge.style.background = routine.color;
-    document.getElementById('resultDesc').textContent = routine.description;
-    document.getElementById('scoreV').textContent = calcResult.percentages.V + '%';
-    document.getElementById('scoreP').textContent = calcResult.percentages.P + '%';
-    document.getElementById('scoreK').textContent = calcResult.percentages.K + '%';
-    var list = document.getElementById('routineList');
-    list.innerHTML = '';
-    routine.reminders.forEach(function(r) {
-      var li = document.createElement('li');
-      li.innerHTML = r.label + '<span>' + r.time + '</span>';
-      list.appendChild(li);
-    });
-    document.getElementById('progressBar').style.width = '100%';
-    show('screen-result');
-  }
+        function prevQuestion() {
+            if (currentQ > 0) {
+                currentQ--;
+                renderQuestion();
+            }
+        }
 
-  function applyRoutine() {
-    if (!calcResult) return;
-    var dosha = calcResult.primary;
-    var routine = quizData.routines[dosha];
-    DoshaScoring.saveResult(dosha, routine);
-    window.location.href = 'alerts.html';
-  }
+        function showResults() {
+            calcResult = DoshaScoring.calculate(answers);
+            const dosha = calcResult.primary;
+            const routine = quizData.routines[dosha];
 
-  function skipOnboarding() {
-    localStorage.setItem('ayurtime_onboarding_done', 'skipped');
-    window.location.href = '../index.html';
-  }
-</script>
+            document.getElementById('resultLabel').textContent = `${dosha} Predominant`;
+            document.getElementById('resultLabel').style.background = routine.color;
+            document.getElementById('resultTitle').textContent = `You are a ${dosha} type`;
+            document.getElementById('resultDesc').textContent = routine.description;
+
+            // Animate bars
+            setTimeout(() => {
+                document.getElementById('barV').style.width = calcResult.percentages.V + '%';
+                document.getElementById('barP').style.width = calcResult.percentages.P + '%';
+                document.getElementById('barK').style.width = calcResult.percentages.K + '%';
+                document.getElementById('valV').textContent = calcResult.percentages.V + '%';
+                document.getElementById('valP').textContent = calcResult.percentages.P + '%';
+                document.getElementById('valK').textContent = calcResult.percentages.K + '%';
+            }, 500);
+
+            const routineContainer = document.getElementById('routineList');
+            routineContainer.innerHTML = routine.reminders.map(r => `
+                <div class="routine-item">
+                    <span class="routine-time">${r.time}</span>
+                    <span>${r.label}</span>
+                </div>
+            `).join('');
+
+            show('screen-result');
+        }
+
+        function applyRoutine() {
+            const dosha = calcResult.primary;
+            const routine = quizData.routines[dosha];
+            DoshaScoring.saveResult(dosha, routine);
+            window.location.href = 'alerts.html?applied=true';
+        }
+
+        function skipOnboarding() {
+            localStorage.setItem('ayurtime_onboarding_done', 'skipped');
+            window.location.href = '../index.html';
+        }
+    </script>
 </body>
 </html>
