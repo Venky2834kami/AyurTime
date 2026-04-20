@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Charaka Guide – AyurTime</title>
+  <link rel="stylesheet" href="../../src/styles/main.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="logo">
+      <span class="logo-icon">🌿</span>
+      <span class="logo-text">AyurTime</span>
+    </div>
+    <nav class="main-nav">
+      <a href="../../index.html" class="nav-link">Home</a>
+      <a href="calendar.html" class="nav-link">Vrat Calendar</a>
+      <a href="charaka.html" class="nav-link active">Charaka Guide</a>
+      <a href="alerts.html" class="nav-link">Alerts</a>
+    </nav>
+    <div class="dosha-badge">📖 Charaka</div>
+  </header>
+
+  <main class="app-main">
+    <div class="page-header">
+      <h1>📖 Charaka Samhita Knowledge</h1>
+      <p>Ancient Ayurvedic wisdom for your modern daily life</p>
+    </div>
+
+    <div style="display:flex; gap:0.75rem; margin-bottom:1.5rem; flex-wrap:wrap;" id="categoryFilters"></div>
+
+    <div id="charakaGrid" class="charaka-grid">Loading Charaka wisdom...</div>
+  </main>
+
+  <footer class="app-footer">
+    <p>AyurTime MVP – Phase 1 | Charaka Samhita Knowledge Module</p>
+  </footer>
+
+  <style>
+    .filter-btn {
+      padding: 0.4rem 1rem;
+      border: 1.5px solid #2e7d32;
+      background: white;
+      color: #2e7d32;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover { background: #2e7d32; color: white; }
+  </style>
+
+  <script>
+    let allTopics = [];
+
+    fetch('../../src/data/charaka-samhita.json')
+      .then(r => r.json())
+      .then(data => {
+        allTopics = data.topics;
+        buildFilters();
+        renderTopics(allTopics);
+      })
+      .catch(() => {
+        document.getElementById('charakaGrid').innerHTML = '<p style="color:#e65100;">Could not load data. Run on local server.</p>';
+      });
+
+    function buildFilters() {
+      const cats = ['All', ...new Set(allTopics.map(t => t.category))];
+      const html = cats.map((c, i) =>
+        `<button class="filter-btn ${i===0?'active':''}" onclick="filterTopics('${c}', this)">${c}</button>`
+      ).join('');
+      document.getElementById('categoryFilters').innerHTML = html;
+    }
+
+    function renderTopics(topics) {
+      const html = topics.map(t => `
+        <div class="charaka-card">
+          <span class="category">${t.category}</span>
+          <h4>${t.title}</h4>
+          <p class="shloka">“${t.shloka}”</p>
+          <p style="font-size:0.75rem; color:#757575; margin-bottom:0.5rem;">${t.chapter}</p>
+          <p>${t.description}</p>
+          <div style="margin-top:0.75rem; background:#e8f5e9; border-radius:8px; padding:0.6rem 0.8rem;">
+            <strong style="color:#2e7d32;">Daily Tip:</strong>
+            <p style="margin-top:0.2rem; font-size:0.85rem;">${t.daily_tip}</p>
+          </div>
+          <div style="margin-top:0.6rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <span style="font-size:0.75rem; background:#fff8e1; color:#e65100; padding:0.2rem 0.6rem; border-radius:10px;">V: ${t.dosha_impact.vata}</span>
+            <span style="font-size:0.75rem; background:#fce4ec; color:#c62828; padding:0.2rem 0.6rem; border-radius:10px;">P: ${t.dosha_impact.pitta}</span>
+            <span style="font-size:0.75rem; background:#e3f2fd; color:#0277bd; padding:0.2rem 0.6rem; border-radius:10px;">K: ${t.dosha_impact.kapha}</span>
+          </div>
+        </div>`).join('');
+      document.getElementById('charakaGrid').innerHTML = html || '<p>No topics found.</p>';
+    }
+
+    function filterTopics(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (cat === 'All') renderTopics(allTopics);
+      else renderTopics(allTopics.filter(t => t.category === cat));
+    }
+  </script>
+</body>
+</html>
