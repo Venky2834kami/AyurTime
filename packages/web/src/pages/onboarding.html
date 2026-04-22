@@ -302,6 +302,280 @@
             show('screen-result');
         }
 
+            // ============================================
+    // PHASE 7: API INTEGRATION & ERROR HANDLING
+    // ============================================
+    
+    let isSubmitting = false;
+    let retryCount = 0;
+    const MAX_RETRIES = 3;
+    
+    /**
+     * Submit Prakriti assessment to API with comprehensive error handling
+     */
+    async function submitPrakritiAssessment(answers) {
+        // Prevent double submission
+        if (isSubmitting) {
+            console.warn('Submission already in progress');
+            return;
+        }
+        
+        isSubmitting = true;
+        showLoadingState(true);
+        hideErrorMessage();
+        
+        try {
+            // Get API URL from config
+            const apiUrl = window.AyurTimeConfig.getApiUrl('prakritiAnalyze');
+            const timeout = window.AyurTimeConfig.timeout.api;
+            
+            // Create abort controller for timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
+            
+            // Make API request
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ answers }),
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
+            
+            // Handle HTTP errors
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            // Parse response
+            const result = await response.json();
+            
+            // Success!
+            retryCount = 0;
+            handleSuccessfulSubmission(result);
+            
+        } catch (error) {
+            console.error('API Error:', error);
+            handleSubmissionError(error);
+        } finally {
+            isSubmitting = false;
+            showLoadingState(false);
+        }
+    }
+    
+    /**
+     * Handle different types of submission errors
+     */
+    function handleSubmissionError(error) {
+        let errorMessage = '';
+        let canRetry = true;
+        
+        // Network/Connection errors
+        if (error.name === 'TypeError' || error.message.includes('Failed to fetch')) {
+            errorMessage = 'Unable to connect. Please check your internet connection and try again.';
+        }
+        // Timeout errors
+        else if (error.name === 'AbortError') {
+            errorMessage = 'Request timed out. Please try again.';
+        }
+        // HTTP 4xx errors (client errors)
+        else if (error.message.includes('HTTP 4')) {
+            errorMessage = 'Invalid response data. Please review your answers and try again.';
+            canRetry = false; // Don't auto-retry validation errors
+        }
+        // HTTP 5xx errors (server errors)
+        else if (error.message.includes('HTTP 5')) {
+            errorMessage = 'Our servers are experiencing issues. Please try again in a moment.';
+        }
+        // Unknown errors
+        else {
+            errorMessage = 'An unexpected error occurred. Please try again.';
+        }
+        
+        showErrorMessage(errorMessage, canRetry);
+    }
+    
+    /**
+     * Retry submission with exponential backoff
+     */
+    async function retrySubmission(answers) {
+        retryCount++;
+        
+        if (retryCount > MAX_RETRIES) {
+            showErrorMessage('Maximum retry attempts reached. Please try again later.', false);
+            return;
+        }
+        
+        // Exponential backoff: 1s, 2s, 4s
+        const delay = Math.pow(2, retryCount - 1) * 1000;
+        
+        showRetryMessage(`Retrying in ${delay/1000} seconds... (Attempt ${retryCount}/${MAX_RETRIES})`);
+        
+        await new Promise(resolve => setTimeout(resolve, delay));
+        await submitPrakritiAssessment(answers);
+    }
+    
+    /**
+     * Show loading state during API call
+     */
+    function showLoadingState(show) {
+        const submitBtn = document.querySelector('.submit-assessment');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const progressText = document.getElementById('progressText');
+        
+        if (show) {
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.6';
+            }
+            
+            // Show loading UI
+            if (!loadingSpinner) {
+                const spinner = document.createElement('div');
+                spinner.id = 'loadingSpinner';
+                spinner.innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <div class="spinner" style="
+                            border: 4px solid #f3f3f3;
+                            border-top: 4px solid var(--primary);
+                            border-radius: 50%;
+                            width: 40px;
+                            height: 40px;
+                            animation: spin 1s linear infinite;
+                            margin: 0 auto 10px;
+                        "></div>
+                        <p id="progressText" style="color: var(--text-muted);">Analyzing your responses...</p>
+                    </div>
+                `;
+                document.querySelector('.container').appendChild(spinner);
+                
+                // Add spinner animation
+                if (!document.querySelector('#spinner-style')) {
+                    const style = document.createElement('style');
+                    style.id = 'spinner-style';
+                    style.textContent = '@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }';
+                    document.head.appendChild(style);
+                }
+            }
+        } else {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+            }
+            
+            // Hide loading UI
+            if (loadingSpinner) {
+                loadingSpinner.remove();
+            }
+        }
+    }
+    
+    /**
+     * Show error message with optional retry button
+     */
+    function showErrorMessage(message, showRetry = true) {
+        hideErrorMessage(); // Clear previous errors
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.id = 'errorMessage';
+        errorDiv.style.cssText = `
+            background-color: #fee;
+            border: 1px solid #f88;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+            color: #c33;
+        `;
+        
+        errorDiv.innerHTML = `
+            <p style="margin: 0 0 10px; font-weight: 500;">⚠️ ${message}</p>
+            ${showRetry ? '<button id="retryBtn" class="retry-button" style="background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px;">Try Again</button>' : ''}
+        `;
+        
+        document.querySelector('.container').appendChild(errorDiv);
+        
+        // Add retry button handler
+        if (showRetry) {
+            document.getElementById('retryBtn').addEventListener('click', () => {
+                // Re-submit with saved answers
+                const savedAnswers = collectAnswers(); // Function to collect current form answers
+                retrySubmission(savedAnswers);
+            });
+        }
+    }
+    
+    /**
+     * Hide error messages
+     */
+    function hideErrorMessage() {
+        const errorDiv = document.getElementById('errorMessage');
+        if (errorDiv) {
+            errorDiv.remove();
+        }
+    }
+    
+    /**
+     * Show retry countdown message
+     */
+    function showRetryMessage(message) {
+        const progressText = document.getElementById('progressText');
+        if (progressText) {
+            progressText.textContent = message;
+        }
+    }
+    
+    /**
+     * Handle successful API response
+     */
+    function handleSuccessfulSubmission(result) {
+        console.log('Assessment successful:', result);
+        
+        // Store result
+        if (result.prakriti) {
+            localStorage.setItem('ayurtime_prakriti_result', JSON.stringify(result.prakriti));
+        }
+        
+        // Show success message briefly
+        const successDiv = document.createElement('div');
+        successDiv.style.cssText = `
+            background-color: #efe;
+            border: 1px solid #8e8;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+            color: #383;
+            text-align: center;
+        `;
+        successDiv.innerHTML = '<p style="margin: 0; font-weight: 500;">✅ Analysis complete!</p>';
+        document.querySelector('.container').appendChild(successDiv);
+        
+        // Navigate to results after brief delay
+        setTimeout(() => {
+            applyRoutine(); // Call existing function
+        }, 1500);
+    }
+    
+    /**
+     * Collect quiz answers from form
+     * (This should match your existing quiz structure)
+     */
+    function collectAnswers() {
+        // TODO: Implement based on actual quiz structure
+        // This is a placeholder - update to match actual DOM structure
+        const answers = [];
+        document.querySelectorAll('.quiz-question').forEach(q => {
+            const selected = q.querySelector('input:checked');
+            if (selected) {
+                answers.push(selected.value);
+            }
+        });
+        return answers;
+    }
+
+
         function applyRoutine() {
             const dosha = calcResult.primary;
             const routine = quizData.routines[dosha];
