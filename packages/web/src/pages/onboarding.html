@@ -270,8 +270,36 @@
             }
         }
 
-        function showResults() {
+        async function showResults() {
+        // Call backend API for Prakriti analysis
+        let calcResult;
+        try {
+            const response = await fetch('http://localhost:5000/api/prakriti/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ responses: answers })
+            });
+            
+            if (!response.ok) throw new Error('API call failed');
+            
+            const data = await response.json();
+            console.log('Backend API response:', data);
+            
+            // Map backend response to expected format
+            calcResult = {
+                primary: data.result.dominantDosha,
+                percentages: data.result.doshaPercentages
+            };
+            
+            // Store analysis ID from backend
+            localStorage.setItem('ayurtime_analysis_id', data.analysisId);
+            console.log('Analysis ID stored:', data.analysisId);
+        } catch (error) {
+            console.error('Error calling backend API:', error);
+            console.log('Falling back to client-side scoring');
+            // Fallback to client-side scoring for demo
             calcResult = DoshaScoring.calculate(answers);
+        }
             const dosha = calcResult.primary;
             const routine = quizData.routines[dosha];
 
