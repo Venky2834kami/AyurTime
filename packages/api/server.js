@@ -305,6 +305,61 @@ app.get('/api/prakriti/:analysisId', (req, res) => {
   return res.status(200).json(profile);
 });
 
+// --- GET /api/ayur-time ----------------------------------------------------------
+/**
+ * GET /api/ayur-time?prakriti=Vata&location=Pune
+ * Returns current Ayurvedic time state: dinacharya segment, ritu, dosha, personalised note.
+ * Query params (all optional):
+ *   prakriti  - user primary dosha: Vata | Pitta | Kapha
+ *   location  - location string for context (default: Pune)
+ */
+const { getAyurTimeState, getSegmentsForDay, getRituForMonth } = require('../web/src/js/ayur-calendar.js');
+
+app.get('/api/ayur-time', (req, res) => {
+  try {
+    const { prakriti, location } = req.query;
+    // Optional prakriti validation
+    const validPrakriti = ['vata', 'pitta', 'kapha'];
+    if (prakriti && !validPrakriti.includes(prakriti.toLowerCase())) {
+      return res.status(400).json({
+        error: 'Invalid prakriti',
+        message: 'prakriti must be one of: Vata, Pitta, Kapha',
+      });
+    }
+    const state = getAyurTimeState({
+      date: new Date(),
+      prakriti: prakriti || null,
+      location: location || 'Pune, Maharashtra, IN',
+    });
+    return res.status(200).json(state);
+  } catch (err) {
+    console.error('[AYUR_TIME_ERROR]', err);
+    return res.status(500).json({ error: 'Failed to compute Ayurvedic time state' });
+  }
+});
+
+// GET /api/ayur-time/segments - returns all 9 dinacharya segments for clock UI
+app.get('/api/ayur-time/segments', (req, res) => {
+  try {
+    return res.status(200).json({ segments: getSegmentsForDay() });
+  } catch (err) {
+    return res.status(500).json({ error: 'Failed to load segments' });
+  }
+});
+
+// GET /api/ayur-time/ritu?month=4 - returns Ritu for given month
+app.get('/api/ayur-time/ritu', (req, res) => {
+  try {
+    const month = parseInt(req.query.month, 10) || (new Date().getMonth() + 1);
+    if (month < 1 || month > 12) {
+      return res.status(400).json({ error: 'month must be 1-12' });
+    }
+    return res.status(200).json(getRituForMonth(month));
+  } catch (err) {
+    return res.status(500).json({ error: 'Failed to load Ritu' });
+  }
+});
+
 // ─── 404 Handler ─────────────────────────────────────────────────────────────
 app.use((req, res) => {
   res.status(404).json({ error: 'Not found', path: req.path });
