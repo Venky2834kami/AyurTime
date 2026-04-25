@@ -13,6 +13,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and [Sem
 - Panchakarma Prep & Tracking: detox checklists and day-wise protocols
 
 ---
+---
+
+## [v1.1.0-dev] - 2026-04-25
+### Added
+- Minimal User model and `/api/users` endpoints for creating and fetching users.
+- Assessment and Recommendation models representing Prakriti questionnaire submissions and personalised outputs.
+- `/api/assessments` endpoint that scores doshas via a pure doshaScoring service and returns structured recommendations.
+- `/api/recommendations` endpoints for fetching recommendations by ID and by user.
+- Dedicated dosha scoring service with unit-testable, pure scoring logic.
+- New Jest unit tests for dosha scoring and API integration tests for the assessment workflow.
+- `test:unit` npm script to run only dosha scoring and assessment workflow tests.
 
 ## [v1.0.0-mvp] - 2026-04-22
 
