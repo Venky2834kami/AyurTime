@@ -1,0 +1,37 @@
+name: AyurTime API Tests
+
+on:
+  push:
+    paths:
+      - "packages/api/**"
+      - ".github/workflows/api-tests.yml"
+  pull_request:
+    paths:
+      - "packages/api/**"
+      - ".github/workflows/api-tests.yml"
+
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: packages/api
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run full test suite
+        run: npm test
+
+      - name: Run unit dosha/assessment tests only
+        run: npm run test:unit
