@@ -11,6 +11,9 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
+const usersRouter = require('./routes/users');
+const assessmentsRouter = require('./routes/assessments');
+const recommendationsRouter = require('./routes/recommendations');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -360,6 +363,15 @@ app.get('/api/ayur-time/ritu', (req, res) => {
   }
 });
 
+// ─── Users / Assessments / Recommendations Routers ───────────────────────────
+app.use('/api/users', usersRouter);
+app.use('/api/assessments', assessmentsRouter);
+app.use('/api/recommendations', recommendationsRouter);
+
+// Share recommendations store from assessments into recommendations router
+if (assessmentsRouter._recommendations && recommendationsRouter.setStore) {
+  recommendationsRouter.setStore(assessmentsRouter._recommendations);
+}
 // ─── 404 Handler ─────────────────────────────────────────────────────────────
 app.use((req, res) => {
   res.status(404).json({ error: 'Not found', path: req.path });
