@@ -1,0 +1,1 @@
+v1 of my Panini-style Sanskrit engine will analyze single, unsandhied Ayurvedic nouns (vāta, pitta, kapha, rasa, rakta etc.) and return lemma, case, number, gender, and an Ayurvedic semantic tag (DOSHA, DHATU, …).
