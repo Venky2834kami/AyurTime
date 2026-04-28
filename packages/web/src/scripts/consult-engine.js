@@ -174,6 +174,23 @@ const AyurConsultEngine = {
     const month = new Date().getMonth();
     let seasonalHint = '';
     if (month >= 2 && month <= 5) {
+
+          // ===== Phase 3.5: Charaka + Sanskrit API Integration =====
+    // Optional: Enrich response with Charaka verses if backend is available
+    // Uncomment when API server is running:
+    /*
+    try {
+      const apiBaseUrl = 'http://localhost:3001'; // Update based on deployment
+      const charakaResults = await fetch(`${apiBaseUrl}/api/charaka/search?dosha=${detectedDosha.dominant}`);
+      if (charakaResults.ok) {
+        const charakaData = await charakaResults.json();
+        result.classicalSources = charakaData.results.slice(0, 3); // Top 3 relevant verses
+      }
+    } catch (err) {
+      // Backend not running, skip classical sources enrichment
+      console.log('[AyurConsult] Backend API unavailable, skipping Charaka enrichment');
+    }
+    */
       seasonalHint = ' Note: During this spring-summer transition, stay hydrated with herbal infusions.';
     } else if (month >= 9 && month <= 11) {
       seasonalHint = ' Note: In fall-winter, focus on warmth and grounding.';
