@@ -14,6 +14,8 @@ const { v4: uuidv4 } = require('uuid');
 const usersRouter = require('./routes/users');
 const assessmentsRouter = require('./routes/assessments');
 const recommendationsRouter = require('./routes/recommendations');
+const sanskritRouter = require('./routes/sanskrit');
+const charakaRouter = require('./routes/charaka');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -367,6 +369,8 @@ app.get('/api/ayur-time/ritu', (req, res) => {
 app.use('/api/users', usersRouter);
 app.use('/api/assessments', assessmentsRouter);
 app.use('/api/recommendations', recommendationsRouter);
+app.use('/api/sanskrit', sanskritRouter);
+app.use('/api/charaka', charakaRouter);
 
 // Share recommendations store from assessments into recommendations router
 if (assessmentsRouter._recommendations && recommendationsRouter.setStore) {
