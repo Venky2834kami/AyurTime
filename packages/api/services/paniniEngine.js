@@ -31,6 +31,87 @@ const AYURVEDIC_LEXICON = {
   ghṛta: { category: 'DRAVYA', meaning: 'ghee', english: 'Ghrita' },
   takra: { category: 'DRAVYA', meaning: 'buttermilk', english: 'Takra' },
   madhu: { category: 'DRAVYA', meaning: 'honey', english: 'Madhu' }
+    
+  // DRAVYA - Herbs & Medicinal Substances (Expanded)
+  tulasī: { category: 'DRAVYA', meaning: 'holy basil', english: 'Tulasi' },
+  aśvagandhā: { category: 'DRAVYA', meaning: 'winter cherry/adaptogen', english: 'Ashwagandha' },
+  guḍūcī: { category: 'DRAVYA', meaning: 'heart-leaved moonseed', english: 'Guduchi' },
+  bhūmyāmalakī: { category: 'DRAVYA', meaning: 'stone breaker herb', english: 'Bhumyamalaki' },
+  śaṭāvarī: { category: 'DRAVYA', meaning: 'asparagus/female tonic', english: 'Shatavari' },
+  brahmi: { category: 'DRAVYA', meaning: 'water hyssop/brain tonic', english: 'Brahmi' },
+  ārdraka: { category: 'DRAVYA', meaning: 'fresh ginger', english: 'Ardraka' },
+  śuṇṭhī: { category: 'DRAVYA', meaning: 'dry ginger', english: 'Shunthi' },
+  maricā: { category: 'DRAVYA', meaning: 'black pepper', english: 'Marica' },
+  pippalī: { category: 'DRAVYA', meaning: 'long pepper', english: 'Pippali' },
+  harītakī: { category: 'DRAVYA', meaning: 'chebulic myrobalan', english: 'Haritaki' },
+  āmalakī: { category: 'DRAVYA', meaning: 'Indian gooseberry', english: 'Amalaki' },
+  vibhītakī: { category: 'DRAVYA', meaning: 'belleric myrobalan', english: 'Vibhitaki' },
+  triphalā: { category: 'DRAVYA', meaning: 'three fruits (haritaki+amalaki+vibhitaki)', english: 'Triphala' },
+  nīm: { category: 'DRAVYA', meaning: 'neem/blood purifier', english: 'Neem' },
+  haldi: { category: 'DRAVYA', meaning: 'turmeric/anti-inflammatory', english: 'Haldi' },
+  elā: { category: 'DRAVYA', meaning: 'cardamom', english: 'Ela' },
+  dālcīnī: { category: 'DRAVYA', meaning: 'cinnamon', english: 'Dalchini' },
+  laśuna: { category: 'DRAVYA', meaning: 'garlic', english: 'Lashuna' },
+  
+  // ROGA - Diseases & Disorders
+  jvara: { category: 'ROGA', meaning: 'fever', english: 'Jvara' },
+  kāsa: { category: 'ROGA', meaning: 'cough', english: 'Kasa' },
+  śvāsa: { category: 'ROGA', meaning: 'asthma/breathlessness', english: 'Shvasa' },
+  raktapitta: { category: 'ROGA', meaning: 'bleeding disorders', english: 'Raktapitta' },
+  prameha: { category: 'ROGA', meaning: 'urinary disorders/diabetes', english: 'Prameha' },
+  madhumeha: { category: 'ROGA', meaning: 'diabetes mellitus', english: 'Madhumeha' },
+  atisāra: { category: 'ROGA', meaning: 'diarrhea', english: 'Atisara' },
+  grahaṇī: { category: 'ROGA', meaning: 'IBS/malabsorption', english: 'Grahani' },
+  arśas: { category: 'ROGA', meaning: 'hemorrhoids/piles', english: 'Arshas' },
+  gulma: { category: 'ROGA', meaning: 'abdominal tumor/mass', english: 'Gulma' },
+  udara: { category: 'ROGA', meaning: 'abdominal distension/ascites', english: 'Udara' },
+  pāṇḍu: { category: 'ROGA', meaning: 'anemia', english: 'Pandu' },
+  kāmala: { category: 'ROGA', meaning: 'jaundice', english: 'Kamala' },
+  śūla: { category: 'ROGA', meaning: 'pain/colic', english: 'Shula' },
+  viśūcikā: { category: 'ROGA', meaning: 'cholera/acute gastroenteritis', english: 'Vishuchika' },
+  
+  // KRIYA - Actions & Therapeutic Properties
+  dīpana: { category: 'KRIYA', meaning: 'digestive stimulant', english: 'Dipana' },
+  pācana: { category: 'KRIYA', meaning: 'digestive/carminative', english: 'Pachana' },
+  grāhī: { category: 'KRIYA', meaning: 'absorbent/binding', english: 'Grahi' },
+  śodhana: { category: 'KRIYA', meaning: 'purification/cleansing', english: 'Shodhana' },
+  śamana: { category: 'KRIYA', meaning: 'pacification/palliation', english: 'Shamana' },
+  rasāyana: { category: 'KRIYA', meaning: 'rejuvenation/tonic', english: 'Rasayana' },
+  vājīkaraṇa: { category: 'KRIYA', meaning: 'aphrodisiac/virility', english: 'Vajikarana' },
+  vamana: { category: 'KRIYA', meaning: 'therapeutic vomiting', english: 'Vamana' },
+  virecana: { category: 'KRIYA', meaning: 'therapeutic purgation', english: 'Virechana' },
+  basti: { category: 'KRIYA', meaning: 'therapeutic enema', english: 'Basti' },
+  nasya: { category: 'KRIYA', meaning: 'nasal therapy', english: 'Nasya' },
+  raktamokṣaṇa: { category: 'KRIYA', meaning: 'bloodletting', english: 'Raktamokshana' },
+  
+  // GUNA - Properties & Qualities
+  guru: { category: 'GUNA', meaning: 'heavy', english: 'Guru' },
+  laghu: { category: 'GUNA', meaning: 'light', english: 'Laghu' },
+  snigdha: { category: 'GUNA', meaning: 'unctuous/oily', english: 'Snigdha' },
+  rūkṣa: { category: 'GUNA', meaning: 'dry/rough', english: 'Ruksha' },
+  śīta: { category: 'GUNA', meaning: 'cold', english: 'Sheeta' },
+  uṣṇa: { category: 'GUNA', meaning: 'hot', english: 'Ushna' },
+  manda: { category: 'GUNA', meaning: 'slow/dull', english: 'Manda' },
+  tīkṣṇa: { category: 'GUNA', meaning: 'sharp/penetrating', english: 'Tikshna' },
+  sthira: { category: 'GUNA', meaning: 'stable/static', english: 'Sthira' },
+  cala: { category: 'GUNA', meaning: 'mobile', english: 'Chala' },
+  
+  // RASA - Tastes
+  madhura: { category: 'RASA', meaning: 'sweet taste', english: 'Madhura' },
+  amla: { category: 'RASA', meaning: 'sour taste', english: 'Amla' },
+  lavaṇa: { category: 'RASA', meaning: 'salty taste', english: 'Lavana' },
+  kaṭu: { category: 'RASA', meaning: 'pungent taste', english: 'Katu' },
+  tikta: { category: 'RASA', meaning: 'bitter taste', english: 'Tikta' },
+  kaṣāya: { category: 'RASA', meaning: 'astringent taste', english: 'Kashaya' },
+  
+  // SYMPTOMS & CONDITIONS
+  kabdha: { category: 'SYMPTOM', meaning: 'constipation', english: 'Kabdha' },
+  udvārta: { category: 'SYMPTOM', meaning: 'upward bloating', english: 'Udvarta' },
+  ānāha: { category: 'SYMPTOM', meaning: 'flatulence/gas retention', english: 'Anaha' },
+  adhmāna: { category: 'SYMPTOM', meaning: 'abdominal distension', english: 'Adhmana' },
+  hṛdroga: { category: 'SYMPTOM', meaning: 'heart disease', english: 'Hridroga' },
+  śiras: { category: 'SYMPTOM', meaning: 'headache', english: 'Shiras' },
+  mūrcchā: { category: 'SYMPTOM', meaning: 'fainting/unconsciousness', english: 'Murchha' }
 };
 
 /**
