@@ -216,3 +216,105 @@ if (typeof window !== 'undefined') {
   window.AyurConsultEngine = AyurConsultEngine;
   AyurConsultEngine.loadCharakaRules().catch(err => console.warn('Rule loading failed:', err));
 }
+
+
+// ── Backend Auto-Mode API Integration ─────────────────────────────────────────
+
+/**
+ * runAutoModeConsult - Calls backend /api/consult/auto and renders structured result
+ * @param {string} inputText - User's symptom/query text
+ * @param {object} userContext - Optional { userId, doshaProfile }
+ */
+async function runAutoModeConsult(inputText, userContext = {}) {
+  const API_BASE = window.AYURTIME_API_BASE || '';
+  const endpoint = `${API_BASE}/api/consult/auto`;
+
+  const body = {
+    text: inputText,
+    userId: userContext.userId || null,
+    doshaProfile: userContext.doshaProfile || null
+  };
+
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.error || `Auto-mode API error ${res.status}`);
+  }
+
+  const data = await res.json();
+  renderAutoModeResult(data);
+  return data;
+}
+
+/**
+ * renderAutoModeResult - Renders the structured auto-mode response into the DOM
+ * @param {object} result - Response from /api/consult/auto
+ */
+function renderAutoModeResult(result) {
+  // Target elements (IDs used in consult.html auto-mode section)
+  const els = {
+    diagnosis:   document.getElementById('auto-diagnosis'),
+    samprapti:   document.getElementById('auto-samprapti'),
+    chikitsa:    document.getElementById('auto-chikitsa'),
+    references:  document.getElementById('auto-references'),
+    confidence:  document.getElementById('auto-confidence'),
+    disclaimer:  document.getElementById('auto-disclaimer'),
+    section:     document.getElementById('auto-mode-result')
+  };
+
+  // Show the result section
+  if (els.section) els.section.style.display = 'block';
+
+  if (els.diagnosis)  els.diagnosis.textContent  = result.diagnosis  || 'No diagnosis generated';
+  if (els.samprapti)  els.samprapti.textContent  = result.samprapti  || '';
+  if (els.chikitsa)   els.chikitsa.textContent   = result.chikitsa   || '';
+  if (els.disclaimer) els.disclaimer.textContent = result.disclaimer || '';
+
+  // Confidence badge
+  if (els.confidence) {
+    const pct = Math.round((result.confidence || 0) * 100);
+    els.confidence.textContent = `Confidence: ${pct}%`;
+    els.confidence.className = pct >= 70 ? 'confidence-high' : pct >= 40 ? 'confidence-mid' : 'confidence-low';
+  }
+
+  // References list
+  if (els.references) {
+    els.references.innerHTML = '';
+    (result.references || []).forEach(ref => {
+      const li = document.createElement('li');
+      li.textContent = ref;
+      els.references.appendChild(li);
+    });
+  }
+
+  // Also append as a reasoning card inside chatHistory if it exists
+  const chatHistory = document.getElementById('chatHistory');
+  if (chatHistory && result.diagnosis) {
+    const card = document.createElement('div');
+    card.className = 'reasoning-card';
+    const dosha = (result.diagnosis.split(' ')[0] || '').toLowerCase();
+    card.innerHTML = `
+      <strong>🧠 Classical Auto-Mode Result:</strong><br>
+      Detected imbalance: <span class="dosha-badge dosha-${dosha}">${dosha || 'unknown'}</span><br>
+      <em>${result.diagnosis}</em><br><br>
+      <strong>Samprapti:</strong> ${result.samprapti || ''}<br><br>
+      <strong>Chikitsa:</strong> ${result.chikitsa || ''}<br><br>
+      <strong>Charaka References:</strong>
+      <ul>${(result.references || []).map(r => `<li>${r}</li>`).join('')}</ul>
+      <small class="disclaimer-text">${result.disclaimer || ''}</small>
+    `;
+    chatHistory.appendChild(card);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
+}
+
+// Expose globally
+if (typeof window !== 'undefined') {
+  window.runAutoModeConsult = runAutoModeConsult;
+  window.renderAutoModeResult = renderAutoModeResult;
+}
