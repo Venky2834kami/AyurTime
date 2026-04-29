@@ -16,6 +16,7 @@ const assessmentsRouter = require('./routes/assessments');
 const recommendationsRouter = require('./routes/recommendations');
 const sanskritRouter = require('./routes/sanskrit');
 const charakaRouter = require('./routes/charaka');
+const autoConsultRouter = require('./routes/autoConsult');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -371,6 +372,7 @@ app.use('/api/assessments', assessmentsRouter);
 app.use('/api/recommendations', recommendationsRouter);
 app.use('/api/sanskrit', sanskritRouter);
 app.use('/api/charaka', charakaRouter);
+app.use('/api/consult', autoConsultRouter);
 
 // Share recommendations store from assessments into recommendations router
 if (assessmentsRouter._recommendations && recommendationsRouter.setStore) {
