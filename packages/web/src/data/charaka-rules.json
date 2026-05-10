@@ -1,0 +1,153 @@
+{
+  "meta": {
+    "title": "Charaka-Inspired Ayurvedic Rules Engine",
+    "description": "Panini-style rule-based consult logic for AyurTime AI Coach",
+    "version": "1.0.0"
+  },
+  "rules": [
+    {
+      "id": "kapha_obesity_risk_rule_1",
+      "source_text": "Charaka Samhita, Sutrasthana 21 (Ashtauninditiya)",
+      "priority": 9,
+      "conditions": {
+        "prakriti_includes": ["kapha"],
+        "bmi_min": 25,
+        "avg_sleep_hours_min": 9,
+        "daytime_sleep": true,
+        "keywords": ["heavy", "weight", "gain", "sluggish", "sleepy", "daytime sleep", "lethargy"]
+      },
+      "effects": {
+        "risk_tag": "obesity_tendency",
+        "aggravated_doshas": ["kapha"]
+      },
+      "advice": {
+        "summary": "Kapha aggravation with obesity tendency detected. Reduce excessive sleep and day naps; introduce light daily exercise (like brisk walking) and regulated meals. Favor warm, light foods and avoid cold, heavy, oily items.",
+        "charaka_reference": "cs_sutra_21",
+        "lifestyle_changes": [
+          "Wake before sunrise (Brahma Muhurta)",
+          "Avoid day sleep completely",
+          "Practice moderate exercise daily (until light sweat)",
+          "Eat warm, freshly cooked meals",
+          "Include spices: ginger, black pepper, turmeric"
+        ]
+      }
+    },
+    {
+      "id": "vata_irregularity_rule_1",
+      "source_text": "Charaka Samhita, Sutrasthana 12 (Vata Vyadhi)",
+      "priority": 8,
+      "conditions": {
+        "prakriti_includes": ["vata"],
+        "keywords": ["gas", "bloating", "constipation", "anxiety", "insomnia", "dry", "joint pain", "cracking", "restless", "tremor"]
+      },
+      "effects": {
+        "risk_tag": "vata_imbalance",
+        "aggravated_doshas": ["vata"]
+      },
+      "advice": {
+        "summary": "Vata imbalance detected. Focus on routine, warmth, and grounding practices. Favor warm, cooked, oily foods. Practice calming pranayama and abhyanga (oil massage).",
+        "charaka_reference": "cs_sutra_12",
+        "lifestyle_changes": [
+          "Maintain regular meal and sleep timings",
+          "Daily abhyanga with warm sesame oil",
+          "Avoid cold, dry, raw foods",
+          "Practice Nadi Shodhana pranayama",
+          "Drink warm herbal teas (ginger, fennel)"
+        ]
+      }
+    },
+    {
+      "id": "pitta_heat_rule_1",
+      "source_text": "Charaka Samhita, Sutrasthana 20 (Maharoga)",
+      "priority": 8,
+      "conditions": {
+        "prakriti_includes": ["pitta"],
+        "keywords": ["acidity", "heartburn", "burning", "heat", "anger", "irritability", "rash", "inflammation", "red eyes", "bile"]
+      },
+      "effects": {
+        "risk_tag": "pitta_excess",
+        "aggravated_doshas": ["pitta"]
+      },
+      "advice": {
+        "summary": "Pitta excess detected. Favor cooling, calming practices and foods. Avoid spicy, oily, salty, and fermented items. Practice mindfulness and stress reduction.",
+        "charaka_reference": "cs_sutra_20",
+        "lifestyle_changes": [
+          "Eat cooling foods (cucumber, coconut water, mint)",
+          "Avoid excessive heat and sun exposure",
+          "Practice Shitali or Sheetkari pranayama",
+          "Reduce spicy, salty, sour foods",
+          "Apply cooling oils (coconut, sandalwood) to head and body"
+        ]
+      }
+    },
+    {
+      "id": "agni_mandya_rule_1",
+      "source_text": "Charaka Samhita, Chikitsasthana 15 (Grahanidosha)",
+      "priority": 7,
+      "conditions": {
+        "keywords": ["weak digestion", "slow digestion", "bloating after meals", "indigestion", "loss of appetite", "nausea", "heaviness"]
+      },
+      "effects": {
+        "risk_tag": "weak_agni",
+        "aggravated_doshas": ["vata", "kapha"]
+      },
+      "advice": {
+        "summary": "Weak digestive fire (Agni Mandya) detected. Strengthen agni with warm spices, regular meal timing, and light, easily digestible foods. Avoid overeating and late meals.",
+        "charaka_reference": "cs_chikitsa_15",
+        "lifestyle_changes": [
+          "Eat only when hungry",
+          "Include ginger, cumin, fennel in meals",
+          "Drink warm water throughout the day",
+          "Avoid cold drinks and ice",
+          "Practice mindful eating without distractions"
+        ]
+      }
+    },
+    {
+      "id": "stress_anxiety_rule_1",
+      "source_text": "Charaka Samhita, Sutrasthana 11 (Tisreshaniya - Mental Health)",
+      "priority": 7,
+      "conditions": {
+        "keywords": ["stress", "anxiety", "worry", "fear", "panic", "overthinking", "mental fatigue", "insomnia", "restlessness"]
+      },
+      "effects": {
+        "risk_tag": "mental_imbalance",
+        "aggravated_doshas": ["vata", "pitta"]
+      },
+      "advice": {
+        "summary": "Mental stress and anxiety detected (Vata-Pitta imbalance in Manas). Practice grounding meditation, pranayama, and Ayurvedic relaxation techniques. Favor calming herbs like Brahmi and Ashwagandha.",
+        "charaka_reference": "cs_sutra_11",
+        "lifestyle_changes": [
+          "Daily meditation (10-20 minutes)",
+          "Pranayama: Nadi Shodhana or Bhramari",
+          "Abhyanga with Brahmi oil before sleep",
+          "Avoid excessive screen time",
+          "Herbal support: Brahmi, Ashwagandha, Jatamansi tea"
+        ]
+      }
+    },
+    {
+      "id": "sleep_disturbance_rule_1",
+      "source_text": "Charaka Samhita, Sutrasthana 21 (Nidra - Sleep)",
+      "priority": 6,
+      "conditions": {
+        "keywords": ["insomnia", "difficulty sleeping", "waking up", "poor sleep", "restless sleep", "sleep disturbance"]
+      },
+      "effects": {
+        "risk_tag": "sleep_imbalance",
+        "aggravated_doshas": ["vata"]
+      },
+      "advice": {
+        "summary": "Sleep disturbance detected (Vata imbalance). Establish regular sleep routine, practice evening relaxation, warm oil massage, and avoid stimulating activities before bed.",
+        "charaka_reference": "cs_sutra_21",
+        "lifestyle_changes": [
+          "Sleep by 10 PM and wake before sunrise",
+          "Warm milk with nutmeg before bed",
+          "Abhyanga with sesame oil in evening",
+          "Avoid screens 1 hour before sleep",
+          "Practice Yoga Nidra or body scan meditation"
+        ]
+      }
+    }
+  ]
+}

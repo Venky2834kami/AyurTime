@@ -1,5 +1,5 @@
 {
-  "name": "@ayurtime/api",
+  "name": "ayurtime-api",
   "version": "1.0.0",
   "description": "AyurTime Backend API - Prakriti Analysis Service",
   "main": "server.js",

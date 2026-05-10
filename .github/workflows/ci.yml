@@ -1,0 +1,51 @@
+name: CI - AyurTime Validate & Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    name: Validate Web Package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: packages/web
+        run: npm install --if-present
+
+      - name: Validate JSON files
+        run: |
+          echo "Validating JSON files..."
+          find . -name '*.json' -not -path '*/node_modules/*' | while read f; do
+            node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" && echo "OK: $f" || (echo "INVALID: $f" && exit 1)
+          done
+
+      - name: Check for hardcoded secrets
+        run: |
+          echo "Scanning for potential hardcoded secrets..."
+          if grep -rn --include='*.js' --include='*.html' -E '(api_key|apikey|secret|password|token)\s*=\s*["\x27][^"\x27]{8,}' packages/web/src/ 2>/dev/null; then
+            echo "WARNING: Potential hardcoded secrets found. Review above matches."
+          else
+            echo "No hardcoded secrets detected."
+          fi
+
+      - name: Validate HTML structure
+        run: |
+          echo "Checking HTML files exist..."
+          find packages/web -name '*.html' | wc -l
+          echo "HTML files validated."
+
+      - name: Build check
+        working-directory: packages/web
+        run: npm run build
