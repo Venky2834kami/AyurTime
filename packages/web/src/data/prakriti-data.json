@@ -1,0 +1,174 @@
+{
+  "doshas": {
+    "vata": {
+      "name": "Vata",
+      "name_hindi": "वात",
+      "elements": ["Air", "Ether"],
+      "qualities": ["dry", "light", "cold", "rough", "subtle", "mobile"],
+      "description": "Vata governs movement, breathing, circulation, and nerve impulses. Vata types are creative, quick-thinking, and energetic when balanced.",
+      "description_hindi": "वात वायु और आकाश तत्वों से बना है। यह गति, श्वास, परिसंचरण और तंत्रिका आवेगों को नियंत्रित करता है।",
+      "physical_traits": {
+        "tongue": ["thin", "dry", "brownish coating", "trembling", "cracks"],
+        "nails": ["thin", "dry", "brittle", "rough texture", "ridges"],
+        "face": ["thin", "dry skin", "dark circles", "prominent bones", "small eyes"]
+      },
+      "balanced_traits": ["creative", "quick learner", "adaptable", "energetic", "enthusiastic"],
+      "imbalanced_traits": ["anxiety", "insomnia", "constipation", "dry skin", "weight loss"],
+      "diet_recommendations": {
+        "favor": ["warm cooked foods", "sweet fruits", "dairy", "nuts", "seeds", "warm spices"],
+        "avoid": ["raw vegetables", "cold foods", "dry snacks", "caffeine", "bitter foods"],
+        "meal_timing": "Eat 3 regular meals daily at consistent times. Avoid skipping meals."
+      },
+      "lifestyle_tips": [
+        "Maintain regular daily routine (dinacharya)",
+        "Practice gentle yoga and meditation",
+        "Get adequate warm sleep (7-8 hours)",
+        "Stay warm and avoid cold, windy weather",
+        "Abhyanga (self-massage) with sesame oil daily"
+      ],
+      "herbs": ["Ashwagandha", "Shatavari", "Brahmi", "Triphala", "Licorice"],
+      "color": "#7E57C2"
+    },
+    "pitta": {
+      "name": "Pitta",
+      "name_hindi": "पित्त",
+      "elements": ["Fire", "Water"],
+      "qualities": ["hot", "sharp", "oily", "light", "spreading", "liquid"],
+      "description": "Pitta governs metabolism, digestion, intelligence, and transformation. Pitta types are sharp-minded, focused, and passionate when balanced.",
+      "description_hindi": "पित्त अग्नि और जल तत्वों से बना है। यह चयापचय, पाचन, बुद्धि और परिवर्तन को नियंत्रित करता है।",
+      "physical_traits": {
+        "tongue": ["medium size", "red or yellow coating", "sharp pointed tip", "inflamed patches"],
+        "nails": ["medium size", "pinkish-red", "soft", "flexible", "lustrous"],
+        "face": ["medium build", "reddish skin", "sharp features", "freckles", "sensitive skin"]
+      },
+      "balanced_traits": ["focused", "organized", "intelligent", "courageous", "strong digestion"],
+      "imbalanced_traits": ["anger", "inflammation", "acid reflux", "skin rashes", "perfectionism"],
+      "diet_recommendations": {
+        "favor": ["cooling foods", "sweet fruits", "leafy greens", "coconut", "dairy", "coriander"],
+        "avoid": ["spicy foods", "fermented foods", "alcohol", "red meat", "sour foods"],
+        "meal_timing": "Largest meal at noon when digestive fire is strongest. Avoid late dinners."
+      },
+      "lifestyle_tips": [
+        "Practice cooling pranayama (Sheetali, Sheetkari)",
+        "Moonlit walks and time in nature",
+        "Avoid overworking and competitive environments",
+        "Massage with coconut or sunflower oil",
+        "Practice compassion meditation"
+      ],
+      "herbs": ["Amalaki", "Shatavari", "Brahmi", "Guduchi", "Neem"],
+      "color": "#FF6F00"
+    },
+    "kapha": {
+      "name": "Kapha",
+      "name_hindi": "कफ",
+      "elements": ["Earth", "Water"],
+      "qualities": ["heavy", "slow", "cool", "oily", "smooth", "dense", "stable"],
+      "description": "Kapha governs structure, stability, lubrication, and immunity. Kapha types are calm, caring, and steadfast when balanced.",
+      "description_hindi": "कफ पृथ्वी और जल तत्वों से बना है। यह संरचना, स्थिरता, स्नेहन और प्रतिरक्षा को नियंत्रित करता है।",
+      "physical_traits": {
+        "tongue": ["large", "pale or white coating", "thick mucus", "scalloped edges", "moist"],
+        "nails": ["large", "thick", "white/pale", "smooth", "well-formed"],
+        "face": ["round face", "oily skin", "large eyes", "thick hair", "smooth complexion"]
+      },
+      "balanced_traits": ["calm", "patient", "loving", "strong immunity", "good memory"],
+      "imbalanced_traits": ["lethargy", "weight gain", "congestion", "possessiveness", "depression"],
+      "diet_recommendations": {
+        "favor": ["light foods", "bitter greens", "spices", "legumes", "honey", "dry foods"],
+        "avoid": ["heavy foods", "dairy", "sweets", "fried foods", "cold foods"],
+        "meal_timing": "Lighter meals, especially in the evening. Intermittent fasting can be beneficial."
+      },
+      "lifestyle_tips": [
+        "Regular vigorous exercise",
+        "Wake up before sunrise (before 6am)",
+        "Dry massage (Garshana) with raw silk gloves",
+        "Seek new experiences and avoid routine",
+        "Practice energizing pranayama (Kapalabhati, Bhastrika)"
+      ],
+      "herbs": ["Trikatu", "Guggulu", "Bibhitaki", "Ginger", "Punarnava"],
+      "color": "#388E3C"
+    }
+  },
+  "prakriti_schema": {
+    "user_id": "string",
+    "analyzed_at": "ISO8601",
+    "method": "image_analysis | questionnaire",
+    "images": {
+      "tongue": "base64_or_url",
+      "nail": "base64_or_url",
+      "face": "base64_or_url"
+    },
+    "dosha_scores": {
+      "vata": 0.0,
+      "pitta": 0.0,
+      "kapha": 0.0
+    },
+    "dominant_dosha": "vata | pitta | kapha",
+    "sub_dosha": "vata-pitta | pitta-kapha | vata-kapha",
+    "prakriti_notes": "string",
+    "confidence_score": 0.0
+  },
+  "questionnaire": [
+    {
+      "id": "q1",
+      "category": "body_frame",
+      "question": "What is your body frame?",
+      "question_hindi": "आपकी शारीरिक संरचना कैसी है?",
+      "options": [
+        {"text": "Thin, light, find it hard to gain weight", "text_hindi": "पतला, हल्का, वजन बढ़ाना मुश्किल", "dosha": "vata", "score": 1},
+        {"text": "Medium, muscular, proportionate", "text_hindi": "मध्यम, मांसल, संतुलित", "dosha": "pitta", "score": 1},
+        {"text": "Large, heavy, gain weight easily", "text_hindi": "बड़ा, भारी, आसानी से वजन बढ़ता है", "dosha": "kapha", "score": 1}
+      ]
+    },
+    {
+      "id": "q2",
+      "category": "skin",
+      "question": "How is your skin type?",
+      "question_hindi": "आपकी त्वचा कैसी है?",
+      "options": [
+        {"text": "Dry, rough, thin, cool to touch", "text_hindi": "सूखी, खुरदरी, पतली", "dosha": "vata", "score": 1},
+        {"text": "Oily, warm, prone to rashes or acne", "text_hindi": "तैलीय, गर्म, दाने होने का प्रवृत्ति", "dosha": "pitta", "score": 1},
+        {"text": "Thick, smooth, oily, pale or cool", "text_hindi": "मोटी, चिकनी, तैलीय", "dosha": "kapha", "score": 1}
+      ]
+    },
+    {
+      "id": "q3",
+      "category": "digestion",
+      "question": "How is your digestion?",
+      "question_hindi": "आपका पाचन कैसा है?",
+      "options": [
+        {"text": "Irregular, variable, prone to gas and bloating", "text_hindi": "अनियमित, गैस की समस्या", "dosha": "vata", "score": 1},
+        {"text": "Strong, can digest most foods, gets hungry often", "text_hindi": "मजबूत, अधिक भूख", "dosha": "pitta", "score": 1},
+        {"text": "Slow, heavy feeling after meals, steady", "text_hindi": "धीमा, खाने के बाद भारीपन", "dosha": "kapha", "score": 1}
+      ]
+    },
+    {
+      "id": "q4",
+      "category": "sleep",
+      "question": "How do you sleep?",
+      "question_hindi": "आप कैसे सोते हैं?",
+      "options": [
+        {"text": "Light sleeper, difficulty falling asleep, interrupted sleep", "text_hindi": "हल्की नींद, सोने में कठिनाई", "dosha": "vata", "score": 1},
+        {"text": "Moderate sleep, can wake up refreshed, 6-7 hours", "text_hindi": "मध्यम नींद, तरोताजा उठना", "dosha": "pitta", "score": 1},
+        {"text": "Deep, heavy sleeper, need 8+ hours, hard to wake up", "text_hindi": "गहरी नींद, उठने में कठिनाई", "dosha": "kapha", "score": 1}
+      ]
+    },
+    {
+      "id": "q5",
+      "category": "mind",
+      "question": "How do you handle stress?",
+      "question_hindi": "आप तनाव को कैसे संभालते हैं?",
+      "options": [
+        {"text": "Get anxious, worried, overwhelmed quickly", "text_hindi": "चिंतित, घबराहट होती है", "dosha": "vata", "score": 1},
+        {"text": "Get irritable, angry, or impatient", "text_hindi": "चिड़चिड़ापन, क्रोध", "dosha": "pitta", "score": 1},
+        {"text": "Withdraw, become reclusive, slow to respond", "text_hindi": "एकांत में चले जाना, धीमी प्रतिक्रिया", "dosha": "kapha", "score": 1}
+      ]
+    }
+  ],
+  "api_endpoint": "/api/prakriti/analyze",
+  "model_info": {
+    "primary": "MobileNetV2 fine-tuned on Ayurvedic tongue/face datasets",
+    "fallback": "rule-based questionnaire scoring",
+    "input": "multipart/form-data with tongue, nail, face images",
+    "output": "{vata_pct, pitta_pct, kapha_pct, dominant_dosha, confidence}"
+  }
+}

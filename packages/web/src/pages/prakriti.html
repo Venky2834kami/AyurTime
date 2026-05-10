@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prakriti AI Analyzer | AyurTime</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        .prakriti-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        .wizard-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        .wizard-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: -1;
+        }
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            margin: 0 auto 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .step.active .step-circle {
+            background: var(--primary-color, #4CAF50);
+            color: white;
+        }
+        .step.completed .step-circle {
+            background: #8BC34A;
+            color: white;
+        }
+        .upload-zone {
+            border: 2px dashed #ccc;
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 2rem 0;
+        }
+        .upload-zone:hover {
+            border-color: var(--primary-color, #4CAF50);
+            background: #f5f5f5;
+        }
+        .upload-zone.drag-over {
+            border-color: var(--primary-color, #4CAF50);
+            background: #e8f5e9;
+        }
+        .image-preview {
+            max-width: 300px;
+            max-height: 300px;
+            margin: 1rem auto;
+            border-radius: 8px;
+        }
+        .camera-btn, .upload-btn {
+            padding: 1rem 2rem;
+            margin: 0.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .camera-btn {
+            background: var(--primary-color, #4CAF50);
+            color: white;
+        }
+        .upload-btn {
+            background: #2196F3;
+            color: white;
+        }
+        .results-chart {
+            max-width: 500px;
+            margin: 2rem auto;
+        }
+        .dosha-bar {
+            margin: 1rem 0;
+        }
+        .dosha-bar-fill {
+            height: 30px;
+            border-radius: 5px;
+            transition: width 0.5s;
+        }
+        .vata-bar { background: linear-gradient(90deg, #B39DDB, #7E57C2); }
+        .pitta-bar { background: linear-gradient(90deg, #FFAB91, #FF6F00); }
+        .kapha-bar { background: linear-gradient(90deg, #81C784, #388E3C); }
+        .step-content {
+            display: none;
+        }
+        .step-content.active {
+            display: block;
+        }
+        .questionnaire {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+        .question {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .option {
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .option:hover {
+            background: #f5f5f5;
+        }
+        .option.selected {
+            background: var(--primary-color, #4CAF50);
+            color: white;
+            border-color: var(--primary-color, #4CAF50);
+        }
+    </style>
+</head>
+<body>
+    <div class="prakriti-container">
+        <h1>🔬 Prakriti AI Analyzer</h1>
+        <p>Discover your Ayurvedic constitution through AI-powered image analysis of tongue, nails, and face.</p>
+        
+        <!-- Wizard Steps -->
+        <div class="wizard-steps">
+            <div class="step active" data-step="1">
+                <div class="step-circle">1</div>
+                <div>Tongue</div>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-circle">2</div>
+                <div>Nails</div>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-circle">3</div>
+                <div>Face</div>
+            </div>
+            <div class="step" data-step="4">
+                <div class="step-circle">4</div>
+                <div>Results</div>
+            </div>
+        </div>
+
+        <!-- Step 1: Tongue -->
+        <div class="step-content active" id="step1">
+            <h2>Step 1: Tongue Analysis</h2>
+            <p>Upload a clear photo of your tongue in natural light.</p>
+            <div class="upload-zone" id="tongueUpload">
+                <p>📸 Click to capture or upload tongue image</p>
+                <button class="camera-btn" onclick="captureImage('tongue')">📷 Use Camera</button>
+                <button class="upload-btn" onclick="document.getElementById('tongueFile').click()">📁 Upload File</button>
+                <input type="file" id="tongueFile" accept="image/*" style="display:none" onchange="previewImage(this, 'tonguePreview')">
+            </div>
+            <img id="tonguePreview" class="image-preview" style="display:none">
+            <button class="camera-btn" onclick="nextStep(2)" id="tongueNext" style="display:none">Next →</button>
+        </div>
+
+        <!-- Step 2: Nails -->
+        <div class="step-content" id="step2">
+            <h2>Step 2: Nail Analysis</h2>
+            <p>Upload a clear photo of your fingernails.</p>
+            <div class="upload-zone" id="nailUpload">
+                <p>📸 Click to capture or upload nail image</p>
+                <button class="camera-btn" onclick="captureImage('nail')">📷 Use Camera</button>
+                <button class="upload-btn" onclick="document.getElementById('nailFile').click()">📁 Upload File</button>
+                <input type="file" id="nailFile" accept="image/*" style="display:none" onchange="previewImage(this, 'nailPreview')">
+            </div>
+            <img id="nailPreview" class="image-preview" style="display:none">
+            <button class="upload-btn" onclick="prevStep(1)">← Back</button>
+            <button class="camera-btn" onclick="nextStep(3)" id="nailNext" style="display:none">Next →</button>
+        </div>
+
+        <!-- Step 3: Face -->
+        <div class="step-content" id="step3">
+            <h2>Step 3: Face Analysis</h2>
+            <p>Upload a clear photo of your face in natural light.</p>
+            <div class="upload-zone" id="faceUpload">
+                <p>📸 Click to capture or upload face image</p>
+                <button class="camera-btn" onclick="captureImage('face')">📷 Use Camera</button>
+                <button class="upload-btn" onclick="document.getElementById('faceFile').click()">📁 Upload File</button>
+                <input type="file" id="faceFile" accept="image/*" style="display:none" onchange="previewImage(this, 'facePreview')">
+            </div>
+            <img id="facePreview" class="image-preview" style="display:none">
+            <button class="upload-btn" onclick="prevStep(2)">← Back</button>
+            <button class="camera-btn" onclick="analyzeImages()">🔬 Analyze</button>
+        </div>
+
+        <!-- Step 4: Results -->
+        <div class="step-content" id="step4">
+            <h2>🎯 Your Prakriti Results</h2>
+            <div id="resultsContainer">
+                <div class="results-chart">
+                    <h3>Dosha Distribution</h3>
+                    <div class="dosha-bar">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+                            <strong>Vata</strong>
+                            <span id="vataPercent">0%</span>
+                        </div>
+                        <div class="dosha-bar-fill vata-bar" id="vataBar" style="width:0%"></div>
+                    </div>
+                    <div class="dosha-bar">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+                            <strong>Pitta</strong>
+                            <span id="pittaPercent">0%</span>
+                        </div>
+                        <div class="dosha-bar-fill pitta-bar" id="pittaBar" style="width:0%"></div>
+                    </div>
+                    <div class="dosha-bar">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+                            <strong>Kapha</strong>
+                            <span id="kaphaPercent">0%</span>
+                        </div>
+                        <div class="dosha-bar-fill kapha-bar" id="kaphaBar" style="width:0%"></div>
+                    </div>
+                </div>
+                <div id="dominantDosha" style="margin:2rem 0; padding:2rem; background:#f5f5f5; border-radius:8px; text-align:center;">
+                    <h3>Dominant Dosha: <span id="doshaName"></span></h3>
+                    <p id="doshaDescription"></p>
+                </div>
+                <button class="camera-btn" onclick="saveProfile()">💾 Save to Profile</button>
+                <button class="upload-btn" onclick="location.href='dashboard.html'">🏠 Back to Dashboard</button>
+            </div>
+        </div>
+
+        <!-- Fallback Questionnaire -->
+        <div id="questionnaireSection" style="display:none;">
+            <h2>📋 Prakriti Questionnaire</h2>
+            <p>Camera not available? Answer these questions for assessment:</p>
+            <div class="questionnaire" id="questionnaireContainer"></div>
+            <button class="camera-btn" onclick="analyzeQuestionnaire()">Calculate Prakriti</button>
+        </div>
+    </div>
+
+    <script src="../js/prakriti.js"></script>
+    <script src="../scripts/app.js"></script>
+</body>
+</html>
