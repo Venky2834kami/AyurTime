@@ -74,3 +74,69 @@ Q2 2026 (May-Jun): Phase 2 — Auth, Tracking, Calendar
 Q3 2026 (Jul-Aug): Phase 3 — AI, Community, Wearable
 Q4 2026:           v2.0 — Production Launch & Scale
 ```
+
+
+---
+
+## TKDL-style Integration Phases
+
+### Phase 3A — Metadata Normalization (COMPLETED)
+
+**Objective:** Adopt TKDL-style metadata fields across `packages/web/src/data/`.
+
+**Files affected:**
+- `packages/web/src/data/schema-tkdl-metadata.json` (new)
+- `packages/web/src/data/symptoms-tkrc.json` (new)
+- `packages/web/src/data/recommendations-lifestyle.json` (new)
+- `packages/web/src/data/classical-references.json` (new)
+
+**Outcome:** All new knowledge nodes carry TKRC-like provenance, safety, and dosha metadata.
+
+---
+
+### Phase 3B — Safety-first Consultation Engine (COMPLETED)
+
+**Objective:** Extend `consult-engine.js` with TKRC-like mapping, safety filters, and rank weights.
+
+**Files affected:**
+- `packages/web/src/scripts/consult-engine-tkdl.js` (new)
+
+**Outcome:** Full 11-step consultation pipeline with red-flag escalation, contraindication filtering, confidence scoring, and conservative recommendation ranking.
+
+---
+
+### Phase 3C — Human Review Workflow
+
+**Objective:** Wire `human_review_status` and `confidence_level` into editorial workflow.
+
+**Files affected:**
+- `packages/web/src/data/*.json`
+- Docs
+
+**Outcome:** Unreviewed content surfaces only with conservative language. Review queue established.
+
+---
+
+### Phase 4 — Backend and Audit Readiness
+
+**Objective:** Build Node.js/Express backend to persist anonymized consult audit logs.
+
+**Files affected:**
+- New backend directory
+- API contracts
+- `TECHNICAL_SPECIFICATION.md`
+
+**Outcome:** Scalable backend with audit trail, analytics, and future API for mobile/watch clients.
+
+---
+
+### Phase 5 — Ontology Expansion and API
+
+**Objective:** Expand knowledge base coverage and expose a versioned knowledge API.
+
+**Files affected:**
+- `packages/web/src/data/*.json`
+- New API endpoints
+- Expanded synonym maps in `consult-engine-tkdl.js`
+
+**Outcome:** Wider symptom coverage, richer classical references, and a public-facing knowledge API for future mobile and wearable integration.
