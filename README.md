@@ -102,4 +102,36 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
+---
+
+## TKDL-style Knowledge Architecture
+
+AyurTime uses a **TKDL-style structure** only as an internal metadata and classification framework. It does **not** query or reproduce any proprietary TKDL entries. All knowledge content is sourced from open-domain classical texts and internally defined rules.
+
+### Key points
+
+- JSON knowledge nodes under `packages/web/src/data/` include TKRC-like fields: `tkrc_body_system`, `tkrc_therapeutic_area`, `dosage_form_category`, `dosha_action_profile`, `safety_band`, and `watch_suitability`.
+- These fields are used **only** for ontology alignment, safety filtering, and recommendation ranking.
+- Classical references (Charaka Samhita, etc.) are treated as prior-art educational background, not as patentable novelty.
+- The TKDL-style consult engine (`consult-engine-tkdl.js`) prioritizes low-risk lifestyle guidance — ahara, vihara, dinacharya, nidra, hydration, mild yoga, breathwork — and routes red-flag conditions to human care.
+- AyurTime is an **educational and lifestyle-support coach only**. It is not a replacement for a physician, Vaidya, or emergency care.
+
+### New TKDL-style files added
+
+| File | Purpose |
+|------|---------|
+| `packages/web/src/data/schema-tkdl-metadata.json` | JSON Schema defining all TKDL-style metadata fields |
+| `packages/web/src/data/symptoms-tkrc.json` | 8 canonical symptom nodes with dosha and safety metadata |
+| `packages/web/src/data/recommendations-lifestyle.json` | 8 lifestyle recommendation nodes mapped to TKRC bands |
+| `packages/web/src/data/classical-references.json` | 7 Charaka Samhita classical reference nodes |
+| `packages/web/src/scripts/consult-engine-tkdl.js` | Full 11-step TKDL-style consultation pipeline |
+
+### Safety boundaries
+
+- No diagnosis claims are made.
+- Practitioner-only content is suppressed from default user output.
+- Red-flag symptoms (chest pain, breathing difficulty, etc.) bypass lifestyle recommendations and trigger escalation.
+- Contraindication flags suppress context-inappropriate suggestions (pregnancy, child, elderly).
+- All recommendations include safety disclaimers.
+
 *Built with devotion to Ayurveda and modern AI — AyurTime bridges ancient wisdom with intelligent technology.*
