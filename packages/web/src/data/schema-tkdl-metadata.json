@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AyurTime TKDL-style Metadata Schema",
+  "description": "Common metadata fields for knowledge nodes in packages/web/src/data/",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "label": { "type": "string" },
+    "knowledge_source_type": {
+      "type": "string",
+      "enum": ["classical_text", "internal_rule", "modern_study", "reviewed_note"]
+    },
+    "classical_text_ref": { "type": ["string", "null"] },
+    "chapter_ref": { "type": ["string", "null"] },
+    "verse_ref": { "type": ["string", "null"] },
+    "tkrc_body_system": {
+      "type": ["string", "null"],
+      "enum": ["digestive", "respiratory", "sleep", "mental_wellbeing", "skin", "musculoskeletal", "daily_routine", "general"]
+    },
+    "tkrc_therapeutic_area": {
+      "type": ["string", "null"],
+      "enum": ["agni_support", "nidra_support", "stress_regulation", "kapha_management", "daily_routine_support", "general_support"]
+    },
+    "dosage_form_category": {
+      "type": ["string", "null"],
+      "enum": ["lifestyle", "dietary_pattern", "breathwork", "movement", "external_practice", "practitioner_guided_internal_use"]
+    },
+    "plant_part_category": {
+      "type": ["string", "null"],
+      "enum": ["leaf", "root", "bark", "seed", "fruit", "whole_plant", "not_applicable"]
+    },
+    "dosha_action_profile": {
+      "type": "object",
+      "properties": {
+        "vata": { "type": "string", "enum": ["up", "down", "neutral"] },
+        "pitta": { "type": "string", "enum": ["up", "down", "neutral"] },
+        "kapha": { "type": "string", "enum": ["up", "down", "neutral"] }
+      },
+      "required": ["vata", "pitta", "kapha"]
+    },
+    "indication_band": {
+      "type": ["string", "null"],
+      "enum": ["mild_general", "routine_support", "seasonal_balance", "stress_related", "non_acute_digestive_discomfort"]
+    },
+    "safety_band": {
+      "type": ["string", "null"],
+      "enum": ["low_risk", "requires_caution", "practitioner_only", "do_not_surface_directly"]
+    },
+    "watch_suitability": {
+      "type": ["string", "null"],
+      "enum": ["high", "medium", "low"]
+    },
+    "contraindication_flags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "escalation_triggers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "prior_art_reference_type": {
+      "type": ["string", "null"],
+      "enum": ["classical_text", "modern_study", "internal_logic_rule"]
+    },
+    "confidence_level": {
+      "type": ["string", "null"],
+      "enum": ["high", "medium", "low"]
+    },
+    "human_review_status": {
+      "type": ["string", "null"],
+      "enum": ["pending", "reviewed", "needs_revision"]
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    }
+  },
+  "required": ["id", "label", "knowledge_source_type"]
+}
