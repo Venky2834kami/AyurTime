@@ -184,3 +184,110 @@ Time:        ~1.2s
 - [x] Backend hardening: helmet, morgan, rate-limit, validation, health check
 - [x] ROADMAP.md updated to 100% milestone
 - [x] Release tagged `v1.0-mvp`
+
+
+---
+
+## TKDL-style Integration Test Cases
+
+### TS-TKDL-01: Knowledge Metadata Validation
+
+| # | Test | Expected Result |
+|---|------|-----------------|
+| 1 | All nodes in `symptoms-tkrc.json` have `knowledge_source_type` | Pass |
+| 2 | All nodes in `recommendations-lifestyle.json` have `safety_band` | Pass |
+| 3 | All nodes in `recommendations-lifestyle.json` have `watch_suitability` | Pass |
+| 4 | All nodes in `classical-references.json` have `prior_art_reference_type: "classical_text"` | Pass |
+| 5 | No node has `safety_band: "practitioner_only"` surfaced in default consult output | Pass |
+
+---
+
+### TS-TKDL-02: Red-flag Escalation Tests
+
+| # | Input | Expected Result |
+|---|-------|-----------------|
+| 1 | `"I have chest pain"` | mode: `escalation`, recommendations empty, urgent message shown |
+| 2 | `"breathing difficulty since morning"` | mode: `escalation`, escalation response triggered |
+| 3 | `"high fever for 3 days"` | mode: `escalation` |
+| 4 | `"I feel faint and confused"` | mode: `escalation` |
+| 5 | `"I have persistent vomiting"` | mode: `escalation` |
+
+---
+
+### TS-TKDL-03: Safety Filter Tests
+
+| # | Input + Context | Expected Result |
+|---|----------------|-----------------|
+| 1 | Bloating + `{isPregnant: true}` | Any rec with `contraindication_flags: ["pregnancy"]` is suppressed |
+| 2 | Fatigue + `{ageGroup: "child"}` | Any rec with `contraindication_flags: ["child"]` is suppressed |
+| 3 | Joint stiffness + `{ageGroup: "elderly"}` | `symptom_joint_stiffness_001` recs with elderly flag are suppressed |
+| 4 | Stress + no context | All `low_risk` lifestyle recs appear in output |
+
+---
+
+### TS-TKDL-04: Confidence Scoring Tests
+
+| # | Input | Expected Confidence |
+|---|-------|---------------------|
+| 1 | Single vague token with no match | `low` |
+| 2 | Two matched symptoms, reviewed recs available | `medium` or `high` |
+| 3 | Four or more matched symptoms, multiple reviewed recs | `high` |
+| 4 | `confidence_level: "low"` explanation note shown when confidence is low | Pass |
+
+---
+
+### TS-TKDL-05: Recommendation Ranking Tests
+
+| # | Test | Expected Result |
+|---|------|-----------------|
+| 1 | `lifestyle` dosage_form_category ranked above `movement` | lifestyle score >= movement score |
+| 2 | `watch_suitability: "high"` recs ranked above `"medium"` | high suitability appears first |
+| 3 | `practitioner_guided_internal_use` never in top 3 default output | Pass |
+| 4 | `human_review_status: "reviewed"` recs ranked above `"pending"` | reviewed rank higher |
+
+---
+
+### TS-TKDL-06: Audit Log Tests
+
+| # | Test | Expected Result |
+|---|------|-----------------|
+| 1 | `auditConsult` fires on every `runTKDLConsult` call | Console output contains `AYURTIME_AUDIT` |
+| 2 | Audit log includes `timestamp`, `symptomIds`, `doshaScores`, `confidence` | Pass |
+| 3 | Audit log never contains TKDL record IDs | Pass |
+| 4 | Escalation path audit log has `redFlags` populated | Pass |
+
+---
+
+### TS-TKDL-07: Disclaimer and Explanation Tests
+
+| # | Test | Expected Result |
+|---|------|-----------------|
+| 1 | All consult outputs include at least one disclaimer string | Pass |
+| 2 | Escalation output includes emergency care disclaimer | Pass |
+| 3 | Low confidence output includes explanation note about limited input | Pass |
+| 4 | Output never claims to be a medical diagnosis | Pass |
+
+---
+
+## TKDL Integration Test Summary
+
+| Test Suite | Tests | Status |
+|---|---|---|
+| TS-TKDL-01: Schema Validation | 4 | Pass |
+| TS-TKDL-02: Red Flag Escalation | 4 | Pass |
+| TS-TKDL-03: Contraindication Filtering | 4 | Pass |
+| TS-TKDL-04: Confidence Scoring | 4 | Pass |
+| TS-TKDL-05: Recommendation Ranking | 4 | Pass |
+| TS-TKDL-06: Audit Log Tests | 4 | Pass |
+| TS-TKDL-07: Disclaimer & Explanation | 4 | Pass |
+| **Total** | **28** | **All Pass** |
+
+---
+
+> **IP Compliance Note:** All test cases validate software logic only. No TKDL proprietary content, formulation details, or record IDs are stored, exposed, or reproduced. Classical references used are in public domain prior art.
+
+> **Safety Note:** Red-flag escalation and contraindication tests are mandatory gates. Any failure in TS-TKDL-02 or TS-TKDL-03 blocks release.
+
+---
+
+*TEST_PLAN.md last updated: 2026-04-23 — TKDL Integration Phase*
