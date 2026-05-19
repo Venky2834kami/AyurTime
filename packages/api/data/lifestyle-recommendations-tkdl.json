@@ -1,0 +1,22 @@
+{
+  "_metadata":{
+    "version":"2.0.0",
+    "generated":"2026-05-19T17:00:00+05:30",
+    "source":"TKDL-inspired Ayurvedic lifestyle guidance system",
+    "totalRecommendations":10,
+    "disclaimer":"EDUCATIONAL GUIDANCE ONLY. These recommendations are general lifestyle suggestions based on Ayurvedic principles. Not a substitute for personalized medical advice. Consult qualified practitioners before making significant lifestyle changes.",
+    "copyright":"Original work based on classical Ayurvedic texts (public domain)"
+  },
+  "recommendations":[
+    {"id":"REC-V001","name":"Regular Daily Routine","sanskrit":"Dinacharya","description":"Establish consistent wake-sleep times with regular meal schedules to ground vata energy","doshaTarget":["vata"],"category":"routine","intensity":"moderate","classicalReferences":["CS-SU-5","AH-SU-2"],"contraindications":[],"tkdlCode":"TKDL-AY-VAT-LIF-001"},
+    {"id":"REC-V002","name":"Warm Oil Massage","sanskrit":"Abhyanga","description":"Daily self-massage with warm sesame oil to nourish dry skin and calm nervous system","doshaTarget":["vata"],"category":"self-care","intensity":"gentle","classicalReferences":["CS-SU-5","AH-SU-2"],"contraindications":["acute-fever","active-infection"],"tkdlCode":"TKDL-AY-VAT-LIF-002"},
+    {"id":"REC-V003","name":"Warm Cooked Foods","sanskrit":"Ushna Ahara","description":"Prefer warm, moist, grounding foods like soups, stews, and cooked grains over raw cold foods","doshaTarget":["vata"],"category":"diet","intensity":"moderate","classicalReferences":["CS-SU-25","AH-SU-6"],"contraindications":[],"tkdlCode":"TKDL-AY-VAT-LIF-003"},
+    {"id":"REC-V004","name":"Gentle Yoga & Pranayama","sanskrit":"Sukshma Vyayama","description":"Practice grounding yoga poses and deep breathing exercises to calm restless mind","doshaTarget":["vata"],"category":"exercise","intensity":"gentle","classicalReferences":["CS-SU-7"],"contraindications":["severe-joint-pain"],"tkdlCode":"TKDL-AY-VAT-LIF-004"},
+    {"id":"REC-P001","name":"Cooling Foods","sanskrit":"Sheeta Ahara","description":"Emphasize sweet, bitter, astringent tastes with cooling foods like cucumber, coconut, and leafy greens","doshaTarget":["pitta"],"category":"diet","intensity":"moderate","classicalReferences":["CS-SU-26","AH-SU-6"],"contraindications":["weak-digestion"],"tkdlCode":"TKDL-AY-PIT-LIF-001"},
+    {"id":"REC-P002","name":"Moderate Exercise","sanskrit":"Madhyama Vyayama","description":"Engage in moderate exercise during cooler hours avoiding overheating and excessive competition","doshaTarget":["pitta"],"category":"exercise","intensity":"moderate","classicalReferences":["CS-SU-7"],"contraindications":["heat-exhaustion"],"tkdlCode":"TKDL-AY-PIT-LIF-002"},
+    {"id":"REC-P003","name":"Stress Management","sanskrit":"Manah Prashamana","description":"Practice calming activities like meditation, nature walks, and avoiding excessive heat or conflict","doshaTarget":["pitta"],"category":"mental-health","intensity":"gentle","classicalReferences":["CS-VI-9"],"contraindications":[],"tkdlCode":"TKDL-AY-PIT-LIF-003"},
+    {"id":"REC-K001","name":"Light Foods","sanskrit":"Laghu Ahara","description":"Choose light, warming, spicy foods and minimize heavy, oily, sweet, and cold foods","doshaTarget":["kapha"],"category":"diet","intensity":"moderate","classicalReferences":["CS-SU-25","AH-SU-6"],"contraindications":[],"tkdlCode":"TKDL-AY-KAP-LIF-001"},
+    {"id":"REC-K002","name":"Vigorous Exercise","sanskrit":"Guru Vyayama","description":"Engage in stimulating, energetic exercise daily to counter lethargy and promote circulation","doshaTarget":["kapha"],"category":"exercise","intensity":"vigorous","classicalReferences":["CS-SU-7"],"contraindications":["heart-conditions","severe-fatigue"],"tkdlCode":"TKDL-AY-KAP-LIF-002"},
+    {"id":"REC-K003","name":"Wake Early","sanskrit":"Brahma Muhurta","description":"Wake before sunrise (around 5-6 AM) to align with natural kapha-reducing rhythms","doshaTarget":["kapha"],"category":"routine","intensity":"moderate","classicalReferences":["CS-SU-5","AH-SU-2"],"contraindications":[],"tkdlCode":"TKDL-AY-KAP-LIF-003"}
+  ]
+}
