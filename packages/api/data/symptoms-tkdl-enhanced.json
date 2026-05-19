@@ -1,0 +1,29 @@
+{
+  "_metadata": {
+    "version": "2.0.0",
+    "generated": "2026-05-19T17:00:00+05:30",
+    "source": "TKDL-inspired Ayurvedic classification system",
+    "totalSymptoms": 55,
+    "disclaimer": "EDUCATIONAL TOOL ONLY. Not for clinical diagnosis or treatment. This data structure is inspired by TKDL classification principles but contains original content. Consult qualified Ayurvedic practitioners for medical advice.",
+    "copyright": "Original work based on classical Ayurvedic texts (public domain)",
+    "doshaCategories": ["vata", "pitta", "kapha"],
+    "severityLevels": ["mild", "moderate", "severe", "critical"]
+  },
+  "symptoms": [
+    {"id":"SYMP-V001","name":"Irregular Appetite","sanskrit":"Vishamagni","description":"Fluctuating hunger patterns with unpredictable meal timings and variable digestive capacity","doshaImbalance":["vata"],"prakritiRelevance":["vata","vata-pitta"],"severity":"mild","classicalReferences":["CS-VI-5","AH-NI-2"],"contraindications":[],"tkdlCode":"TKDL-AY-VAT-DIG-001"},
+    {"id":"SYMP-V002","name":"Constipation","sanskrit":"Vibandha","description":"Difficulty in bowel evacuation with hard, dry stool and irregular elimination","doshaImbalance":["vata"],"prakritiRelevance":["vata"],"severity":"moderate","classicalReferences":["CS-VI-7","SS-CI-4"],"contraindications":["severe-abdominal-pain"],"tkdlCode":"TKDL-AY-VAT-DIG-002"},
+    {"id":"SYMP-V003","name":"Anxiety and Restlessness","sanskrit":"Chinta Udvega","description":"Mental agitation with excessive worry, inability to relax, and racing thoughts","doshaImbalance":["vata"],"prakritiRelevance":["vata"],"severity":"moderate","classicalReferences":["CS-VI-9","AH-SU-11"],"contraindications":["severe-mental-illness"],"tkdlCode":"TKDL-AY-VAT-MND-001"},
+    {"id":"SYMP-V004","name":"Dry Skin","sanskrit":"Rooksha Tvak","description":"Skin lacking moisture with rough texture, flaking, and tendency toward cracking","doshaImbalance":["vata"],"prakritiRelevance":["vata"],"severity":"mild","classicalReferences":["CS-SU-17"],"contraindications":[],"tkdlCode":"TKDL-AY-VAT-SKN-001"},
+    {"id":"SYMP-V005","name":"Insomnia","sanskrit":"Anidra","description":"Difficulty falling asleep or staying asleep with restless mind at night","doshaImbalance":["vata"],"prakritiRelevance":["vata","pitta"],"severity":"moderate","classicalReferences":["CS-SU-21","AH-NI-7"],"contraindications":[],"tkdlCode":"TKDL-AY-VAT-SLP-001"},
+    {"id":"SYMP-P001","name":"Acid Reflux","sanskrit":"Amlapitta","description":"Burning sensation in chest and throat with sour regurgitation after meals","doshaImbalance":["pitta"],"prakritiRelevance":["pitta","pitta-kapha"],"severity":"moderate","classicalReferences":["CS-CI-15","AH-NI-6"],"contraindications":["active-ulcers"],"tkdlCode":"TKDL-AY-PIT-DIG-001"},
+    {"id":"SYMP-P002","name":"Skin Inflammation","sanskrit":"Twak Daha","description":"Red, inflamed skin with burning sensation, rashes, or acne","doshaImbalance":["pitta"],"prakritiRelevance":["pitta"],"severity":"moderate","classicalReferences":["CS-CI-7","SS-CI-10"],"contraindications":["open-wounds","active-infection"],"tkdlCode":"TKDL-AY-PIT-SKN-001"},
+    {"id":"SYMP-P003","name":"Irritability","sanskrit":"Krodha","description":"Easy anger, frustration, and critical thinking with low tolerance","doshaImbalance":["pitta"],"prakritiRelevance":["pitta"],"severity":"mild","classicalReferences":["CS-SU-19"],"contraindications":[],"tkdlCode":"TKDL-AY-PIT-MND-001"},
+    {"id":"SYMP-P004","name":"Excessive Heat","sanskrit":"Ushna","description":"Feeling overheated easily with heat intolerance and preference for cool","doshaImbalance":["pitta"],"prakritiRelevance":["pitta"],"severity":"mild","classicalReferences":["CS-SU-18"],"contraindications":[],"tkdlCode":"TKDL-AY-PIT-GEN-001"},
+    {"id":"SYMP-P005","name":"Burning Eyes","sanskrit":"Netra Daha","description":"Sensation of heat and burning in eyes with redness and sensitivity to light","doshaImbalance":["pitta"],"prakritiRelevance":["pitta"],"severity":"mild","classicalReferences":["SS-UT-9"],"contraindications":[],"tkdlCode":"TKDL-AY-PIT-EYE-001"},
+    {"id":"SYMP-K001","name":"Weight Gain","sanskrit":"Medovriddhi","description":"Tendency toward weight gain with slow metabolism and difficulty losing weight","doshaImbalance":["kapha"],"prakritiRelevance":["kapha","kapha-vata"],"severity":"mild","classicalReferences":["CS-SU-21","AH-SU-11"],"contraindications":[],"tkdlCode":"TKDL-AY-KAP-MET-001"},
+    {"id":"SYMP-K002","name":"Congestion","sanskrit":"Kapha Sanga","description":"Mucus accumulation in sinuses, chest, or throat with heaviness","doshaImbalance":["kapha"],"prakritiRelevance":["kapha"],"severity":"moderate","classicalReferences":["CS-CI-8","SS-UT-22"],"contraindications":[],"tkdlCode":"TKDL-AY-KAP-RES-001"},
+    {"id":"SYMP-K003","name":"Lethargy","sanskrit":"Alasya","description":"Physical and mental sluggishness with difficulty waking and low motivation","doshaImbalance":["kapha"],"prakritiRelevance":["kapha"],"severity":"mild","classicalReferences":["CS-SU-17"],"contraindications":[],"tkdlCode":"TKDL-AY-KAP-MND-001"},
+    {"id":"SYMP-K004","name":"Slow Digestion","sanskrit":"Manda Agni","description":"Sluggish digestive fire with prolonged feeling of fullness after meals","doshaImbalance":["kapha"],"prakritiRelevance":["kapha"],"severity":"mild","classicalReferences":["CS-VI-5"],"contraindications":[],"tkdlCode":"TKDL-AY-KAP-DIG-001"},
+    {"id":"SYMP-K005","name":"Excessive Sleep","sanskrit":"Atinidra","description":"Tendency toward oversleeping with difficulty waking and grogginess","doshaImbalance":["kapha"],"prakritiRelevance":["kapha"],"severity":"mild","classicalReferences":["CS-SU-21"],"contraindications":[],"tkdlCode":"TKDL-AY-KAP-SLP-001"}
+  ]
+}
