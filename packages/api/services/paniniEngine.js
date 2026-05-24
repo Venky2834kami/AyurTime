@@ -34,7 +34,7 @@ const AYURVEDIC_LEXICON = {
     
   // DRAVYA - Herbs & Medicinal Substances (Expanded)
   "tulasī": { category: 'DRAVYA', meaning: 'holy basil', english: 'Tulasi' },  "aśvagandhā": { category: 'DRAVYA', meaning: 'winter cherry/adaptogen', english: 'Ashwagandha' },
-  "gudūci": { category: 'DRAVYA', meaning: 'heart-leaved moonseed', english: 'Guduchi' },  bhūmyāmalakī: { category: 'DRAVYA', meaning: 'stone breaker herb', english: 'Bhumyamalaki' },
+  "gudūci": { category: 'DRAVYA', meaning: 'heart-leaved moonseed', english: 'Guduchi' },  "bhūmyāmalakī": { category: 'DRAVYA', meaning: 'stone breaker herb', english: 'Bhumyamalaki' },
   śaṭāvarī: { category: 'DRAVYA', meaning: 'asparagus/female tonic', english: 'Shatavari' },
   brahmi: { category: 'DRAVYA', meaning: 'water hyssop/brain tonic', english: 'Brahmi' },
   ārdraka: { category: 'DRAVYA', meaning: 'fresh ginger', english: 'Ardraka' },
