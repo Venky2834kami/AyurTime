@@ -25,6 +25,14 @@
 - [ ] Changes have been tested
 - [ ] Documentation has been updated (if applicable)
 
+## Ayurvedic Domain Impact
+
+- [ ] This change affects dosha assessment logic (Prakriti/Vikruti)
+- [ ] This change affects TKDL schema, Charaka Samhita data, or classical references
+- [ ] This change affects Vrat Calendar or Panchang functionality
+- [ ] This change affects notification or dinacharya reminder logic
+- [ ] No Ayurvedic domain logic is affected
+
 ## Breaking Changes
 
 <!-- List any breaking changes here. -->
