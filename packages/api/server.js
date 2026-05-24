@@ -17,6 +17,12 @@ const recommendationsRouter = require('./routes/recommendations');
 const sanskritRouter = require('./routes/sanskrit');
 const charakaRouter = require('./routes/charaka');
 const autoConsultRouter = require('./routes/autoConsult');
+const authRouter = require('./routes/auth');
+const prakritiRouter = require('./routes/prakriti');
+const dinacharyaRouter = require('./routes/dinacharya');
+const communityRouter = require('./routes/community');
+const panchakarmaRouter = require('./routes/panchakarma');
+const auditRouter = require('./routes/audit');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -373,6 +379,12 @@ app.use('/api/recommendations', recommendationsRouter);
 app.use('/api/sanskrit', sanskritRouter);
 app.use('/api/charaka', charakaRouter);
 app.use('/api/consult', autoConsultRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/prakriti', prakritiRouter);
+app.use('/api/dinacharya', dinacharyaRouter);
+app.use('/api/community', communityRouter);
+app.use('/api/panchakarma', panchakarmaRouter);
+app.use('/api/audit', auditRouter);
 
 // Share recommendations store from assessments into recommendations router
 if (assessmentsRouter._recommendations && recommendationsRouter.setStore) {
