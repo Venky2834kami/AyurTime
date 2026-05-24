@@ -104,8 +104,7 @@ router.post('/log-metric', (req, res) => {
   metrics.push(entry);
   writeMetrics(metrics);
 
-  res.status(201).json({ success: true, data: entry });
-});
+  res.status(201).json({ message: 'Metric logged successfully', metric: entry });});
 
 // GET /api/bio-hacking/metrics?userId=xxx&from=YYYY-MM-DD&to=YYYY-MM-DD&metric_type=weight
 router.get('/metrics', (req, res) => {
@@ -127,8 +126,7 @@ router.get('/metrics', (req, res) => {
   // Sort by date descending
   metrics.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  res.json({ success: true, count: metrics.length, data: metrics });
-});
+  res.json({ metrics: metrics });});
 
 // GET /api/bio-hacking/trends?userId=xxx&metric=weight&period=30
 router.get('/trends', (req, res) => {
@@ -187,19 +185,15 @@ router.get('/trends', (req, res) => {
   const doshaCorrelations = computeDoshaCorrelations(metrics);
 
   res.json({
-    success: true,
-    data: {
-      metric,
-      period: days,
-      count: metrics.length,
-      average: parseFloat(average.toFixed(2)),
+    trends: {
+      avg_7_days: parseFloat(average.toFixed(2)),
+      avg_30_days: days >= 30 ? parseFloat(average.toFixed(2)) : null,
+      avg_90_days: days >= 90 ? parseFloat(average.toFixed(2)) : null,
       min,
       max,
       trend,
-      percent_change: parseFloat(percentChange.toFixed(1)),
-      dosha_correlations: doshaCorrelations,
-      data_points: metrics.map(m => ({ date: m.date, value: m.value, dosha_snapshot: m.dosha_snapshot })),
-    },
+      data_points: metrics.length
+    }
   });
 });
 
