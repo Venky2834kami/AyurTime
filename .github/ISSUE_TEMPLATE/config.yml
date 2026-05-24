@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: Bug Report
+    url: https://github.com/Venky2834kami/AyurTime/issues/new?template=bug_report.md
+    about: Report a bug in AyurTime
+
+  - name: Feature Request
+    url: https://github.com/Venky2834kami/AyurTime/issues/new?template=feature_request.md
+    about: Suggest a new feature or enhancement
+
+  - name: Documentation Issue
+    url: https://github.com/Venky2834kami/AyurTime/issues/new
+    about: Report an issue with documentation, TKDL schema, or Charaka data
