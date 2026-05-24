@@ -280,8 +280,11 @@ export function runTKDLConsult(userInput, userContext = {}) {
   // Step 6: Safety filter
   const safeRecs = applySafetyFilter(recommendationIndex, userContext);
 
+    // Step 6B: Editorial Gate — flag pending human_review items
+  const { approvedRecs, reviewWarnings } = applyEditorialGate(safeRecs);
+
   // Step 7: Rank
-  const rankedRecs = rankRecommendations(safeRecs, doshaScores, therapeuticBands);
+    const rankedRecs = rankRecommendations(approvedRecs, doshaScores, therapeuticBands);
 
   // Step 8: Confidence
   const confidence = calculateConfidence(symptomIds, rankedRecs);
@@ -297,7 +300,8 @@ export function runTKDLConsult(userInput, userContext = {}) {
     doshaScores,
     therapeuticBands,
     recommendationIds: rankedRecs.slice(0, 3).map(r => r.id),
-    confidence
+    confidence,
+      reviewWarnings
   });
 
   // Step 11: Output
@@ -307,8 +311,46 @@ export function runTKDLConsult(userInput, userContext = {}) {
     therapeuticBands,
     recommendations: rankedRecs.slice(0, 3),
     confidence,
+      reviewWarnings,
     explanation
   };
+}
+
+// ===========================================================
+// EDITORIAL GATE (Phase 3C)
+// ===========================================================
+function applyEditorialGate(recommendations) {
+  const approvedRecs = [];
+  const reviewWarnings = [];
+
+  recommendations.forEach(rec => {
+    const status = rec.human_review_status || 'pending';
+    const confidence = rec.confidence_level || 'low';
+
+    if (status === 'pending') {
+      // Flag but still surface with explicit warning
+      reviewWarnings.push({
+        rec_id: rec.id,
+        label: rec.label || rec.recommendation_label || '',
+        reason: 'human_review_pending',
+        message: 'This suggestion has not yet been reviewed by an Ayurvedic practitioner. Use with discretion.'
+      });
+      approvedRecs.push({ ...rec, _review_warning: true });
+    } else if (confidence === 'low') {
+      // Surface but add a confidence note
+      reviewWarnings.push({
+        rec_id: rec.id,
+        label: rec.label || rec.recommendation_label || '',
+        reason: 'low_confidence',
+        message: 'Confidence in this suggestion is low due to limited classical references. Consult a Vaidya for guidance.'
+      });
+      approvedRecs.push({ ...rec, _confidence_warning: true });
+    } else {
+      approvedRecs.push(rec);
+    }
+  });
+
+  return { approvedRecs, reviewWarnings };
 }
 
 export default runTKDLConsult;
