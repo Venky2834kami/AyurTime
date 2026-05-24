@@ -23,6 +23,8 @@ const dinacharyaRouter = require('./routes/dinacharya');
 const communityRouter = require('./routes/community');
 const panchakarmaRouter = require('./routes/panchakarma');
 const auditRouter = require('./routes/audit');
+const panchangRouter = require('./routes/panchang');
+const notificationsRouter = require('./routes/notifications');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -385,6 +387,8 @@ app.use('/api/dinacharya', dinacharyaRouter);
 app.use('/api/community', communityRouter);
 app.use('/api/panchakarma', panchakarmaRouter);
 app.use('/api/audit', auditRouter);
+app.use('/api/panchang', panchangRouter);
+app.use('/api/notifications', notificationsRouter);
 
 // Share recommendations store from assessments into recommendations router
 if (assessmentsRouter._recommendations && recommendationsRouter.setStore) {
