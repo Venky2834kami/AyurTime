@@ -51,7 +51,7 @@
 
 ---
 
-## 🧠 Phase 3 Roadmap — July–August 2026
+## 🟣 Phase 3 Roadmap — July-August 2026 — ⚙️ IN PROGRESS
 
 ### Goals
 - Prakriti AI Analyzer — Image-based (tongue, nail, face) via MobileNetV2
