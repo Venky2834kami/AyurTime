@@ -26,6 +26,7 @@ const auditRouter = require('./routes/audit');
 const panchangRouter = require('./routes/panchang');
 const notificationsRouter = require('./routes/notifications');
 const prakritiAiRouter = require('./routes/prakriti-ai');
+const bioHackingRouter = require('./routes/bio-hacking');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -391,6 +392,7 @@ app.use('/api/audit', auditRouter);
 app.use('/api/panchang', panchangRouter);
 app.use('/api/notifications', notificationsRouter);
 app.use('/api/prakriti-ai', prakritiAiRouter);
+app.use('/api/bio-hacking', bioHackingRouter);
 
 // Share recommendations store from assessments into recommendations router
 if (assessmentsRouter._recommendations && recommendationsRouter.setStore) {
