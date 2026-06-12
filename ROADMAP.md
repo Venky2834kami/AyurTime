@@ -140,3 +140,27 @@ Q4 2026:           v2.0 — Production Launch & Scale
 - Expanded synonym maps in `consult-engine-tkdl.js`
 
 **Outcome:** Wider symptom coverage, richer classical references, and a public-facing knowledge API for future mobile and wearable integration.
+
+---
+
+## 🧬 Phase 6 — Genomic-Prakriti Correlation Engine
+
+**Timeline:** Q4 2026  
+**Status:** 🟡 In Development  
+
+**Objective:** Bridge Ayurvedic Prakriti theory with modern genomics. Map user SNP (Single Nucleotide Polymorphism) markers from consumer DNA kits (23andMe, AncestryDNA) to Vata/Pitta/Kapha constitutional profiles.
+
+**Files added:**
+- `packages/api/routes/genomic.js` — Express API routes
+- `packages/api/services/genomicService.js` — SNP-to-Dosha correlation engine
+- `docs/genomic-integration.md` — Technical documentation
+
+**Key Features:**
+- 12-SNP reference map across 3 doshas (Vata, Pitta, Kapha)
+- Based on IGIB Ayurgenomics research (Prasher 2008, Govindaraj 2015)
+- `POST /api/genomic/analyze` — Pure genomic Prakriti scoring
+- `POST /api/genomic/combined-profile` — 60% quiz + 40% genomic blended profile
+- `GET /api/genomic/snp-map` — Reference SNP table
+- Privacy-first: no raw genomic data stored
+
+**Outcome:** Users can upload their raw DNA file and receive a scientifically grounded, genotype-informed Prakriti profile integrated with AyurTime's existing dosha recommendations, Charaka Samhita guidance, and Ayur Watch wearable.
